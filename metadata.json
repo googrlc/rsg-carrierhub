@@ -1,0 +1,6 @@
+{
+  "name": "Carrier Appetite & Submission Portal",
+  "description": "An integrated carrier appetite lookup, AI underwriting advisor, and real-time submission status dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
