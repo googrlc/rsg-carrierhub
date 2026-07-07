@@ -6,9 +6,10 @@ import {
 } from 'lucide-react';
 
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from './types';
-import { 
-  INITIAL_CARRIERS, INITIAL_SYSTEM_STATUSES, INITIAL_SUBMISSIONS, INITIAL_BULLETINS 
+import {
+  INITIAL_SYSTEM_STATUSES, INITIAL_SUBMISSIONS, INITIAL_BULLETINS
 } from './data/carriers';
+import { fetchCarriers, saveCarrier } from './lib/carriers-repo';
 
 import CarrierGrid from './components/CarrierGrid';
 import CarrierDrawer from './components/CarrierDrawer';
@@ -17,6 +18,8 @@ import GlobalFinder from './components/GlobalFinder';
 
 export default function App() {
   const [carriers, setCarriers] = useState<Carrier[]>([]);
+  const [carriersLoading, setCarriersLoading] = useState(true);
+  const [carriersError, setCarriersError] = useState<string | null>(null);
   const [statuses, setStatuses] = useState<CarrierSystemStatus[]>([]);
   const [bulletins, setBulletins] = useState<GuidelineBulletin[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -33,26 +36,12 @@ export default function App() {
     npn: '99201582'
   });
 
-  // Multi-user/Agent State Load from LocalStorage
+  // Operational state (statuses, bulletins, submissions, favorites, profile)
+  // still lives in localStorage. Carriers now come from Supabase — see below.
   useEffect(() => {
-    const cachedCarriers = localStorage.getItem('agency_carriers');
     const cachedStatuses = localStorage.getItem('agency_statuses');
     const cachedBulletins = localStorage.getItem('agency_bulletins');
     const cachedSubmissions = localStorage.getItem('agency_submissions');
-
-    if (cachedCarriers) {
-      const parsed = JSON.parse(cachedCarriers);
-      // Auto-migrate and update cache if more carriers have been added (seed data enlarged)
-      if (parsed.length < INITIAL_CARRIERS.length) {
-        setCarriers(INITIAL_CARRIERS);
-        localStorage.setItem('agency_carriers', JSON.stringify(INITIAL_CARRIERS));
-      } else {
-        setCarriers(parsed);
-      }
-    } else {
-      setCarriers(INITIAL_CARRIERS);
-      localStorage.setItem('agency_carriers', JSON.stringify(INITIAL_CARRIERS));
-    }
 
     if (cachedStatuses) {
       setStatuses(JSON.parse(cachedStatuses));
@@ -98,6 +87,29 @@ export default function App() {
     }
   }, []);
 
+  // Load the carrier directory from Supabase (replaces the hardcoded seed).
+  // RLS gates this on is_commission_user(), enforced by <AuthGate>.
+  useEffect(() => {
+    let active = true;
+    fetchCarriers()
+      .then((rows) => {
+        if (!active) return;
+        setCarriers(rows);
+        setCarriersError(null);
+      })
+      .catch((e) => {
+        if (!active) return;
+        console.error('Failed to load carriers from Supabase:', e);
+        setCarriersError(e?.message ?? 'Failed to load carrier directory.');
+      })
+      .finally(() => {
+        if (active) setCarriersLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // Favorite toggling trigger
   const handleToggleFavorite = (carrierId: string) => {
     const nextFavorites = favorites.includes(carrierId)
@@ -116,8 +128,10 @@ export default function App() {
   const handleUpdateCarrier = (updated: Carrier) => {
     const nextArr = carriers.map(c => c.id === updated.id ? updated : c);
     setCarriers(nextArr);
-    localStorage.setItem('agency_carriers', JSON.stringify(nextArr));
-    
+    // Write-through to Supabase (admins only; non-admins keep the local edit).
+    saveCarrier(updated).catch(e =>
+      console.warn('Carrier save to Supabase failed (kept locally):', e?.message));
+
     // Also update selected carrier drawer view to avoid stale details fields
     if (selectedCarrier && selectedCarrier.id === updated.id) {
       setSelectedCarrier(updated);
@@ -127,7 +141,8 @@ export default function App() {
   const handleAddCustomCarrier = (newCarrier: Carrier) => {
     const nextArr = [newCarrier, ...carriers];
     setCarriers(nextArr);
-    localStorage.setItem('agency_carriers', JSON.stringify(nextArr));
+    saveCarrier(newCarrier).catch(e =>
+      console.warn('Carrier save to Supabase failed (kept locally):', e?.message));
   };
 
   const handleAddBulletin = (newBulletin: GuidelineBulletin) => {
@@ -325,13 +340,22 @@ export default function App() {
         
         {/* VIEW 1: LOGO DIRECTORY */}
         {activeTab === 'panel' && (
-          <CarrierGrid 
-            carriers={carriers} 
-            onSelectCarrier={setSelectedCarrier} 
-            onAddCustomCarrier={handleAddCustomCarrier}
-            favorites={favorites}
-            onToggleFavorite={handleToggleFavorite}
-          />
+          carriersError ? (
+            <div className="text-center py-20 space-y-2">
+              <p className="text-sm font-semibold text-red-600">Couldn't load the carrier directory.</p>
+              <p className="text-xs text-slate-400">{carriersError}</p>
+            </div>
+          ) : carriersLoading ? (
+            <div className="text-center py-20 text-sm text-slate-400">Loading carrier directory…</div>
+          ) : (
+            <CarrierGrid
+              carriers={carriers}
+              onSelectCarrier={setSelectedCarrier}
+              onAddCustomCarrier={handleAddCustomCarrier}
+              favorites={favorites}
+              onToggleFavorite={handleToggleFavorite}
+            />
+          )
         )}
 
         {/* VIEW 2: UNIVERSAL AI appetite SEARCH */}
