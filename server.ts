@@ -1,10 +1,40 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from "openai";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+// LiteLLM / OpenAI-compatible client, resolved the SAME way Hermes does
+// (hermes/commands/agency_intake.py): optional base URL points at the LiteLLM
+// proxy; falls back to a direct OpenAI call when no base URL is set.
+function resolveLLM(): { client: OpenAI; model: string } | null {
+  const baseURL =
+    process.env.HERMES_OPENAI_BASE_URL ||
+    process.env.OPENAI_BASE_URL ||
+    process.env.LITELLM_BASE_URL ||
+    "";
+  const apiKey =
+    process.env.LITELLM_API_KEY ||
+    process.env.HERMES_OPENAI_API_KEY ||
+    process.env.OPENAI_API_KEY ||
+    "";
+  const model = process.env.HERMES_OPENAI_MODEL || "gpt-4.1-mini";
+
+  if (!apiKey || apiKey.trim() === "" || apiKey === "MY_OPENAI_API_KEY") {
+    return null;
+  }
+
+  const client = new OpenAI({
+    apiKey,
+    ...(baseURL ? { baseURL: baseURL.replace(/\/+$/, "") } : {}),
+  });
+  return { client, model };
+}
+
+const KEY_MISSING_HINT =
+  "the LiteLLM/OpenAI key isn't set — provide `HERMES_OPENAI_API_KEY` (or `LITELLM_API_KEY`) as a runtime env, same as Hermes";
 
 async function startServer() {
   const app = express();
@@ -25,25 +55,16 @@ async function startServer() {
       return res.status(400).json({ error: "Missing inquiry in request body" });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "") {
+    const llm = resolveLLM();
+    if (!llm) {
       return res.status(200).json({
-        text: `⚠️ **API Key Missing**: The Gemini AI Advisor could not be completed because the \`GEMINI_API_KEY\` is not set yet. \n\nPlease provide your Gemini API Key in the **Settings > Secrets** panel in AI Studio to unlock full AI-assisted underwriting checks! \n\n*Context of Carrier analyzed:* **${carrierName || "General Carrier"}**`
+        text: `⚠️ **AI Advisor Unavailable**: The appetite advisor could not run because ${KEY_MISSING_HINT}. \n\n*Context of Carrier analyzed:* **${carrierName || "General Carrier"}**`,
       });
     }
 
     try {
-      const ai = new GoogleGenAI({
-        apiKey: apiKey,
-        httpOptions: {
-          headers: {
-            'User-Agent': 'aistudio-build',
-          }
-        }
-      });
-
       // Prepare system instructions with carrier appetite information
-      const carrierContext = appetiteInfo 
+      const carrierContext = appetiteInfo
         ? `Carrier Name: ${carrierName}
 Segment: ${appetiteInfo.segment || "Commercial / Specialty"}
 Lines of Business: ${appetiteInfo.linesOfBusiness ? appetiteInfo.linesOfBusiness.join(", ") : ""}
@@ -70,35 +91,30 @@ Structure your response clearly with:
 3. **Information to Gather / Recommended Next Steps**: Detail what data points (e.g. roof age, gross sales, claims history, CDL years) the agent should collect to make a successful submission.
 Keep your answer professional, concise, styled in structured markdown. Avoid generic fluffy paragraphs; get straight to underwriting criteria.`;
 
-      // Format previous history into gemini SDK contents
-      let contents: any[] = [];
-      if (history && Array.isArray(history) && history.length > 0) {
-        // Map history to SDK format
-        contents = history.map((msg: any) => ({
-          role: msg.role === "assistant" ? "model" : "user",
-          parts: [{ text: msg.content }]
-        }));
-      }
-      
-      // Append the current inquiry
-      contents.push({
-        role: "user",
-        parts: [{ text: inquiry }]
-      });
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: contents,
-        config: {
-          systemInstruction: systemInstruction,
-          temperature: 0.2, // Low temperature for factual underwriting evaluation
+      // Build OpenAI-style chat messages: system + prior history + this inquiry
+      const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
+        { role: "system", content: systemInstruction },
+      ];
+      if (history && Array.isArray(history)) {
+        for (const msg of history) {
+          messages.push({
+            role: msg.role === "assistant" ? "assistant" : "user",
+            content: String(msg.content ?? ""),
+          });
         }
+      }
+      messages.push({ role: "user", content: inquiry });
+
+      const response = await llm.client.chat.completions.create({
+        model: llm.model,
+        messages,
+        temperature: 0.2, // Low temperature for factual underwriting evaluation
       });
 
-      return res.json({ text: response.text });
+      return res.json({ text: response.choices[0]?.message?.content ?? "" });
     } catch (err: any) {
-      console.error("Gemini API Error in /api/advisor:", err);
-      return res.status(500).json({ error: "Failed to communicate with Gemini underwriter assistant API: " + err.message });
+      console.error("LiteLLM API Error in /api/advisor:", err);
+      return res.status(500).json({ error: "Failed to communicate with the underwriter assistant API: " + err.message });
     }
   });
 
@@ -110,23 +126,14 @@ Keep your answer professional, concise, styled in structured markdown. Avoid gen
       return res.status(400).json({ error: "Missing inquiry in request body" });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "") {
+    const llm = resolveLLM();
+    if (!llm) {
       return res.status(200).json({
-        text: `⚠️ **AI Advisor Unavailable**: Please set your \`GEMINI_API_KEY\` in the **Settings > Secrets** panel in AI Studio to search risk appetites across your carriers list!`
+        text: `⚠️ **AI Advisor Unavailable**: The panel advisor could not run because ${KEY_MISSING_HINT}.`,
       });
     }
 
     try {
-      const ai = new GoogleGenAI({
-        apiKey: apiKey,
-        httpOptions: {
-          headers: {
-            'User-Agent': 'aistudio-build',
-          }
-        }
-      });
-
       const carriersBriefContext = carriersList && Array.isArray(carriersList)
         ? carriersList.map((c: any) => `Carrier: ${c.name}
 Segment: ${c.segment.join(", ")}
@@ -149,19 +156,19 @@ Help them by:
 
 Keep your response professional, precise, and structured with clear markdown headings.`;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: inquiry,
-        config: {
-          systemInstruction: systemInstruction,
-          temperature: 0.3
-        }
+      const response = await llm.client.chat.completions.create({
+        model: llm.model,
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: inquiry },
+        ],
+        temperature: 0.3,
       });
 
-      return res.json({ text: response.text });
+      return res.json({ text: response.choices[0]?.message?.content ?? "" });
     } catch (err: any) {
-      console.error("Gemini API Error in /api/global-advisor:", err);
-      return res.status(500).json({ error: "Failed to communicate with Gemini underwriting advisor API: " + err.message });
+      console.error("LiteLLM API Error in /api/global-advisor:", err);
+      return res.status(500).json({ error: "Failed to communicate with the underwriting advisor API: " + err.message });
     }
   });
 
