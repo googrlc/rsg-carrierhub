@@ -33,6 +33,7 @@ if [ -f .env.deploy ]; then echo "==> sourcing .env.deploy"; set -a; . ./.env.de
 
 : "${VITE_SUPABASE_URL:=https://wibscqhkvpijzqbhjphg.supabase.co}"
 : "${VITE_SUPABASE_PUBLISHABLE_KEY:=sb_publishable_ULhQgB2QZzQM3HfQqgaZQA_jTZJxer8}"
+: "${SUPABASE_URL:=${VITE_SUPABASE_URL}}"
 : "${HERMES_OPENAI_MODEL:=gpt-4.1-mini}"
 
 # Fall back to the running container's key if .env.deploy didn't set one.
@@ -40,6 +41,14 @@ if [ -z "${HERMES_OPENAI_API_KEY:-}" ]; then
   HERMES_OPENAI_API_KEY=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null | sed -n 's/^HERMES_OPENAI_API_KEY=//p' || true)
 fi
 [ -n "${HERMES_OPENAI_API_KEY:-}" ] || echo "WARN: no HERMES_OPENAI_API_KEY — advisor will show 'AI Advisor Unavailable'"
+
+# The service-role key powers /api/carriers (server-side DB access, no browser
+# login). It NEVER goes to the browser. Fall back to the running container's
+# value so a bare re-run keeps working.
+if [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
+  SUPABASE_SERVICE_ROLE_KEY=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null | sed -n 's/^SUPABASE_SERVICE_ROLE_KEY=//p' || true)
+fi
+[ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ] || echo "WARN: no SUPABASE_SERVICE_ROLE_KEY — /api/carriers will 503 (carrier directory won't load)"
 if [ -n "${HERMES_OPENAI_BASE_URL:-}" ]; then echo "==> advisor route: LiteLLM ($HERMES_OPENAI_BASE_URL)"; else echo "==> advisor route: OpenAI direct"; fi
 
 # ---- build (old container still serving) -----------------------------------
@@ -57,6 +66,8 @@ docker run -d --name "$NAME" --restart unless-stopped -p "$PORT_MAP" \
   -e HERMES_OPENAI_API_KEY="${HERMES_OPENAI_API_KEY:-}" \
   ${HERMES_OPENAI_BASE_URL:+-e HERMES_OPENAI_BASE_URL="$HERMES_OPENAI_BASE_URL"} \
   -e HERMES_OPENAI_MODEL="$HERMES_OPENAI_MODEL" \
+  -e SUPABASE_URL="$SUPABASE_URL" \
+  ${SUPABASE_SERVICE_ROLE_KEY:+-e SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY"} \
   -e NODE_ENV=production -e PORT=3000 \
   "$IMAGE" >/dev/null
 

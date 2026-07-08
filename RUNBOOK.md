@@ -50,10 +50,22 @@ truth for runtime + build values. `deploy.sh` sources it.
 HERMES_OPENAI_BASE_URL=https://litellm-qidsf-u69864.vm.elestio.app/v1
 HERMES_OPENAI_API_KEY=<litellm virtual key>          # 1P rsg_infrastructure/litellm_virtualkey
 HERMES_OPENAI_MODEL=gpt-4.1-mini                      # or claude-sonnet / claude-opus / deepseek-v4-flash
-# VITE_SUPABASE_URL / VITE_SUPABASE_PUBLISHABLE_KEY default inside deploy.sh; override here if rotated
+SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg_infrastructure/supabase_rsg_infastructure — powers /api/carriers, server-side ONLY
+# SUPABASE_URL / VITE_SUPABASE_* default inside deploy.sh; override here if rotated
 ```
 
 Change the advisor model or route → edit `.env.deploy`, run `./deploy.sh`.
+
+## Access model — no login (tailnet is the gate)
+
+There is **no sign-in screen**. The app is reachable only over the RSG tailnet
+(the host firewall accepts `:3200` on `tailscale0` only; public + Elestio HTTPS
+do not route to it). The browser never talks to Supabase directly — it calls the
+box's `/api/carriers`, which reads/writes the DB with the **service-role key**.
+So carrier data is gated by Tailscale membership, while the public Supabase
+endpoint stays fully RLS-locked (the shared commission/money tables are
+untouched). To grant/revoke access, add or remove the person's device from the
+tailnet — no allowlist, no password.
 
 ## Health monitoring
 
@@ -73,11 +85,10 @@ cat /var/tmp/carrierhub-health.state    # current known state (up/down)
 | Symptom | Cause / fix |
 |---|---|
 | Container not in `docker ps` | crashed on boot → `docker logs rsg-carrierhub`; usually a bad `.env.deploy`. Fix + `./deploy.sh`, or roll back. |
-| Blank grid / "Supabase is not configured" | `VITE_SUPABASE_*` empty **at build time** (baked by Vite). Fix in `.env.deploy`, `./deploy.sh`. |
-| Logged in but zero carriers | email not in `app_allowlist` (reads gated on `is_commission_user()`). Add it in Supabase. |
+| Blank grid / zero carriers | `/api/carriers` returning **503** → `SUPABASE_SERVICE_ROLE_KEY` missing in `.env.deploy`. Set it, `./deploy.sh`. Check: `curl -s localhost:3200/api/carriers \| head -c 200`. |
 | "AI Advisor Unavailable" | no LLM key resolved → check `HERMES_OPENAI_API_KEY` in `.env.deploy`. |
 | Advisor errors / 500 | LiteLLM proxy issue. Test: `curl -H "Authorization: Bearer <key>" https://litellm-qidsf-u69864.vm.elestio.app/v1/models`. Check the litellm box. |
-| Edits don't persist | write-through needs an **admin** (`is_commission_admin`) email. |
+| Edits don't persist | `POST /api/carriers` failing → check `docker logs rsg-carrierhub` for the Supabase error (service-role key valid?). |
 | Can't reach it from your Mac | public/off-tailnet is firewalled — that's expected. Use Tailscale, or `ssh hermes` and hit `localhost:3200`. |
 
 ## Access to GitHub from the box

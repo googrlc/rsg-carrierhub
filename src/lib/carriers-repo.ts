@@ -3,22 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { supabase } from './supabase';
 import type { Carrier, Contact } from '../types';
 
 /**
- * Loads the full carrier directory (carriers + their contacts) from Supabase,
- * replacing the hardcoded INITIAL_CARRIERS in src/data/carriers.ts. The
- * `carriers` / `carrier_contacts` tables are RLS-gated on is_commission_user(),
- * so the user must be signed in and allowlisted (enforced by <AuthGate>).
+ * Loads the full carrier directory (carriers + their contacts) from the app's
+ * own `/api/carriers` endpoint, replacing the hardcoded INITIAL_CARRIERS in
+ * src/data/carriers.ts. The endpoint runs on the tailnet-only box and reads
+ * Supabase with the service role, so there is no per-user login — access is
+ * gated by the network (Tailscale). The public Supabase endpoint stays
+ * RLS-locked.
  */
 export async function fetchCarriers(): Promise<Carrier[]> {
-  const { data, error } = await supabase
-    .from('carriers')
-    .select('*, carrier_contacts(*)')
-    .order('name');
-  if (error) throw error;
-  return (data ?? []).map(mapCarrier);
+  const res = await fetch('/api/carriers');
+  if (!res.ok) {
+    const msg = await res.json().catch(() => ({} as { error?: string }));
+    throw new Error(msg.error || `Failed to load carriers (${res.status})`);
+  }
+  const { carriers } = (await res.json()) as { carriers: any[] };
+  return (carriers ?? []).map(mapCarrier);
 }
 
 function mapCarrier(row: any): Carrier {
@@ -58,13 +60,12 @@ function mapCarrier(row: any): Carrier {
 }
 
 /**
- * Best-effort write-through when a carrier is edited/added in the UI. RLS lets
- * admins (is_commission_admin) write; non-admins get a permission error, which
- * callers swallow so in-session edits still work locally. Contact edits are not
- * persisted here yet (the directory's contacts are sourced from the CRM sync).
+ * Write-through when a carrier is edited/added in the UI, via the box's
+ * `/api/carriers` (service role). Contact edits are not persisted here yet
+ * (the directory's contacts are sourced from the CRM sync).
  */
 export async function saveCarrier(c: Carrier): Promise<void> {
-  const { error } = await supabase.from('carriers').upsert({
+  const payload = {
     id: c.id,
     name: c.name,
     is_active: c.isActive,
@@ -82,6 +83,14 @@ export async function saveCarrier(c: Carrier): Promise<void> {
     underwriting_hotline: c.appetite?.underwritingHotline ?? null,
     incentives: c.incentives ?? null,
     worksheets: c.worksheets ?? null,
+  };
+  const res = await fetch('/api/carriers', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
   });
-  if (error) throw error;
+  if (!res.ok) {
+    const msg = await res.json().catch(() => ({} as { error?: string }));
+    throw new Error(msg.error || `Failed to save carrier (${res.status})`);
+  }
 }

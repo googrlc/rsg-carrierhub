@@ -87,8 +87,8 @@ export default function App() {
     }
   }, []);
 
-  // Load the carrier directory from Supabase (replaces the hardcoded seed).
-  // RLS gates this on is_commission_user(), enforced by <AuthGate>.
+  // Load the carrier directory from the box's /api/carriers endpoint (replaces
+  // the hardcoded seed). No login — access is gated by the tailnet.
   useEffect(() => {
     let active = true;
     fetchCarriers()

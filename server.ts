@@ -2,9 +2,34 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+// Server-side Supabase client using the SERVICE ROLE key. This lives ONLY on the
+// tailnet-only box and never reaches the browser. It lets the app read/write the
+// carrier directory without any per-user login: access is gated by the network
+// (Tailscale), and the public Supabase REST endpoint stays fully RLS-locked
+// (money/commission tables untouched). See RUNBOOK.md.
+function resolveSupabase(): SupabaseClient | null {
+  const url =
+    process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+  if (!url || !key) return null;
+  return createClient(url, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
+// Columns the UI is allowed to write, mirroring the old client-side upsert. We
+// pick explicitly so a stray body key can't inject unexpected columns.
+const CARRIER_WRITE_COLUMNS = [
+  "id", "name", "is_active", "segment", "lines_of_business", "agency_code",
+  "general_agent", "website", "agent_login", "logo_url", "original_logo_path",
+  "appetite_can_write", "appetite_cannot_write", "appetite_notes",
+  "underwriting_hotline", "incentives", "worksheets",
+] as const;
 
 // LiteLLM / OpenAI-compatible client, resolved the SAME way Hermes does
 // (hermes/commands/agency_intake.py): optional base URL points at the LiteLLM
@@ -42,9 +67,51 @@ async function startServer() {
 
   app.use(express.json());
 
+  const db = resolveSupabase();
+  if (!db) {
+    console.warn(
+      "WARN: SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set — /api/carriers will return 503",
+    );
+  }
+
   // API Route - Health Check
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  // API Route - Carrier directory (read). Served by the box using the service
+  // role, so the browser needs no Supabase login. Returns raw DB rows (carriers
+  // + nested carrier_contacts); the client maps them.
+  app.get("/api/carriers", async (_req, res) => {
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+    const { data, error } = await db
+      .from("carriers")
+      .select("*, carrier_contacts(*)")
+      .order("name");
+    if (error) {
+      console.error("GET /api/carriers:", error.message);
+      return res.status(500).json({ error: error.message });
+    }
+    res.json({ carriers: data ?? [] });
+  });
+
+  // API Route - Carrier directory (write-through for in-app edits/adds).
+  app.post("/api/carriers", async (req, res) => {
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+    const body = req.body ?? {};
+    if (!body.id || !body.name) {
+      return res.status(400).json({ error: "carrier id and name are required" });
+    }
+    const row: Record<string, unknown> = {};
+    for (const col of CARRIER_WRITE_COLUMNS) {
+      if (col in body) row[col] = body[col];
+    }
+    const { error } = await db.from("carriers").upsert(row);
+    if (error) {
+      console.error("POST /api/carriers:", error.message);
+      return res.status(500).json({ error: error.message });
+    }
+    res.json({ ok: true });
   });
 
   // API Route - Carrier Appetite Assistant
