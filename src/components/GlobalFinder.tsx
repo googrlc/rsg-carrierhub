@@ -251,7 +251,7 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
         <div className="mt-8 border-t border-slate-100 pt-6 space-y-4">
           <div className="flex items-center gap-2">
             <h3 className="font-sans font-bold text-sm text-slate-900">AI Underwriting Diagnostic</h3>
-            <span className="text-[9px] px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 rounded font-mono font-bold uppercase tracking-wide">Gemini Checked</span>
+            <span className="text-[9px] px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 rounded font-mono font-bold uppercase tracking-wide">AI Checked</span>
           </div>
 
           {isSearching ? (
