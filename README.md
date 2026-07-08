@@ -21,6 +21,8 @@ Studio / Cloud Run static app.
 
 ---
 
+**Operators:** see [RUNBOOK.md](RUNBOOK.md) for deploy, rollback, config, and health monitoring on the box.
+
 ## Run locally
 
 **Prerequisites:** Node.js 22+, and access to the Supabase project.
