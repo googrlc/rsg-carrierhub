@@ -15,9 +15,9 @@ Studio / Cloud Run static app.
 - **AI advisor:** `/api/advisor` + `/api/global-advisor` call an
   OpenAI-compatible endpoint (Hermes LiteLLM proxy), replacing the old Gemini call.
 
-> **Branches:** active development is on **`supabase-migration`** (Supabase + auth
-> + Docker). `main` is the legacy pre-Supabase AI Studio export. Check out
-> `supabase-migration` before running.
+> **Branch:** everything is on **`main`** (Supabase + auth + Docker + LiteLLM). The
+> old pre-Supabase AI Studio / Gemini export was consolidated away — there is no
+> `supabase-migration` branch anymore.
 
 ---
 
@@ -30,7 +30,6 @@ Studio / Cloud Run static app.
 ```bash
 git clone https://github.com/googrlc/rsg-carrierhub.git
 cd rsg-carrierhub
-git checkout supabase-migration
 
 cp .env.example .env.local     # then fill in the values (see below)
 npm install
