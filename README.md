@@ -77,20 +77,37 @@ other value runs the Vite dev middleware.
 The image bakes the browser-safe Supabase URL + publishable key at build time via
 build args; runtime secrets (the LLM key) are passed as env at `docker run`.
 
-```bash
-docker build \
-  --build-arg VITE_SUPABASE_URL="https://wibscqhkvpijzqbhjphg.supabase.co" \
-  --build-arg VITE_SUPABASE_PUBLISHABLE_KEY="sb_publishable_..." \
-  -t rsg-carrierhub .
+### Live deployment (Elestio / hermes-gretch box)
 
-docker run -p 3000:3000 \
-  -e HERMES_OPENAI_API_KEY="..." \
-  -e HERMES_OPENAI_BASE_URL="https://<hermes-litellm-host>/v1" \
-  rsg-carrierhub
+The app is deployed on the **hermes-gretch box** (`hermes` in `~/.ssh/config`) at
+`/opt/rsg-carrierhub`, which is a **git checkout of `main`** (pulls via a
+read-only deploy key). The container runs on `3200:3000`, `restart=unless-stopped`.
+
+**Redeploy is one command** — [`deploy.sh`](deploy.sh) pulls, rebuilds (old
+container keeps serving), swaps, health-checks, and keeps a rollback image:
+
+```bash
+ssh hermes
+cd /opt/rsg-carrierhub && ./deploy.sh
 ```
 
-On Elestio this is deployed at `/opt/rsg-carrierhub`, nginx reverse-proxied on an
-Elestio-allocated public port (same pattern as the Commission Tracker).
+Runtime + build config lives in `/opt/rsg-carrierhub/.env.deploy` (gitignored,
+`chmod 600`) — `deploy.sh` sources it. To route the AI advisor through the
+**LiteLLM proxy** (its own Elestio VPS) instead of calling OpenAI directly, set:
+
+```
+HERMES_OPENAI_BASE_URL=https://<litellm-vps>/v1
+HERMES_OPENAI_API_KEY=<litellm virtual key>
+HERMES_OPENAI_MODEL=gpt-4.1-mini
+```
+
+then run `./deploy.sh`. (Supabase build args default inside `deploy.sh`; override
+in `.env.deploy` if they ever rotate.)
+
+**Access:** reachable over Tailscale at `http://100.75.67.72:3200` or
+`http://hermes-gretch:3200`. There is **no public HTTPS URL yet** — unlike the
+Commission Tracker (`https://hermes-gretch-u69864.vm.elestio.app:18445`), no
+`elestio-nginx` server block fronts `:3200`. Add one to expose it publicly.
 
 ## Troubleshooting
 
