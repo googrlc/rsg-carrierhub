@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -236,6 +237,169 @@ Keep your response professional, precise, and structured with clear markdown hea
     } catch (err: any) {
       console.error("LiteLLM API Error in /api/global-advisor:", err);
       return res.status(500).json({ error: "Failed to communicate with the underwriting advisor API: " + err.message });
+    }
+  });
+
+
+// ---- Hub Query: grounded AI over the live carrier directory + class guides ----
+// Keeps the portal "AI queryable" as Lamar continually adds carriers, contacts,
+// and appetite: the directory is pulled live from Supabase on every call, and any
+// carrier-assets/<id>/profile-guide.json dropped on the box is auto-searched.
+
+const STOP = new Set(["the","and","for","with","what","which","who","whom","any","that","this","these","those","from","into","your","our","you","can","will","are","is","a","an","of","to","in","on","or","do","does","have","has","i","we","me","my","write","writes","writing","appetite","business","small","insurance","carrier","carriers","please","need","want","looking","find","about"]);
+
+// Module-level cache so the box doesn't re-parse the JSON on every request. The
+// cache is keyed by carrier-assets folder and refreshed when the file mtime
+// changes (a redeploy writes new files and the process picks them up).
+const guideCache = new Map<string, { carrierName: string; mtime: number; rows: any[] }>();
+
+function loadClassGuides(): { carrierName: string; rows: any[] }[] {
+  const bases = [
+    path.join(process.cwd(), "dist", "carrier-assets"),
+    path.join(process.cwd(), "public", "carrier-assets"),
+  ];
+  const seen = new Set<string>();
+  const out: { carrierName: string; rows: any[] }[] = [];
+  for (const base of bases) {
+    let folders: string[] = [];
+    try { folders = fs.readdirSync(base); } catch { continue; }
+    for (const f of folders) {
+      if (seen.has(f)) continue;
+      const file = path.join(base, f, "profile-guide.json");
+      try { fs.accessSync(file); } catch { continue; }
+      seen.add(f);
+      const metaFile = path.join(base, f, "meta.json");
+      let carrierName = f;
+      try { carrierName = JSON.parse(fs.readFileSync(metaFile, "utf8")).carrierName || f; } catch {}
+      let mtime = 0;
+      try { mtime = fs.statSync(file).mtimeMs; } catch {}
+      const cached = guideCache.get(f);
+      let rows: any[];
+      if (cached && cached.mtime === mtime && cached.carrierName === carrierName) {
+        rows = cached.rows;
+      } else {
+        try { rows = JSON.parse(fs.readFileSync(file, "utf8")); guideCache.set(f, { carrierName, mtime, rows }); }
+        catch { rows = []; }
+      }
+      out.push({ carrierName, rows });
+    }
+  }
+  return out;
+}
+
+function searchClassGuides(guides: { carrierName: string; rows: any[] }[], query: string, limit = 15) {
+  const terms = query.toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length > 2 && !STOP.has(t));
+  if (terms.length === 0) return [];
+  const scored: any[] = [];
+  for (const g of guides) {
+    for (const r of g.rows) {
+      const hay = `${r.class_description} ${r.industry_group} ${r.small_business_appetite} ${r.sic} ${r.cna_connect_class_code}`.toLowerCase();
+      let score = 0;
+      for (const t of terms) if (hay.includes(t)) score += 1;
+      if (score > 0) scored.push({ score, carrierName: g.carrierName, ...r });
+    }
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit);
+}
+
+function formatDirectory(carriers: any[]): string {
+  return carriers
+    .map((c) => {
+      const lines = [`Carrier: ${c.name} (id: ${c.id})`];
+      if (c.lines_of_business?.length) lines.push(`  LOBs: ${c.lines_of_business.join(", ")}`);
+      if (c.agency_code) lines.push(`  Agency code: ${c.agency_code}`);
+      const aw = c.appetite_can_write || [];
+      const an = c.appetite_cannot_write || [];
+      if (aw.length) lines.push(`  Will write: ${aw.join(" | ")}`);
+      if (an.length) lines.push(`  Won't write: ${an.join(" | ")}`);
+      if (c.appetite_notes) lines.push(`  Notes: ${c.appetite_notes}`);
+      if (c.underwriting_hotline) lines.push(`  Hotline: ${c.underwriting_hotline}`);
+      if (c.website) lines.push(`  Website: ${c.website}`);
+      if (c.agent_login) lines.push(`  Agent login: ${c.agent_login}`);
+      for (const ct of c.carrier_contacts || []) {
+        lines.push(`  Contact: ${ct.name} | ${ct.role || ""} | ${ct.email || ""} | ${ct.phone || ""}`);
+      }
+      return lines.join("\n");
+    })
+    .join("\n\n");
+}
+
+function formatClassRows(rows: any[]): string {
+  return rows
+    .map(
+      (r) =>
+        `${r.carrierName} | SIC ${r.sic} | class ${r.cna_connect_class_code} | ${r.industry_group} | ${r.class_description}\n   appetite: ${r.small_business_appetite}\n   products: ${r.products_available}\n   territory: ${r.territorial_restrictions}`,
+    )
+    .join("\n");
+}
+
+  // API Route - Ask the Hub: grounded Q&A over the FULL live directory + class guides.
+  app.post("/api/hub-query", async (req, res) => {
+    const inquiry = (req.body?.inquiry ?? "").toString().trim();
+    if (!inquiry) return res.status(400).json({ error: "Missing inquiry in request body" });
+
+    const llm = resolveLLM();
+    if (!llm) {
+      return res.status(200).json({
+        text: `⚠️ **Ask the Hub unavailable**: ${KEY_MISSING_HINT}.`,
+        sources: [],
+      });
+    }
+
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+
+    try {
+      // 1) Live carrier directory (always current — reflects any carrier/contact/appetite edits).
+      const { data: carriers, error } = await db
+        .from("carriers")
+        .select("*, carrier_contacts(*)")
+        .order("name");
+      if (error) throw error;
+
+      // 2) Selective class-code retrieval (only rows relevant to the question).
+      const guides = loadClassGuides();
+      const matched = searchClassGuides(guides, inquiry);
+
+      const directoryCtx = formatDirectory(carriers ?? []);
+      const classCtx = matched.length ? formatClassRows(matched) : "none matched";
+
+      const systemInstruction = `You are the RSG Carrier Hub assistant — a senior commercial-lines underwriting consultant for Risk Solutions Group, an independent agency in Atlanta, GA. Answer the agent's question using ONLY the data provided below.
+
+Rules:
+- Ground every answer in the directory. Cite the carrier name (and class code + SIC where a class-code row was used).
+- For contact questions, return the contact name, role, email, and phone exactly as listed.
+- If a carrier, appetite, contact, or class code is not in the data, say so plainly. Never invent carriers, contacts, class codes, or appetite details.
+- For placement questions: give 1-3 best-fit carriers with a one-line "why", flag any definitely-prohibited carriers, and list the next data points to gather for a submission.
+- Keep it tight and scannable — short paragraphs or short bullets. Use markdown headings only when they help.
+
+=== LIVE CARRIER DIRECTORY (${(carriers ?? []).length} carriers, with appetite + contacts) ===
+${directoryCtx}
+
+=== RELEVANT CLASS-CODE DATA (matched from carrier profile guides) ===
+${classCtx}`;
+
+      const response = await llm.client.chat.completions.create({
+        model: llm.model,
+        messages: [
+          { role: "system", content: systemInstruction },
+          { role: "user", content: inquiry },
+        ],
+        temperature: 0.2,
+      });
+
+      return res.json({
+        text: response.choices[0]?.message?.content ?? "",
+        sources: matched.map((m) => ({
+          carrier: m.carrierName,
+          sic: m.sic,
+          classCode: m.cna_connect_class_code,
+          classDescription: m.class_description,
+        })),
+      });
+    } catch (err: any) {
+      console.error("LiteLLM API Error in /api/hub-query:", err);
+      return res.status(500).json({ error: "Ask the Hub failed: " + err.message });
     }
   });
 

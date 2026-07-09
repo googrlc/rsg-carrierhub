@@ -10,6 +10,7 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [resultText, setResultText] = useState<string | null>(null);
+  const [sources, setSources] = useState<{carrier:string;sic:string;classCode:string;classDescription:string}[] | null>(null);
 
   const handleGlobalSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,20 +18,13 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
 
     setIsSearching(true);
     setResultText(null);
+    setSources(null);
 
     try {
       const response = await fetch('/api/global-advisor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          inquiry: query.trim(),
-          carriersList: carriers.map(c => ({
-            name: c.name,
-            segment: c.segment,
-            linesOfBusiness: c.linesOfBusiness,
-            appetite: c.appetite
-          }))
-        })
+        body: JSON.stringify({ inquiry: query.trim() }),
       });
 
       if (!response.ok) {
@@ -39,6 +33,7 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
 
       const data = await response.json();
       setResultText(data.text);
+      setSources(Array.isArray(data.sources) ? data.sources : null);
     } catch (err: any) {
       setResultText(`❌ **Failed to consult underwriting index**: ${err.message}. Please verify the carrier server connector is running and your API Key is specified correctly.`);
     } finally {
@@ -234,11 +229,11 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
             {isSearching ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                Auditing Index...
+                Asking the Hub...
               </>
             ) : (
               <>
-                Scan Carrier Appetites
+                Ask the Hub
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
@@ -250,7 +245,7 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
       {resultText || isSearching ? (
         <div className="mt-8 border-t border-slate-100 pt-6 space-y-4">
           <div className="flex items-center gap-2">
-            <h3 className="font-sans font-bold text-sm text-slate-900">AI Underwriting Diagnostic</h3>
+            <h3 className="font-sans font-bold text-sm text-slate-900">Hub Answer</h3>
             <span className="text-[9px] px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 rounded font-mono font-bold uppercase tracking-wide">AI Checked</span>
           </div>
 
@@ -259,13 +254,25 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
               <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
               <div className="text-center space-y-1">
                 <p className="text-xs font-semibold text-slate-700">Checking submission guidelines across carrier panel...</p>
-                <p className="text-[10px] text-slate-400">Comparing risk attributes with write appetites & exclusion rules...</p>
+                <p className="text-[10px] text-slate-400">Grounded in the live carrier directory, contacts, and CNA class codes...</p>
               </div>
             </div>
           ) : (
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/50 min-h-[180px] shadow-xs">
-              {renderFormattedResult(resultText || '')}
-            </div>
+            <>
+              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/50 min-h-[180px] shadow-xs">
+                {renderFormattedResult(resultText || '')}
+              </div>
+              {sources && sources.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 items-center">
+                  <span className="text-[10px] font-mono uppercase text-slate-400">Class codes used:</span>
+                  {sources.map((src, i) => (
+                    <span key={i} className="text-[10px] px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-600 font-mono" title={src.classDescription}>
+                      {src.carrier} · {src.classCode} · {src.classDescription.slice(0, 36)}{src.classDescription.length > 36 ? '…' : ''}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       ) : (
