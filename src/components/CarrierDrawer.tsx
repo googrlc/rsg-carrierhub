@@ -6,6 +6,7 @@ import {
   Star, Award, Percent, DollarSign, FileText, Download, FileSpreadsheet, Link2
 } from 'lucide-react';
 import { Carrier, Contact, CarrierWorksheet } from '../types';
+import CnaClassLookup from './CnaClassLookup';
 
 interface CarrierDrawerProps {
   carrier: Carrier | null;
@@ -21,7 +22,7 @@ interface ChatMessage {
 }
 
 export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFavorite, onToggleFavorite }: CarrierDrawerProps) {
-  const [activeTab, setActiveTab] = useState<'appetite' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives'>('appetite');
+  const [activeTab, setActiveTab] = useState<'appetite' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives' | 'classes'>('appetite');
   const [copiedField, setCopiedField] = useState<string | null>(null);
   
   // AI Advisor Chat State
@@ -422,6 +423,19 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
             <FileText className="w-3.5 h-3.5 text-blue-500" />
             Supplemental Worksheets ({isEditing ? editWorksheets.length : (carrier.worksheets?.length || 0)})
           </button>
+          {carrier.id === 'cna-insurance' && (
+            <button
+              onClick={() => setActiveTab('classes')}
+              className={`px-4 py-3 text-sm font-medium border-b-2 transition-all flex items-center gap-1.5 ${
+                activeTab === 'classes'
+                  ? 'border-blue-600 text-blue-600 font-bold bg-blue-50/25'
+                  : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50/40'
+              }`}
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+              Class Code Lookup
+            </button>
+          )}
           <button
             onClick={() => setActiveTab('ai-advisor')}
             className={`px-4 py-3 text-sm font-medium border-b-2 transition-all flex items-center gap-1.5 ${
@@ -1228,6 +1242,11 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                 </div>
               </div>
             </div>
+          )}
+
+          {/* CNA CLASS CODE LOOKUP VIEW */}
+          {activeTab === 'classes' && (
+            <CnaClassLookup />
           )}
 
           {/* AI UNDERWRITING ADVISOR VIEW */}
