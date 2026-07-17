@@ -15,6 +15,7 @@ import CarrierGrid from './components/CarrierGrid';
 import CarrierDrawer from './components/CarrierDrawer';
 import DashboardStats from './components/DashboardStats';
 import GlobalFinder from './components/GlobalFinder';
+import Launchpad from './components/Launchpad';
 
 export default function App() {
   const [carriers, setCarriers] = useState<Carrier[]>([]);
@@ -25,7 +26,7 @@ export default function App() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   
   const [selectedCarrier, setSelectedCarrier] = useState<Carrier | null>(null);
-  const [activeTab, setActiveTab] = useState<'panel' | 'global-ai' | 'submissions' | 'profile'>('panel');
+  const [activeTab, setActiveTab] = useState<'launchpad' | 'panel' | 'global-ai' | 'submissions' | 'profile'>('launchpad');
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [userProfile, setUserProfile] = useState<any>({
@@ -211,9 +212,7 @@ export default function App() {
       {/* 1. TOP PREMIUM HEADER */}
       <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-slate-200 shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 bg-blue-600 rounded flex items-center justify-center text-white shadow-sm">
-            <Building2 className="w-5 h-5 stroke-[2px]" />
-          </div>
+          <img src="/rsg-logo.jpg" alt="Risk Solutions Group" className="h-11 w-auto shrink-0" />
           <div>
             <div className="flex items-center space-x-2">
               <h1 className="text-lg font-bold tracking-tight text-slate-900 uppercase">CarrierHub</h1>
@@ -291,6 +290,17 @@ export default function App() {
         <div className="border-b border-slate-200">
           <nav className="flex gap-6 -mb-px">
             <button
+              onClick={() => setActiveTab('launchpad')}
+              className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all flex items-center gap-1.5 ${
+                activeTab === 'launchpad'
+                  ? 'border-blue-600 text-blue-600 font-bold'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              Launchpad
+            </button>
+            <button
               onClick={() => setActiveTab('panel')}
               className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all ${
                 activeTab === 'panel'
@@ -337,7 +347,17 @@ export default function App() {
 
       {/* 4. MAIN INTERACTIVE VIEWS PANELS */}
       <main className="flex-1 max-w-7xl mx-auto px-6 py-6 w-full overflow-hidden">
-        
+
+        {/* VIEW 0: LAUNCHPAD — home board of grouped quick links */}
+        {activeTab === 'launchpad' && (
+          <Launchpad
+            onNavigate={setActiveTab}
+            carrierPortals={carriers
+              .filter(c => favorites.includes(c.id) && c.agentLogin)
+              .map(c => ({ id: c.id, name: c.name, agencyCode: c.agencyCode, agentLogin: c.agentLogin! }))}
+          />
+        )}
+
         {/* VIEW 1: LOGO DIRECTORY */}
         {activeTab === 'panel' && (
           carriersError ? (
