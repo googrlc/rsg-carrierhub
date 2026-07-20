@@ -61,8 +61,9 @@ function mapCarrier(row: any): Carrier {
 
 /**
  * Write-through when a carrier is edited/added in the UI, via the box's
- * `/api/carriers` (service role). Contact edits are not persisted here yet
- * (the directory's contacts are sourced from the CRM sync).
+ * `/api/carriers` (service role). Contacts ride along in the payload and the
+ * server syncs them to `carrier_contacts` (upsert the sent list, delete the rest)
+ * so inline contact edits survive a reload.
  */
 export async function saveCarrier(c: Carrier): Promise<void> {
   const payload = {
@@ -83,6 +84,14 @@ export async function saveCarrier(c: Carrier): Promise<void> {
     underwriting_hotline: c.appetite?.underwritingHotline ?? null,
     incentives: c.incentives ?? null,
     worksheets: c.worksheets ?? null,
+    contacts: (c.contacts ?? []).map((ct) => ({
+      id: ct.id,
+      name: ct.name,
+      role: ct.role ?? null,
+      email: ct.email ?? null,
+      phone: ct.phone ?? null,
+      region: ct.region ?? null,
+    })),
   };
   const res = await fetch('/api/carriers', {
     method: 'POST',

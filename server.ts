@@ -32,6 +32,50 @@ const CARRIER_WRITE_COLUMNS = [
   "underwriting_hotline", "incentives", "worksheets",
 ] as const;
 
+// Sync a carrier's underwriting contacts to `carrier_contacts`. The drawer edits
+// contacts inline and sends the full desired list on save, so we treat that list
+// as the source of truth: upsert everything the client sent, then delete any rows
+// for this carrier it no longer lists. Without this the carrier row persisted but
+// contacts never did — they vanished on the next reload.
+async function syncCarrierContacts(
+  db: SupabaseClient,
+  carrierId: string,
+  contacts: any[],
+): Promise<void> {
+  const incoming = (contacts ?? [])
+    .filter((c) => c && (c.id || c.name))
+    .map((c) => ({
+      id: String(c.id ?? `contact-${carrierId}-${Date.now()}`),
+      carrier_id: carrierId,
+      name: c.name ?? "",
+      role: c.role ?? null,
+      email: c.email ?? null,
+      phone: c.phone ?? null,
+      region: c.region ?? null,
+    }));
+
+  if (incoming.length) {
+    const { error } = await db.from("carrier_contacts").upsert(incoming);
+    if (error) throw new Error(`contacts upsert: ${error.message}`);
+  }
+
+  // Delete rows for this carrier that are no longer in the client's list.
+  const { data: existing, error: exErr } = await db
+    .from("carrier_contacts")
+    .select("id")
+    .eq("carrier_id", carrierId);
+  if (exErr) throw new Error(`contacts read: ${exErr.message}`);
+
+  const keep = new Set(incoming.map((c) => c.id));
+  const toDelete = (existing ?? [])
+    .map((r: any) => r.id)
+    .filter((id: string) => !keep.has(id));
+  if (toDelete.length) {
+    const { error } = await db.from("carrier_contacts").delete().in("id", toDelete);
+    if (error) throw new Error(`contacts delete: ${error.message}`);
+  }
+}
+
 // LiteLLM / OpenAI-compatible client, resolved the SAME way Hermes does
 // (hermes/commands/agency_intake.py): optional base URL points at the LiteLLM
 // proxy; falls back to a direct OpenAI call when no base URL is set.
@@ -112,6 +156,17 @@ async function startServer() {
       console.error("POST /api/carriers:", error.message);
       return res.status(500).json({ error: error.message });
     }
+
+    // Persist the carrier's contacts too (carrier upserted first so the FK holds).
+    if (Array.isArray(body.contacts)) {
+      try {
+        await syncCarrierContacts(db, String(body.id), body.contacts);
+      } catch (e: any) {
+        console.error("POST /api/carriers contacts:", e.message);
+        return res.status(500).json({ error: e.message });
+      }
+    }
+
     res.json({ ok: true });
   });
 
