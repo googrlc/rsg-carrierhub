@@ -20,7 +20,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   Building2, FileText, DollarSign, Globe,
   FolderOpen, Database, Grid3x3, Sparkles, ClipboardList,
-  LogIn, PenTool, Gauge, UserPlus, LayoutDashboard, UserCog, DoorOpen,
+  LogIn, PenTool, Gauge, UserPlus, LayoutDashboard, UserCog, DoorOpen, Calculator,
 } from 'lucide-react';
 
 export type LaunchpadTab = 'panel' | 'global-ai' | 'submissions' | 'profile';
@@ -75,6 +75,9 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
   { section: 'Sales Tools', name: 'Commission Tracker', icon: DollarSign,
     url: 'https://rsg-commission-tracker-339396843209.us-east1.run.app',
     desc: 'Track commissions by carrier, policy, and month.' },
+  { section: 'Sales Tools', name: 'PayComp', icon: Calculator,
+    url: 'https://oht.servehttp.com/agency-app/login/',
+    desc: 'Workers’ comp pay-as-you-go payroll processing — agency login.' },
   { section: 'Sales Tools', name: 'RSG Website', icon: Globe,
     url: 'https://www.risksolutionsgroup.com',
     desc: 'Public site — Risk Diagnostic, referral hub, client quick actions.' },
