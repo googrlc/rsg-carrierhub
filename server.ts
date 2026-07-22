@@ -273,6 +273,79 @@ async function startServer() {
     });
   });
 
+  // API Route - Appetite match FOR a CRM opportunity. Reads the opportunity + its
+  // canonical_client (all in this same Supabase DB — the CRM is Supabase-native),
+  // builds the risk (lob/state/sic/premium), ranks markets, and — only when
+  // `commit: true` and the top match is a positive fit — writes the chosen
+  // carrier back to opportunities.carrier. Read-only by default.
+  app.post("/api/appetite-match/opportunity", async (req, res) => {
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+    const opportunityId = (req.body?.opportunityId ?? "").toString().trim();
+    const commit = req.body?.commit === true;
+    const limit = Math.min(Number(req.body?.limit) || 10, 50);
+    if (!opportunityId) return res.status(400).json({ error: "opportunityId is required" });
+
+    // 1) Load the opportunity
+    const { data: opp, error: oppErr } = await db
+      .from("opportunities")
+      .select("id, insured_id, insured_name, line_of_business, premium_estimate, carrier, stage, status")
+      .eq("id", opportunityId)
+      .maybeSingle();
+    if (oppErr) { console.error("appetite-match/opportunity opp:", oppErr.message); return res.status(500).json({ error: oppErr.message }); }
+    if (!opp) return res.status(404).json({ error: "opportunity not found" });
+
+    // 2) Enrich risk from canonical_clients (state, SIC) via the nowcerts insured guid
+    let client: any = null;
+    if (opp.insured_id) {
+      const { data: c } = await db
+        .from("canonical_clients")
+        .select("state, zip, sic, sic_description")
+        .eq("nowcerts_insured_guid", opp.insured_id)
+        .maybeSingle();
+      client = c ?? null;
+    }
+
+    const sic = (client?.sic ?? "").toString().trim();
+    const risk: MatchQuery = {
+      lob: opp.line_of_business ?? "",
+      state: toStateAbbr(client?.state),
+      classCode: sic,
+      premium: opp.premium_estimate != null ? Number(opp.premium_estimate) : null,
+      keywords: [opp.line_of_business, client?.sic_description].filter(Boolean).join(" "),
+    };
+
+    // 3) Rank markets
+    const { data: rows, error } = await db
+      .from("carrier_appetite")
+      .select("*, carriers(id,name,is_active,general_agent)")
+      .eq("active", true);
+    if (error) { console.error("appetite-match/opportunity rows:", error.message); return res.status(500).json({ error: error.message }); }
+    const matches = matchAppetite(rows ?? [], risk).slice(0, limit);
+
+    // 4) Optional write-back — only a positive top fit, never a weak guess
+    let committed: { carrier: string } | null = null;
+    if (commit && matches.length && matches[0].score > 0) {
+      const top = matches[0];
+      const label = top.program ? `${top.carrier} — ${top.program}` : top.carrier;
+      const { error: upErr } = await db.from("opportunities").update({ carrier: label }).eq("id", opportunityId);
+      if (upErr) { console.error("appetite-match/opportunity write:", upErr.message); return res.status(500).json({ error: upErr.message }); }
+      committed = { carrier: label };
+    }
+
+    res.json({
+      opportunity: {
+        id: opp.id, insuredName: opp.insured_name, lob: opp.line_of_business,
+        premiumEstimate: opp.premium_estimate, currentCarrier: opp.carrier,
+        stage: opp.stage, status: opp.status,
+      },
+      resolvedRisk: risk,
+      clientResolved: !!client,
+      committed,
+      count: matches.length,
+      matches,
+    });
+  });
+
   // API Route - Carrier Appetite Assistant
   app.post("/api/advisor", async (req, res) => {
     const { carrierName, appetiteInfo, inquiry, history } = req.body;
@@ -586,6 +659,29 @@ function matchAppetite(rows: any[], q: MatchQuery) {
   return scored
     .filter((m) => m.score > 0 || m.reasons.length > 0)
     .sort((a, b) => b.score - a.score);
+}
+
+// The custom CRM stores state as a full name ("Georgia"); appetite states_approved
+// are USPS codes ("GA"). Normalize so the matcher compares like for like.
+const US_STATE_ABBR: Record<string, string> = {
+  alabama: "AL", alaska: "AK", arizona: "AZ", arkansas: "AR", california: "CA",
+  colorado: "CO", connecticut: "CT", delaware: "DE", "district of columbia": "DC",
+  florida: "FL", georgia: "GA", hawaii: "HI", idaho: "ID", illinois: "IL",
+  indiana: "IN", iowa: "IA", kansas: "KS", kentucky: "KY", louisiana: "LA",
+  maine: "ME", maryland: "MD", massachusetts: "MA", michigan: "MI", minnesota: "MN",
+  mississippi: "MS", missouri: "MO", montana: "MT", nebraska: "NE", nevada: "NV",
+  "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM", "new york": "NY",
+  "north carolina": "NC", "north dakota": "ND", ohio: "OH", oklahoma: "OK",
+  oregon: "OR", pennsylvania: "PA", "rhode island": "RI", "south carolina": "SC",
+  "south dakota": "SD", tennessee: "TN", texas: "TX", utah: "UT", vermont: "VT",
+  virginia: "VA", washington: "WA", "west virginia": "WV", wisconsin: "WI", wyoming: "WY",
+};
+
+function toStateAbbr(s: any): string {
+  const t = (s ?? "").toString().trim();
+  if (!t) return "";
+  if (t.length === 2) return t.toUpperCase();
+  return US_STATE_ABBR[t.toLowerCase()] || "";
 }
 
   // API Route - Ask the Hub: grounded Q&A over the FULL live directory + class guides.
