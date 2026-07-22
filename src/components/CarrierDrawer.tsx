@@ -21,6 +21,68 @@ interface ChatMessage {
   content: string;
 }
 
+// Generic renderer for the open-ended `details` jsonb on an appetite row, so the
+// rich per-program detail (target classes, packages, submission requirements,
+// endorsements, URLs) shows in the UI without a bespoke field per key.
+function humanizeKey(k: string) {
+  return k.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+const DetailValue: React.FC<{ value: any }> = ({ value }) => {
+  if (value === null || value === undefined || value === '') return null;
+  if (Array.isArray(value)) {
+    if (value.length === 0) return null;
+    const allScalar = value.every((v) => v === null || typeof v !== 'object');
+    if (allScalar) {
+      return (
+        <div className="flex flex-wrap gap-1 mt-0.5">
+          {value.map((v, i) => (
+            <span key={i} className="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">{String(v)}</span>
+          ))}
+        </div>
+      );
+    }
+    return <div className="space-y-1 mt-0.5">{value.map((v, i) => <DetailValue key={i} value={v} />)}</div>;
+  }
+  if (typeof value === 'object') {
+    const entries = Object.entries(value).filter(([, v]) => v !== null && v !== undefined && v !== '');
+    if (entries.length === 0) return null;
+    return (
+      <div className="pl-2 border-l border-slate-150 space-y-1 mt-0.5">
+        {entries.map(([k, v]) => (
+          <div key={k} className="text-[11px]">
+            <span className="text-slate-400 font-mono">{humanizeKey(k)}</span>
+            <DetailValue value={v} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  const s = String(value);
+  if (/^https?:\/\//.test(s)) {
+    return <a href={s} target="_blank" referrerPolicy="no-referrer" className="text-blue-600 hover:underline break-all"> {s}</a>;
+  }
+  return <span className="text-slate-600"> {s}</span>;
+};
+
+function AppetiteDetails({ details }: { details?: Record<string, unknown> }) {
+  if (!details) return null;
+  const entries = Object.entries(details).filter(
+    ([, v]) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0),
+  );
+  if (entries.length === 0) return null;
+  return (
+    <div className="mt-3 pt-3 border-t border-slate-100 space-y-2">
+      {entries.map(([k, v]) => (
+        <div key={k} className="text-[11px]">
+          <span className="text-slate-500 font-semibold font-mono uppercase tracking-wide">{humanizeKey(k)}</span>
+          <DetailValue value={v} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFavorite, onToggleFavorite }: CarrierDrawerProps) {
   const [activeTab, setActiveTab] = useState<'appetite' | 'appetite-matrix' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives' | 'worksheets' | 'classes'>('appetite');
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -726,6 +788,9 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                             <div className="sm:col-span-2 text-slate-500 font-serif pt-0.5">{row.notes}</div>
                           )}
                         </div>
+
+                        {/* Full open-ended detail (target classes, packages, submission reqs, endorsements, URLs) */}
+                        <AppetiteDetails details={row.details as Record<string, unknown> | undefined} />
                       </div>
                     );
                   })}
