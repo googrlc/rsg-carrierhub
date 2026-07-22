@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import { randomUUID } from "node:crypto";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -76,6 +77,65 @@ async function syncCarrierContacts(
   }
 }
 
+// Sync a carrier's structured appetite rows to `carrier_appetite` (the queryable
+// appetite spine). Same source-of-truth model as contacts: upsert the full list
+// the client sent, then delete any rows for this carrier it no longer lists. The
+// grain is one row per carrier x line-of-business, so we dedupe on LOB and mint a
+// uuid for brand-new rows. Only runs when the client explicitly sends the list,
+// so calls that don't touch appetite never wipe existing rows.
+async function syncCarrierAppetite(
+  db: SupabaseClient,
+  carrierId: string,
+  carrierName: string,
+  rows: any[],
+): Promise<void> {
+  const byLob = new Map<string, any>();
+  for (const r of rows ?? []) {
+    const lob = (r?.lob ?? "").toString().trim();
+    if (!lob) continue; // LOB is the required grain; skip blank rows
+    byLob.set(lob.toLowerCase(), {
+      id: r.id || randomUUID(),
+      carrier_id: carrierId,
+      carrier_name: carrierName,
+      lob,
+      appetite_level: r.appetite_level ?? null,
+      min_premium: r.min_premium ?? null,
+      max_premium: r.max_premium ?? null,
+      states_approved: r.states_approved ?? [],
+      key_requirements: r.key_requirements ?? [],
+      exclusions: r.exclusions ?? [],
+      class_codes: r.class_codes ?? [],
+      notes: r.notes ?? null,
+      details: r.details ?? {},
+      effective_date: r.effective_date ?? null,
+      active: r.active ?? true,
+      source: r.source ?? "carrier-hub-ui",
+      confidence: r.confidence ?? "unverified",
+    });
+  }
+  const incoming = [...byLob.values()];
+
+  if (incoming.length) {
+    const { error } = await db.from("carrier_appetite").upsert(incoming);
+    if (error) throw new Error(`appetite upsert: ${error.message}`);
+  }
+
+  const { data: existing, error: exErr } = await db
+    .from("carrier_appetite")
+    .select("id")
+    .eq("carrier_id", carrierId);
+  if (exErr) throw new Error(`appetite read: ${exErr.message}`);
+
+  const keep = new Set(incoming.map((r) => r.id));
+  const toDelete = (existing ?? [])
+    .map((r: any) => r.id)
+    .filter((id: string) => !keep.has(id));
+  if (toDelete.length) {
+    const { error } = await db.from("carrier_appetite").delete().in("id", toDelete);
+    if (error) throw new Error(`appetite delete: ${error.message}`);
+  }
+}
+
 // LiteLLM / OpenAI-compatible client, resolved the SAME way Hermes does
 // (hermes/commands/agency_intake.py): optional base URL points at the LiteLLM
 // proxy; falls back to a direct OpenAI call when no base URL is set.
@@ -131,7 +191,7 @@ async function startServer() {
     if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
     const { data, error } = await db
       .from("carriers")
-      .select("*, carrier_contacts(*)")
+      .select("*, carrier_contacts(*), carrier_appetite(*)")
       .order("name");
     if (error) {
       console.error("GET /api/carriers:", error.message);
@@ -163,6 +223,18 @@ async function startServer() {
         await syncCarrierContacts(db, String(body.id), body.contacts);
       } catch (e: any) {
         console.error("POST /api/carriers contacts:", e.message);
+        return res.status(500).json({ error: e.message });
+      }
+    }
+
+    // Persist structured appetite rows to the queryable spine (same model as
+    // contacts). Guarded on presence so a payload that omits appetite_rows never
+    // deletes existing rows.
+    if (Array.isArray(body.appetite_rows)) {
+      try {
+        await syncCarrierAppetite(db, String(body.id), String(body.name), body.appetite_rows);
+      } catch (e: any) {
+        console.error("POST /api/carriers appetite:", e.message);
         return res.status(500).json({ error: e.message });
       }
     }
@@ -369,6 +441,19 @@ function formatDirectory(carriers: any[]): string {
       if (aw.length) lines.push(`  Will write: ${aw.join(" | ")}`);
       if (an.length) lines.push(`  Won't write: ${an.join(" | ")}`);
       if (c.appetite_notes) lines.push(`  Notes: ${c.appetite_notes}`);
+      // Structured appetite spine — the machine-queryable facts per LOB.
+      for (const a of c.carrier_appetite || []) {
+        const bits: string[] = [];
+        if (a.appetite_level) bits.push(a.appetite_level);
+        if (a.min_premium != null || a.max_premium != null)
+          bits.push(`premium ${a.min_premium ?? "?"}–${a.max_premium ?? "?"}`);
+        if (a.states_approved?.length) bits.push(`states: ${a.states_approved.join(",")}`);
+        if (a.class_codes?.length) bits.push(`class codes: ${a.class_codes.join(",")}`);
+        if (a.key_requirements?.length) bits.push(`requires: ${a.key_requirements.join("; ")}`);
+        if (a.exclusions?.length) bits.push(`excludes: ${a.exclusions.join("; ")}`);
+        if (a.notes) bits.push(a.notes);
+        lines.push(`  Appetite [${a.lob}]: ${bits.join(" | ") || "listed"}`);
+      }
       if (c.underwriting_hotline) lines.push(`  Hotline: ${c.underwriting_hotline}`);
       if (c.website) lines.push(`  Website: ${c.website}`);
       if (c.agent_login) lines.push(`  Agent login: ${c.agent_login}`);
