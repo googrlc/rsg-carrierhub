@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { 
   Building2, Globe, Shield, RefreshCw, Layers, Bell, CheckSquare, 
-  Search, HelpCircle, Compass, Database, UserCheck, Star, AlertCircle, Key
+  Search, HelpCircle, Compass, Database, UserCheck, Star, AlertCircle, Key, Target
 } from 'lucide-react';
 
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from './types';
@@ -15,6 +15,7 @@ import CarrierGrid from './components/CarrierGrid';
 import CarrierDrawer from './components/CarrierDrawer';
 import DashboardStats from './components/DashboardStats';
 import GlobalFinder from './components/GlobalFinder';
+import FindMarkets from './components/FindMarkets';
 import Launchpad from './components/Launchpad';
 
 export default function App() {
@@ -26,7 +27,7 @@ export default function App() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   
   const [selectedCarrier, setSelectedCarrier] = useState<Carrier | null>(null);
-  const [activeTab, setActiveTab] = useState<'launchpad' | 'panel' | 'global-ai' | 'submissions' | 'profile'>('launchpad');
+  const [activeTab, setActiveTab] = useState<'launchpad' | 'panel' | 'find-markets' | 'global-ai' | 'submissions' | 'profile'>('launchpad');
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [userProfile, setUserProfile] = useState<any>({
@@ -311,6 +312,17 @@ export default function App() {
               Active Appointments
             </button>
             <button
+              onClick={() => setActiveTab('find-markets')}
+              className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all flex items-center gap-1.5 ${
+                activeTab === 'find-markets'
+                  ? 'border-blue-600 text-blue-600 font-bold'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <Target className="w-3.5 h-3.5 text-emerald-500" />
+              Find Markets
+            </button>
+            <button
               onClick={() => setActiveTab('global-ai')}
               className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all ${
                 activeTab === 'global-ai'
@@ -376,6 +388,11 @@ export default function App() {
               onToggleFavorite={handleToggleFavorite}
             />
           )
+        )}
+
+        {/* VIEW 1.5: STRUCTURED MARKET FINDER (deterministic appetite match) */}
+        {activeTab === 'find-markets' && (
+          <FindMarkets />
         )}
 
         {/* VIEW 2: UNIVERSAL AI appetite SEARCH */}

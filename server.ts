@@ -262,6 +262,8 @@ async function startServer() {
       return res.status(500).json({ error: error.message });
     }
     const limit = Math.min(Number(q.limit) || 10, 50);
+    const normState = toStateAbbr(q.state);
+    if (normState) q.state = normState; // accept "Georgia" or "GA"
     const matches = matchAppetite(data ?? [], q).slice(0, limit);
     res.json({
       query: {
