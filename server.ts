@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import { randomUUID } from "node:crypto";
 import { createServer as createViteServer } from "vite";
 import OpenAI from "openai";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -76,6 +77,65 @@ async function syncCarrierContacts(
   }
 }
 
+// Sync a carrier's structured appetite rows to `carrier_appetite` (the queryable
+// appetite spine). Same source-of-truth model as contacts: upsert the full list
+// the client sent, then delete any rows for this carrier it no longer lists. The
+// grain is one row per carrier x line-of-business, so we dedupe on LOB and mint a
+// uuid for brand-new rows. Only runs when the client explicitly sends the list,
+// so calls that don't touch appetite never wipe existing rows.
+async function syncCarrierAppetite(
+  db: SupabaseClient,
+  carrierId: string,
+  carrierName: string,
+  rows: any[],
+): Promise<void> {
+  const byLob = new Map<string, any>();
+  for (const r of rows ?? []) {
+    const lob = (r?.lob ?? "").toString().trim();
+    if (!lob) continue; // LOB is the required grain; skip blank rows
+    byLob.set(lob.toLowerCase(), {
+      id: r.id || randomUUID(),
+      carrier_id: carrierId,
+      carrier_name: carrierName,
+      lob,
+      appetite_level: r.appetite_level ?? null,
+      min_premium: r.min_premium ?? null,
+      max_premium: r.max_premium ?? null,
+      states_approved: r.states_approved ?? [],
+      key_requirements: r.key_requirements ?? [],
+      exclusions: r.exclusions ?? [],
+      class_codes: r.class_codes ?? [],
+      notes: r.notes ?? null,
+      details: r.details ?? {},
+      effective_date: r.effective_date ?? null,
+      active: r.active ?? true,
+      source: r.source ?? "carrier-hub-ui",
+      confidence: r.confidence ?? "unverified",
+    });
+  }
+  const incoming = [...byLob.values()];
+
+  if (incoming.length) {
+    const { error } = await db.from("carrier_appetite").upsert(incoming);
+    if (error) throw new Error(`appetite upsert: ${error.message}`);
+  }
+
+  const { data: existing, error: exErr } = await db
+    .from("carrier_appetite")
+    .select("id")
+    .eq("carrier_id", carrierId);
+  if (exErr) throw new Error(`appetite read: ${exErr.message}`);
+
+  const keep = new Set(incoming.map((r) => r.id));
+  const toDelete = (existing ?? [])
+    .map((r: any) => r.id)
+    .filter((id: string) => !keep.has(id));
+  if (toDelete.length) {
+    const { error } = await db.from("carrier_appetite").delete().in("id", toDelete);
+    if (error) throw new Error(`appetite delete: ${error.message}`);
+  }
+}
+
 // LiteLLM / OpenAI-compatible client, resolved the SAME way Hermes does
 // (hermes/commands/agency_intake.py): optional base URL points at the LiteLLM
 // proxy; falls back to a direct OpenAI call when no base URL is set.
@@ -131,7 +191,7 @@ async function startServer() {
     if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
     const { data, error } = await db
       .from("carriers")
-      .select("*, carrier_contacts(*)")
+      .select("*, carrier_contacts(*), carrier_appetite(*)")
       .order("name");
     if (error) {
       console.error("GET /api/carriers:", error.message);
@@ -167,7 +227,125 @@ async function startServer() {
       }
     }
 
+    // Persist structured appetite rows to the queryable spine (same model as
+    // contacts). Guarded on presence so a payload that omits appetite_rows never
+    // deletes existing rows.
+    if (Array.isArray(body.appetite_rows)) {
+      try {
+        await syncCarrierAppetite(db, String(body.id), String(body.name), body.appetite_rows);
+      } catch (e: any) {
+        console.error("POST /api/carriers appetite:", e.message);
+        return res.status(500).json({ error: e.message });
+      }
+    }
+
     res.json({ ok: true });
+  });
+
+  // API Route - Appetite match (CRM connection point). A CRM Opportunity's risk
+  // attributes (lob / state / class code / premium / keywords) in, ranked carrier
+  // + program fits out. Deterministic — no LLM — so it can be called from Hermes /
+  // the CRM and give repeatable placement suggestions. To close the loop, the
+  // caller writes the chosen carrier back onto opportunities.carrier.
+  app.post("/api/appetite-match", async (req, res) => {
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+    const q = (req.body ?? {}) as MatchQuery & { limit?: number };
+    if (!q.lob && !q.state && !q.classCode && (q.premium == null || q.premium === ("" as any)) && !q.keywords) {
+      return res.status(400).json({ error: "Provide at least one of: lob, state, classCode, premium, keywords" });
+    }
+    const { data, error } = await db
+      .from("carrier_appetite")
+      .select("*, carriers(id,name,is_active,general_agent)")
+      .eq("active", true);
+    if (error) {
+      console.error("POST /api/appetite-match:", error.message);
+      return res.status(500).json({ error: error.message });
+    }
+    const limit = Math.min(Number(q.limit) || 10, 50);
+    const normState = toStateAbbr(q.state);
+    if (normState) q.state = normState; // accept "Georgia" or "GA"
+    const matches = matchAppetite(data ?? [], q).slice(0, limit);
+    res.json({
+      query: {
+        lob: q.lob ?? null, state: q.state ?? null, classCode: q.classCode ?? null,
+        premium: q.premium ?? null, keywords: q.keywords ?? null,
+      },
+      count: matches.length,
+      matches,
+    });
+  });
+
+  // API Route - Appetite match FOR a CRM opportunity. Reads the opportunity + its
+  // canonical_client (all in this same Supabase DB — the CRM is Supabase-native),
+  // builds the risk (lob/state/sic/premium), ranks markets, and — only when
+  // `commit: true` and the top match is a positive fit — writes the chosen
+  // carrier back to opportunities.carrier. Read-only by default.
+  app.post("/api/appetite-match/opportunity", async (req, res) => {
+    if (!db) return res.status(503).json({ error: "Carrier store not configured on the server" });
+    const opportunityId = (req.body?.opportunityId ?? "").toString().trim();
+    const commit = req.body?.commit === true;
+    const limit = Math.min(Number(req.body?.limit) || 10, 50);
+    if (!opportunityId) return res.status(400).json({ error: "opportunityId is required" });
+
+    // 1) Load the opportunity
+    const { data: opp, error: oppErr } = await db
+      .from("opportunities")
+      .select("id, insured_id, insured_name, line_of_business, premium_estimate, carrier, stage, status")
+      .eq("id", opportunityId)
+      .maybeSingle();
+    if (oppErr) { console.error("appetite-match/opportunity opp:", oppErr.message); return res.status(500).json({ error: oppErr.message }); }
+    if (!opp) return res.status(404).json({ error: "opportunity not found" });
+
+    // 2) Enrich risk from canonical_clients (state, SIC) via the nowcerts insured guid
+    let client: any = null;
+    if (opp.insured_id) {
+      const { data: c } = await db
+        .from("canonical_clients")
+        .select("state, zip, sic, sic_description")
+        .eq("nowcerts_insured_guid", opp.insured_id)
+        .maybeSingle();
+      client = c ?? null;
+    }
+
+    const sic = (client?.sic ?? "").toString().trim();
+    const risk: MatchQuery = {
+      lob: opp.line_of_business ?? "",
+      state: toStateAbbr(client?.state),
+      classCode: sic,
+      premium: opp.premium_estimate != null ? Number(opp.premium_estimate) : null,
+      keywords: [opp.line_of_business, client?.sic_description].filter(Boolean).join(" "),
+    };
+
+    // 3) Rank markets
+    const { data: rows, error } = await db
+      .from("carrier_appetite")
+      .select("*, carriers(id,name,is_active,general_agent)")
+      .eq("active", true);
+    if (error) { console.error("appetite-match/opportunity rows:", error.message); return res.status(500).json({ error: error.message }); }
+    const matches = matchAppetite(rows ?? [], risk).slice(0, limit);
+
+    // 4) Optional write-back — only a positive top fit, never a weak guess
+    let committed: { carrier: string } | null = null;
+    if (commit && matches.length && matches[0].score > 0) {
+      const top = matches[0];
+      const label = top.program ? `${top.carrier} — ${top.program}` : top.carrier;
+      const { error: upErr } = await db.from("opportunities").update({ carrier: label }).eq("id", opportunityId);
+      if (upErr) { console.error("appetite-match/opportunity write:", upErr.message); return res.status(500).json({ error: upErr.message }); }
+      committed = { carrier: label };
+    }
+
+    res.json({
+      opportunity: {
+        id: opp.id, insuredName: opp.insured_name, lob: opp.line_of_business,
+        premiumEstimate: opp.premium_estimate, currentCarrier: opp.carrier,
+        stage: opp.stage, status: opp.status,
+      },
+      resolvedRisk: risk,
+      clientResolved: !!client,
+      committed,
+      count: matches.length,
+      matches,
+    });
   });
 
   // API Route - Carrier Appetite Assistant
@@ -369,6 +547,19 @@ function formatDirectory(carriers: any[]): string {
       if (aw.length) lines.push(`  Will write: ${aw.join(" | ")}`);
       if (an.length) lines.push(`  Won't write: ${an.join(" | ")}`);
       if (c.appetite_notes) lines.push(`  Notes: ${c.appetite_notes}`);
+      // Structured appetite spine — the machine-queryable facts per LOB.
+      for (const a of c.carrier_appetite || []) {
+        const bits: string[] = [];
+        if (a.appetite_level) bits.push(a.appetite_level);
+        if (a.min_premium != null || a.max_premium != null)
+          bits.push(`premium ${a.min_premium ?? "?"}–${a.max_premium ?? "?"}`);
+        if (a.states_approved?.length) bits.push(`states: ${a.states_approved.join(",")}`);
+        if (a.class_codes?.length) bits.push(`class codes: ${a.class_codes.join(",")}`);
+        if (a.key_requirements?.length) bits.push(`requires: ${a.key_requirements.join("; ")}`);
+        if (a.exclusions?.length) bits.push(`excludes: ${a.exclusions.join("; ")}`);
+        if (a.notes) bits.push(a.notes);
+        lines.push(`  Appetite [${a.lob}]: ${bits.join(" | ") || "listed"}`);
+      }
       if (c.underwriting_hotline) lines.push(`  Hotline: ${c.underwriting_hotline}`);
       if (c.website) lines.push(`  Website: ${c.website}`);
       if (c.agent_login) lines.push(`  Agent login: ${c.agent_login}`);
@@ -387,6 +578,112 @@ function formatClassRows(rows: any[]): string {
         `${r.carrierName} | SIC ${r.sic} | class ${r.cna_connect_class_code} | ${r.industry_group} | ${r.class_description}\n   appetite: ${r.small_business_appetite}\n   products: ${r.products_available}\n   territory: ${r.territorial_restrictions}`,
     )
     .join("\n");
+}
+
+// Deterministic appetite matcher — the connection point a CRM Opportunity hits.
+// Given a risk (lob / state / class code / premium / keywords) it scores every
+// carrier_appetite row and returns ranked carrier+program fits with the reasons
+// it fit and cautions to verify (state gaps, premium band, exclusion hits). This
+// is the structured counterpart to the LLM advisors: same data, but repeatable.
+interface MatchQuery {
+  lob?: string; state?: string; classCode?: string;
+  premium?: number | null; keywords?: string;
+}
+
+function matchAppetite(rows: any[], q: MatchQuery) {
+  const terms = (q.keywords || "")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((t) => t.length > 2 && !STOP.has(t));
+  const state = (q.state || "").toUpperCase().trim();
+  const lob = (q.lob || "").toLowerCase().trim();
+  const cls = (q.classCode ?? "").toString().trim();
+  const premium = q.premium != null && q.premium !== ("" as any) ? Number(q.premium) : null;
+
+  const scored = rows.map((r) => {
+    let score = 0;
+    const reasons: string[] = [];
+    const cautions: string[] = [];
+    const detailsStr = JSON.stringify(r.details || {}).toLowerCase();
+    const family = (r.details?.lob_family || "").toString().toLowerCase();
+
+    if (lob) {
+      const rowLob = (r.lob || "").toLowerCase();
+      if (rowLob && (rowLob.includes(lob) || lob.includes(rowLob))) {
+        score += 4; reasons.push(`LOB match: ${r.lob}`);
+      } else if (family && (family.includes(lob) || lob.includes(family))) {
+        score += 2; reasons.push(`LOB family: ${r.details.lob_family}`);
+      }
+    }
+
+    if (state) {
+      const states = (r.states_approved || []).map((s: string) => String(s).toUpperCase());
+      const mono = (r.details?.monopolistic_states_excluded || []).map((s: any) => String(s).toUpperCase());
+      if (mono.includes(state)) { score -= 5; cautions.push(`${state} is excluded/monopolistic for this program`); }
+      else if (states.length === 0) { score += 1; reasons.push(`No state restriction listed (assume broad / US)`); }
+      else if (states.includes(state)) { score += 3; reasons.push(`Approved in ${state}`); }
+      else { score -= 2; cautions.push(`${state} not in approved states (${states.join(", ")})`); }
+    }
+
+    if (cls) {
+      const codes = (r.class_codes || []).map((c: any) => String(c));
+      if (codes.includes(cls)) { score += 4; reasons.push(`Class code ${cls} eligible`); }
+    }
+
+    if (premium != null && !Number.isNaN(premium) && (r.min_premium != null || r.max_premium != null)) {
+      const lo = r.min_premium != null ? Number(r.min_premium) : null;
+      const hi = r.max_premium != null ? Number(r.max_premium) : null;
+      if (lo != null && premium < lo) { score -= 2; cautions.push(`Premium $${premium} below program min $${lo}`); }
+      else if (hi != null && premium > hi) { score -= 2; cautions.push(`Premium $${premium} above program max $${hi}`); }
+      else { score += 2; reasons.push(`Premium $${premium} within band`); }
+    }
+
+    let kwHits = 0;
+    const exStr = JSON.stringify(r.exclusions || []).toLowerCase();
+    for (const t of terms) {
+      if ((r.lob || "").toLowerCase().includes(t) || (r.notes || "").toLowerCase().includes(t) || detailsStr.includes(t)) kwHits++;
+      if (exStr.includes(t)) { score -= 3; cautions.push(`"${t}" appears in this program's exclusions — verify`); }
+    }
+    if (kwHits) { score += kwHits; reasons.push(`Matched ${kwHits} keyword(s)`); }
+
+    return {
+      carrierId: r.carrier_id,
+      carrier: r.carriers?.name || r.carrier_name,
+      program: r.lob,
+      generalAgent: r.carriers?.general_agent ?? null,
+      appetiteLevel: r.appetite_level ?? null,
+      minPremium: r.min_premium ?? null,
+      maxPremium: r.max_premium ?? null,
+      score, reasons, cautions,
+    };
+  });
+
+  return scored
+    .filter((m) => m.score > 0 || m.reasons.length > 0)
+    .sort((a, b) => b.score - a.score);
+}
+
+// The custom CRM stores state as a full name ("Georgia"); appetite states_approved
+// are USPS codes ("GA"). Normalize so the matcher compares like for like.
+const US_STATE_ABBR: Record<string, string> = {
+  alabama: "AL", alaska: "AK", arizona: "AZ", arkansas: "AR", california: "CA",
+  colorado: "CO", connecticut: "CT", delaware: "DE", "district of columbia": "DC",
+  florida: "FL", georgia: "GA", hawaii: "HI", idaho: "ID", illinois: "IL",
+  indiana: "IN", iowa: "IA", kansas: "KS", kentucky: "KY", louisiana: "LA",
+  maine: "ME", maryland: "MD", massachusetts: "MA", michigan: "MI", minnesota: "MN",
+  mississippi: "MS", missouri: "MO", montana: "MT", nebraska: "NE", nevada: "NV",
+  "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM", "new york": "NY",
+  "north carolina": "NC", "north dakota": "ND", ohio: "OH", oklahoma: "OK",
+  oregon: "OR", pennsylvania: "PA", "rhode island": "RI", "south carolina": "SC",
+  "south dakota": "SD", tennessee: "TN", texas: "TX", utah: "UT", vermont: "VT",
+  virginia: "VA", washington: "WA", "west virginia": "WV", wisconsin: "WI", wyoming: "WY",
+};
+
+function toStateAbbr(s: any): string {
+  const t = (s ?? "").toString().trim();
+  if (!t) return "";
+  if (t.length === 2) return t.toUpperCase();
+  return US_STATE_ABBR[t.toLowerCase()] || "";
 }
 
   // API Route - Ask the Hub: grounded Q&A over the FULL live directory + class guides.

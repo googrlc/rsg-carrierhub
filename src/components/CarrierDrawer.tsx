@@ -5,7 +5,7 @@ import {
   Phone, Mail, MapPin, Copy, Send, HelpCircle, Loader2, Plus, Trash2, Edit2,
   Star, Award, Percent, DollarSign, FileText, Download, FileSpreadsheet, Link2
 } from 'lucide-react';
-import { Carrier, Contact, CarrierWorksheet } from '../types';
+import { Carrier, Contact, CarrierWorksheet, AppetiteRecord } from '../types';
 import CnaClassLookup from './CnaClassLookup';
 
 interface CarrierDrawerProps {
@@ -21,8 +21,70 @@ interface ChatMessage {
   content: string;
 }
 
+// Generic renderer for the open-ended `details` jsonb on an appetite row, so the
+// rich per-program detail (target classes, packages, submission requirements,
+// endorsements, URLs) shows in the UI without a bespoke field per key.
+function humanizeKey(k: string) {
+  return k.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+const DetailValue: React.FC<{ value: any }> = ({ value }) => {
+  if (value === null || value === undefined || value === '') return null;
+  if (Array.isArray(value)) {
+    if (value.length === 0) return null;
+    const allScalar = value.every((v) => v === null || typeof v !== 'object');
+    if (allScalar) {
+      return (
+        <div className="flex flex-wrap gap-1 mt-0.5">
+          {value.map((v, i) => (
+            <span key={i} className="text-[10px] px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded">{String(v)}</span>
+          ))}
+        </div>
+      );
+    }
+    return <div className="space-y-1 mt-0.5">{value.map((v, i) => <DetailValue key={i} value={v} />)}</div>;
+  }
+  if (typeof value === 'object') {
+    const entries = Object.entries(value).filter(([, v]) => v !== null && v !== undefined && v !== '');
+    if (entries.length === 0) return null;
+    return (
+      <div className="pl-2 border-l border-slate-150 space-y-1 mt-0.5">
+        {entries.map(([k, v]) => (
+          <div key={k} className="text-[11px]">
+            <span className="text-slate-400 font-mono">{humanizeKey(k)}</span>
+            <DetailValue value={v} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+  const s = String(value);
+  if (/^https?:\/\//.test(s)) {
+    return <a href={s} target="_blank" referrerPolicy="no-referrer" className="text-blue-600 hover:underline break-all"> {s}</a>;
+  }
+  return <span className="text-slate-600"> {s}</span>;
+};
+
+function AppetiteDetails({ details }: { details?: Record<string, unknown> }) {
+  if (!details) return null;
+  const entries = Object.entries(details).filter(
+    ([, v]) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && v.length === 0),
+  );
+  if (entries.length === 0) return null;
+  return (
+    <div className="mt-3 pt-3 border-t border-slate-100 space-y-2">
+      {entries.map(([k, v]) => (
+        <div key={k} className="text-[11px]">
+          <span className="text-slate-500 font-semibold font-mono uppercase tracking-wide">{humanizeKey(k)}</span>
+          <DetailValue value={v} />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFavorite, onToggleFavorite }: CarrierDrawerProps) {
-  const [activeTab, setActiveTab] = useState<'appetite' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives' | 'classes'>('appetite');
+  const [activeTab, setActiveTab] = useState<'appetite' | 'appetite-matrix' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives' | 'worksheets' | 'classes'>('appetite');
   const [copiedField, setCopiedField] = useState<string | null>(null);
   
   // AI Advisor Chat State
@@ -52,6 +114,18 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
   const [editIncentiveTier, setEditIncentiveTier] = useState('');
   const [editIncentiveNotes, setEditIncentiveNotes] = useState('');
   
+  // Structured Appetite (carrier_appetite spine) Editor State
+  const [editAppetiteRows, setEditAppetiteRows] = useState<AppetiteRecord[]>([]);
+  const [newAppLob, setNewAppLob] = useState('');
+  const [newAppLevel, setNewAppLevel] = useState('');
+  const [newAppMinPrem, setNewAppMinPrem] = useState('');
+  const [newAppMaxPrem, setNewAppMaxPrem] = useState('');
+  const [newAppStates, setNewAppStates] = useState('');
+  const [newAppClassCodes, setNewAppClassCodes] = useState('');
+  const [newAppRequirements, setNewAppRequirements] = useState('');
+  const [newAppExclusions, setNewAppExclusions] = useState('');
+  const [newAppNotes, setNewAppNotes] = useState('');
+
   // Contact Editor State
   const [editContacts, setEditContacts] = useState<Contact[]>([]);
   const [newContactName, setNewContactName] = useState('');
@@ -83,6 +157,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
       setEditNotes(carrier.appetite.notes || '');
       setEditHotline(carrier.appetite.underwritingHotline || '');
       setEditContacts([...carrier.contacts]);
+      setEditAppetiteRows((carrier.appetiteRows || []).map(r => ({ ...r })));
       setEditIncentiveCommission(carrier.incentives?.commissionRate || '');
       setEditIncentiveBonus(carrier.incentives?.levelBonus || '');
       setEditIncentiveTier(carrier.incentives?.preferredTier || '');
@@ -174,6 +249,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
         underwritingHotline: editHotline
       },
       contacts: editContacts,
+      appetiteRows: editAppetiteRows,
       worksheets: editWorksheets,
       incentives: {
         commissionRate: editIncentiveCommission || undefined,
@@ -229,6 +305,39 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
 
   const handleRemoveContact = (id: string) => {
     setEditContacts(editContacts.filter(c => c.id !== id));
+  };
+
+  // Structured appetite row helpers. Array fields are entered comma-separated.
+  const splitList = (s: string) => s.split(',').map(x => x.trim()).filter(Boolean);
+
+  const handleAddAppetiteRow = () => {
+    if (!newAppLob.trim()) {
+      alert('A Line of Business is required to add an appetite row.');
+      return;
+    }
+    const row: AppetiteRecord = {
+      lob: newAppLob.trim(),
+      appetiteLevel: newAppLevel || undefined,
+      minPremium: newAppMinPrem.trim() ? Number(newAppMinPrem) : null,
+      maxPremium: newAppMaxPrem.trim() ? Number(newAppMaxPrem) : null,
+      statesApproved: splitList(newAppStates.toUpperCase()),
+      classCodes: splitList(newAppClassCodes),
+      keyRequirements: splitList(newAppRequirements),
+      exclusions: splitList(newAppExclusions),
+      notes: newAppNotes.trim() || undefined,
+      details: {},
+      active: true,
+      source: 'carrier-hub-ui',
+      confidence: 'unverified',
+    };
+    setEditAppetiteRows(prev => [...prev, row]);
+    setNewAppLob(''); setNewAppLevel(''); setNewAppMinPrem(''); setNewAppMaxPrem('');
+    setNewAppStates(''); setNewAppClassCodes(''); setNewAppRequirements('');
+    setNewAppExclusions(''); setNewAppNotes('');
+  };
+
+  const handleRemoveAppetiteRow = (idx: number) => {
+    setEditAppetiteRows(prev => prev.filter((_, i) => i !== idx));
   };
 
   // Generate Monogram color based on name
@@ -380,6 +489,18 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
             }`}
           >
             Risk Appetite
+          </button>
+          <button
+            onClick={() => setActiveTab('appetite-matrix')}
+            className={`px-4 py-3 text-sm font-medium border-b-2 transition-all flex items-center gap-1.5 ${
+              activeTab === 'appetite-matrix'
+                ? 'border-blue-600 text-blue-600 font-bold bg-emerald-50/25'
+                : 'border-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-50/40'
+            }`}
+            title="Structured, queryable appetite by line of business"
+          >
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+            Appetite Matrix ({isEditing ? editAppetiteRows.length : (carrier.appetiteRows?.length || 0)})
           </button>
           <button
             onClick={() => setActiveTab('credentials')}
@@ -593,6 +714,178 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                   <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100 font-serif">
                     {carrier.appetite.notes || "No special underwriting guidelines noted. Click Edit to fill this section."}
                   </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* STRUCTURED APPETITE MATRIX VIEW */}
+          {activeTab === 'appetite-matrix' && (
+            <div className="space-y-6">
+              <div className="bg-gradient-to-br from-emerald-500/10 to-blue-600/5 p-5 rounded-2xl border border-emerald-200/50 space-y-3.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-emerald-600 rounded-lg text-white">
+                    <FileSpreadsheet className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-sans font-bold text-slate-900 text-sm">Structured Appetite Matrix</h4>
+                    <p className="text-[11px] text-slate-500">
+                      Queryable appetite by line of business — feeds the AI advisor and agency analytics. One row per LOB.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Existing rows */}
+                <div className="space-y-2.5 pt-1">
+                  {editAppetiteRows.map((row, idx) => {
+                    const levelColor =
+                      row.appetiteLevel === 'preferred' ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      : row.appetiteLevel === 'standard' ? 'bg-blue-50 text-blue-700 border-blue-200'
+                      : row.appetiteLevel === 'non-standard' ? 'bg-amber-50 text-amber-700 border-amber-200'
+                      : 'bg-slate-100 text-slate-500 border-slate-200';
+                    return (
+                      <div key={row.id || `new-${idx}`} className="bg-white p-4 rounded-xl border border-slate-150 shadow-xs group">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-sans font-bold text-slate-800 text-sm">{row.lob}</span>
+                            {row.appetiteLevel && (
+                              <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold uppercase tracking-wide ${levelColor}`}>
+                                {row.appetiteLevel}
+                              </span>
+                            )}
+                            {row.confidence && row.confidence !== 'verified' && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono">{row.confidence}</span>
+                            )}
+                          </div>
+                          {isEditing && (
+                            <button
+                              onClick={() => handleRemoveAppetiteRow(idx)}
+                              className="p-1 text-red-400 hover:text-red-600 transition shrink-0"
+                              title="Remove appetite row"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 mt-2.5 text-[11px] text-slate-600">
+                          {(row.minPremium != null || row.maxPremium != null) && (
+                            <div><span className="text-slate-400 font-mono">PREMIUM </span>${row.minPremium ?? '?'} – ${row.maxPremium ?? '?'}</div>
+                          )}
+                          {row.statesApproved && row.statesApproved.length > 0 && (
+                            <div><span className="text-slate-400 font-mono">STATES </span>{row.statesApproved.join(', ')}</div>
+                          )}
+                          {row.classCodes && row.classCodes.length > 0 && (
+                            <div className="sm:col-span-2"><span className="text-slate-400 font-mono">CLASS CODES </span>{row.classCodes.join(', ')}</div>
+                          )}
+                          {row.keyRequirements && row.keyRequirements.length > 0 && (
+                            <div className="sm:col-span-2"><span className="text-emerald-600 font-mono">REQUIRES </span>{row.keyRequirements.join('; ')}</div>
+                          )}
+                          {row.exclusions && row.exclusions.length > 0 && (
+                            <div className="sm:col-span-2"><span className="text-red-500 font-mono">EXCLUDES </span>{row.exclusions.join('; ')}</div>
+                          )}
+                          {row.notes && (
+                            <div className="sm:col-span-2 text-slate-500 font-serif pt-0.5">{row.notes}</div>
+                          )}
+                        </div>
+
+                        {/* Full open-ended detail (target classes, packages, submission reqs, endorsements, URLs) */}
+                        <AppetiteDetails details={row.details as Record<string, unknown> | undefined} />
+                      </div>
+                    );
+                  })}
+
+                  {editAppetiteRows.length === 0 && (
+                    <div className="bg-white/50 p-6 rounded-xl border border-dashed border-slate-200 text-center text-slate-400 italic text-xs">
+                      No structured appetite rows yet. {isEditing ? 'Add one below.' : 'Click Edit above to add queryable appetite by line of business.'}
+                    </div>
+                  )}
+                </div>
+
+                {/* Add row form */}
+                {isEditing && (
+                  <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-3 text-xs">
+                    <span className="block font-bold text-slate-800 border-b pb-1">Add Appetite Row</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Line of Business *</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Workers Comp"
+                          value={newAppLob}
+                          onChange={(e) => setNewAppLob(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Appetite Level</label>
+                        <select
+                          value={newAppLevel}
+                          onChange={(e) => setNewAppLevel(e.target.value)}
+                          className="w-full p-2 border border-slate-250 rounded bg-white text-slate-700"
+                        >
+                          <option value="">— unset —</option>
+                          <option value="preferred">Preferred</option>
+                          <option value="standard">Standard</option>
+                          <option value="non-standard">Non-standard</option>
+                        </select>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Min $</label>
+                          <input type="number" placeholder="500" value={newAppMinPrem}
+                            onChange={(e) => setNewAppMinPrem(e.target.value)}
+                            className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Max $</label>
+                          <input type="number" placeholder="50000" value={newAppMaxPrem}
+                            onChange={(e) => setNewAppMaxPrem(e.target.value)}
+                            className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Approved States (comma-sep)</label>
+                        <input type="text" placeholder="GA, FL, TX" value={newAppStates}
+                          onChange={(e) => setNewAppStates(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Class Codes (comma-sep)</label>
+                        <input type="text" placeholder="87210, 51992" value={newAppClassCodes}
+                          onChange={(e) => setNewAppClassCodes(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Key Requirements (comma-sep)</label>
+                        <input type="text" placeholder="Valid CDL, No violations 3yrs" value={newAppRequirements}
+                          onChange={(e) => setNewAppRequirements(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Exclusions (comma-sep)</label>
+                        <input type="text" placeholder="Livery/TNC, Salvage title" value={newAppExclusions}
+                          onChange={(e) => setNewAppExclusions(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Notes</label>
+                      <textarea rows={2} placeholder="Any nuance — carrier program, sub-market steer, etc."
+                        value={newAppNotes} onChange={(e) => setNewAppNotes(e.target.value)}
+                        className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleAddAppetiteRow}
+                      className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      Add Appetite Row
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

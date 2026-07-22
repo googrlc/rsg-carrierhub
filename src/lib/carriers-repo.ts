@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import type { Carrier, Contact } from '../types';
+import type { Carrier, Contact, AppetiteRecord } from '../types';
 
 /**
  * Loads the full carrier directory (carriers + their contacts) from the app's
@@ -54,6 +54,27 @@ function mapCarrier(row: any): Carrier {
         }),
       )
       .sort((a: Contact, b: Contact) => a.name.localeCompare(b.name)),
+    appetiteRows: (row.carrier_appetite ?? [])
+      .map(
+        (a: any): AppetiteRecord => ({
+          id: a.id,
+          lob: a.lob,
+          appetiteLevel: a.appetite_level ?? undefined,
+          minPremium: a.min_premium ?? null,
+          maxPremium: a.max_premium ?? null,
+          statesApproved: a.states_approved ?? [],
+          keyRequirements: a.key_requirements ?? [],
+          exclusions: a.exclusions ?? [],
+          classCodes: a.class_codes ?? [],
+          notes: a.notes ?? undefined,
+          details: a.details ?? {},
+          effectiveDate: a.effective_date ?? null,
+          active: a.active ?? true,
+          source: a.source ?? undefined,
+          confidence: a.confidence ?? undefined,
+        }),
+      )
+      .sort((a: AppetiteRecord, b: AppetiteRecord) => a.lob.localeCompare(b.lob)),
     worksheets: row.worksheets ?? undefined,
     incentives: row.incentives ?? undefined,
   };
@@ -91,6 +112,25 @@ export async function saveCarrier(c: Carrier): Promise<void> {
       email: ct.email ?? null,
       phone: ct.phone ?? null,
       region: ct.region ?? null,
+    })),
+    // Structured appetite spine rows ride along the same way contacts do; the
+    // server upserts the sent list into carrier_appetite and deletes the rest.
+    appetite_rows: (c.appetiteRows ?? []).map((a) => ({
+      id: a.id ?? null,
+      lob: a.lob,
+      appetite_level: a.appetiteLevel ?? null,
+      min_premium: a.minPremium ?? null,
+      max_premium: a.maxPremium ?? null,
+      states_approved: a.statesApproved ?? [],
+      key_requirements: a.keyRequirements ?? [],
+      exclusions: a.exclusions ?? [],
+      class_codes: a.classCodes ?? [],
+      notes: a.notes ?? null,
+      details: a.details ?? {},
+      effective_date: a.effectiveDate ?? null,
+      active: a.active ?? true,
+      source: a.source ?? 'carrier-hub-ui',
+      confidence: a.confidence ?? 'unverified',
     })),
   };
   const res = await fetch('/api/carriers', {

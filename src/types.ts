@@ -14,6 +14,29 @@ export interface Contact {
   region?: string;
 }
 
+// A single structured, queryable appetite fact for a carrier x line-of-business.
+// This is the row shape of the `carrier_appetite` spine table. The prose fields
+// on `Appetite` (canWrite/cannotWrite/notes) stay for the human-readable card;
+// these rows are what the AI and any SQL/analytics query against.
+export interface AppetiteRecord {
+  id?: string; // uuid; absent for a brand-new row (server mints one)
+  lob: string; // required — e.g. "Workers Comp", "BOP"
+  appetiteLevel?: string; // "preferred" | "standard" | "non-standard" | ""
+  minPremium?: number | null;
+  maxPremium?: number | null;
+  statesApproved?: string[];
+  keyRequirements?: string[];
+  exclusions?: string[];
+  classCodes?: string[];
+  notes?: string;
+  // Open-ended, still-queryable bag for any detail without a typed column.
+  details?: Record<string, unknown>;
+  effectiveDate?: string | null; // ISO date
+  active?: boolean;
+  source?: string;
+  confidence?: string; // "verified" | "unverified" | "inferred"
+}
+
 export interface CarrierWorksheet {
   id: string;
   name: string;
@@ -38,6 +61,7 @@ export interface Carrier {
   website?: string;
   agentLogin?: string;
   appetite: Appetite;
+  appetiteRows?: AppetiteRecord[]; // structured carrier_appetite spine rows
   contacts: Contact[];
   worksheets?: CarrierWorksheet[];
   incentives?: {
