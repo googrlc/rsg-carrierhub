@@ -3,15 +3,18 @@
 The Carrier Hub is Risk Solutions Group's portal and single source of truth for
 carrier knowledge — directory, contacts, appetite/guidelines, bulletins,
 worksheets, commission, and submissions. It is a **Supabase-backed** React +
-Express app, deployed via Docker on Elestio. It replaces the retired Google AI
-Studio / Cloud Run static app.
+Express app, deployed via Docker on the **hermes-gretch box** and reachable over
+the RSG tailnet at **`:3200`**. It replaces the retired Google AI Studio / Cloud
+Run static app.
 
 - **Stack:** React 19 + Vite + Tailwind v4 + Express (`server.ts`), TypeScript.
-- **Data:** Supabase (`rsg-infrastructure`, ref `wibscqhkvpijzqbhjphg`) via the
-  browser JS client, RLS-gated by the publishable key.
-- **Auth:** Supabase Auth, access gated by the shared `app_allowlist`
-  (`is_commission_user` / `is_commission_admin` helpers — same allowlist as the
-  Commission Tracker).
+- **Data:** Supabase (`rsg-infrastructure`, ref `wibscqhkvpijzqbhjphg`). In the
+  deployed build the browser never talks to Supabase directly — it calls the
+  box's server-side `/api/carriers` (service-role key); the public Supabase
+  endpoint stays fully RLS-locked.
+- **Access:** **no sign-in screen** — the app is gated by **Tailscale membership**
+  (the host firewall accepts `:3200` on `tailscale0` only). Grant/revoke by
+  adding or removing a device from the tailnet; no allowlist, no password.
 - **AI advisor:** `/api/advisor` + `/api/global-advisor` call an
   OpenAI-compatible endpoint (Hermes LiteLLM proxy), replacing the old Gemini call.
 
@@ -36,9 +39,10 @@ npm install
 npm run dev                    # Express + Vite dev middleware on http://localhost:3000
 ```
 
-Sign in with a magic link / OTP using an email that is in `app_allowlist`
-(Lamar = admin, Gretchen = user). Non-allowlisted emails authenticate but see no
-carriers (RLS returns zero rows).
+`npm run dev` runs with the local Supabase publishable key. Note the **deployed**
+portal has **no login** — access is gated by the tailnet and carrier data is
+served by the box's `/api/carriers` (service-role, server-side). See
+[RUNBOOK.md](RUNBOOK.md) → *Access model*.
 
 ### Environment variables
 
@@ -73,12 +77,13 @@ npm run lint       # tsc --noEmit
 `NODE_ENV=production` makes Express serve the built bundle from `./dist`; any
 other value runs the Vite dev middleware.
 
-## Docker / Elestio
+## Docker / deployment
 
 The image bakes the browser-safe Supabase URL + publishable key at build time via
-build args; runtime secrets (the LLM key) are passed as env at `docker run`.
+build args; runtime secrets (the LLM key, service-role key) are passed as env at
+`docker run`.
 
-### Live deployment (Elestio / hermes-gretch box)
+### Live deployment (hermes-gretch box)
 
 The app is deployed on the **hermes-gretch box** (`hermes` in `~/.ssh/config`) at
 `/opt/rsg-carrierhub`, which is a **git checkout of `main`** (pulls via a
@@ -105,10 +110,11 @@ HERMES_OPENAI_MODEL=gpt-4.1-mini
 then run `./deploy.sh`. (Supabase build args default inside `deploy.sh`; override
 in `.env.deploy` if they ever rotate.)
 
-**Access:** reachable over Tailscale at `http://100.75.67.72:3200` or
-`http://hermes-gretch:3200`. There is **no public HTTPS URL yet** — unlike the
-Commission Tracker (`https://hermes-gretch-u69864.vm.elestio.app:18445`), no
-`elestio-nginx` server block fronts `:3200`. Add one to expose it publicly.
+**Access:** reachable **only** over Tailscale at `http://100.75.67.72:3200` or
+`http://hermes-gretch:3200`. This is the intended access gate — the host firewall
+accepts `:3200` on `tailscale0` only, and no `elestio-nginx` server block fronts
+it (unlike the Commission Tracker at
+`https://hermes-gretch-u69864.vm.elestio.app:18445`). See [RUNBOOK.md](RUNBOOK.md).
 
 ## Troubleshooting
 
@@ -116,14 +122,15 @@ Commission Tracker (`https://hermes-gretch-u69864.vm.elestio.app:18445`), no
   or `VITE_SUPABASE_PUBLISHABLE_KEY` was empty *at build time*. These are baked in
   by Vite, so rebuild (`npm run dev` / `npm run build`) after setting them; setting
   them only at runtime has no effect on the client bundle.
-- **Logged in but zero carriers** — the signed-in email isn't in `app_allowlist`,
-  or RLS is blocking. Reads are gated on `is_commission_user()`. Add the email to
-  `app_allowlist` in Supabase.
+- **Blank grid / zero carriers (deployed)** — `/api/carriers` is returning 503
+  because `SUPABASE_SERVICE_ROLE_KEY` is missing in `.env.deploy`. Set it and
+  `./deploy.sh`. Check: `curl -s localhost:3200/api/carriers | head -c 200`.
 - **"AI Advisor Unavailable"** — no LLM key resolved. Set `HERMES_OPENAI_API_KEY`
   (or `LITELLM_API_KEY` / `OPENAI_API_KEY`) as a **runtime** env, not a build arg.
-- **Edits don't persist** — `saveCarrier` write-through needs an **admin**
-  (`is_commission_admin`) email; non-admins can edit in-session but the write is
-  swallowed. Check the allowlist `is_admin` flag.
+- **Edits don't persist (deployed)** — `POST /api/carriers` failing; check
+  `docker logs rsg-carrierhub` for the Supabase error (service-role key valid?).
+- **Can't reach it from your Mac** — expected; it's tailnet-only. Use Tailscale,
+  or `ssh hermes` and hit `localhost:3200`.
 - **Port** — the server listens on `3000` (hardcoded in `server.ts`); map/proxy
   accordingly.
 - **Health check** — `GET /api/health` returns `{ "status": "ok", ... }`.
@@ -132,9 +139,10 @@ Commission Tracker (`https://hermes-gretch-u69864.vm.elestio.app:18445`), no
 
 ## RSG Ops Notes (July 2026)
 
-- **Status:** Migrating off the retired Cloud Run static app
+- **Status:** Migrated off the retired Cloud Run static app
   (`carrier-appetite-submission-portal-339396843209`) to this Supabase-backed
-  Elestio portal. This repo — not AI Studio — is now the source of truth.
+  portal, deployed on the hermes-gretch box (tailnet `:3200`). This repo — not
+  AI Studio — is the source of truth.
 - **Data spine:** Supabase `rsg-infrastructure` (`wibscqhkvpijzqbhjphg`).
   `carriers` + `carrier_contacts` are live; the appetite/guidelines/bulletins/
   worksheets/submissions tables and search RPCs are per the build spec (in
