@@ -125,6 +125,20 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
   const [newAppRequirements, setNewAppRequirements] = useState('');
   const [newAppExclusions, setNewAppExclusions] = useState('');
   const [newAppNotes, setNewAppNotes] = useState('');
+  const [newAppConfidence, setNewAppConfidence] = useState('unverified');
+
+  // Flip an existing appetite row between verified / unverified in place.
+  // Without this, confidence was write-once-as-'unverified' and no row
+  // could ever be promoted to verified through the UI.
+  const handleToggleAppetiteConfidence = (idx: number) => {
+    setEditAppetiteRows(prev =>
+      prev.map((r, i) =>
+        i === idx
+          ? { ...r, confidence: r.confidence === 'verified' ? 'unverified' : 'verified' }
+          : r,
+      ),
+    );
+  };
 
   // Contact Editor State
   const [editContacts, setEditContacts] = useState<Contact[]>([]);
@@ -328,12 +342,12 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
       details: {},
       active: true,
       source: 'carrier-hub-ui',
-      confidence: 'unverified',
+      confidence: newAppConfidence,
     };
     setEditAppetiteRows(prev => [...prev, row]);
     setNewAppLob(''); setNewAppLevel(''); setNewAppMinPrem(''); setNewAppMaxPrem('');
     setNewAppStates(''); setNewAppClassCodes(''); setNewAppRequirements('');
-    setNewAppExclusions(''); setNewAppNotes('');
+    setNewAppExclusions(''); setNewAppNotes(''); setNewAppConfidence('unverified');
   };
 
   const handleRemoveAppetiteRow = (idx: number) => {
@@ -756,15 +770,35 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                             {row.confidence && row.confidence !== 'verified' && (
                               <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono">{row.confidence}</span>
                             )}
+                            {row.confidence === 'verified' && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200 font-mono">verified</span>
+                            )}
                           </div>
                           {isEditing && (
-                            <button
-                              onClick={() => handleRemoveAppetiteRow(idx)}
-                              className="p-1 text-red-400 hover:text-red-600 transition shrink-0"
-                              title="Remove appetite row"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                onClick={() => handleToggleAppetiteConfidence(idx)}
+                                className={`text-[9px] px-2 py-1 rounded border font-mono font-bold transition cursor-pointer ${
+                                  row.confidence === 'verified'
+                                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
+                                    : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
+                                }`}
+                                title={
+                                  row.confidence === 'verified'
+                                    ? 'Confirmed with the carrier. Click to mark unverified.'
+                                    : 'Not confirmed with the carrier. Click to mark verified.'
+                                }
+                              >
+                                {row.confidence === 'verified' ? '✓ VERIFIED' : 'MARK VERIFIED'}
+                              </button>
+                              <button
+                                onClick={() => handleRemoveAppetiteRow(idx)}
+                                className="p-1 text-red-400 hover:text-red-600 transition"
+                                title="Remove appetite row"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           )}
                         </div>
 
@@ -869,6 +903,15 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                         <input type="text" placeholder="Livery/TNC, Salvage title" value={newAppExclusions}
                           onChange={(e) => setNewAppExclusions(e.target.value)}
                           className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-mono text-slate-500 mb-1 uppercase font-bold">Confidence</label>
+                        <select value={newAppConfidence}
+                          onChange={(e) => setNewAppConfidence(e.target.value)}
+                          className="w-full p-2 border border-slate-200 rounded text-slate-800 bg-white">
+                          <option value="unverified">Unverified — not confirmed with carrier</option>
+                          <option value="verified">Verified — confirmed with underwriter</option>
+                        </select>
                       </div>
                     </div>
                     <div>
