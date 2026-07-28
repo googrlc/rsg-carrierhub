@@ -143,3 +143,16 @@ export async function saveCarrier(c: Carrier): Promise<void> {
     throw new Error(msg.error || `Failed to save carrier (${res.status})`);
   }
 }
+
+/**
+ * Delete a carrier and its dependent rows (contacts + appetite) via the box's
+ * `/api/carriers/:id` (service role). Used by the drawer's Delete control to
+ * remove duplicates/stale carriers — there was previously no delete path.
+ */
+export async function deleteCarrier(id: string): Promise<void> {
+  const res = await fetch(`/api/carriers/${encodeURIComponent(id)}`, { method: 'DELETE' });
+  if (!res.ok) {
+    const msg = await res.json().catch(() => ({} as { error?: string }));
+    throw new Error(msg.error || `Failed to delete carrier (${res.status})`);
+  }
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { 
   Building2, Globe, Shield, RefreshCw, Layers, Bell, CheckSquare, 
-  Search, HelpCircle, Compass, Database, UserCheck, Star, AlertCircle, Key, Target
+  Search, HelpCircle, Compass, Database, UserCheck, Star, AlertCircle, Key, Target, BookOpen
 } from 'lucide-react';
 
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from './types';
@@ -16,6 +16,7 @@ import CarrierDrawer from './components/CarrierDrawer';
 import DashboardStats from './components/DashboardStats';
 import GlobalFinder from './components/GlobalFinder';
 import FindMarkets from './components/FindMarkets';
+import ClassCodes from './components/ClassCodes';
 import Launchpad from './components/Launchpad';
 
 export default function App() {
@@ -27,7 +28,7 @@ export default function App() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   
   const [selectedCarrier, setSelectedCarrier] = useState<Carrier | null>(null);
-  const [activeTab, setActiveTab] = useState<'launchpad' | 'panel' | 'find-markets' | 'global-ai' | 'submissions' | 'profile'>('launchpad');
+  const [activeTab, setActiveTab] = useState<'launchpad' | 'panel' | 'find-markets' | 'class-codes' | 'global-ai' | 'submissions' | 'profile'>('launchpad');
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [userProfile, setUserProfile] = useState<any>({
@@ -323,6 +324,17 @@ export default function App() {
               Find Markets
             </button>
             <button
+              onClick={() => setActiveTab('class-codes')}
+              className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all flex items-center gap-1.5 ${
+                activeTab === 'class-codes'
+                  ? 'border-blue-600 text-blue-600 font-bold'
+                  : 'border-transparent text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
+              Class Codes
+            </button>
+            <button
               onClick={() => setActiveTab('global-ai')}
               className={`pb-3 px-1 text-xs uppercase font-bold tracking-wider border-b-2 transition-all ${
                 activeTab === 'global-ai'
@@ -330,7 +342,7 @@ export default function App() {
                   : 'border-transparent text-slate-500 hover:text-slate-700'
               }`}
             >
-              Universal AI Appetite Index
+              Ask Carrier Desk
             </button>
             <button
               onClick={() => setActiveTab('submissions')}
@@ -393,6 +405,11 @@ export default function App() {
         {/* VIEW 1.5: STRUCTURED MARKET FINDER (deterministic appetite match) */}
         {activeTab === 'find-markets' && (
           <FindMarkets />
+        )}
+
+        {/* VIEW 1.6: CLASS-CODE REFERENCE (what a code is + who writes it) */}
+        {activeTab === 'class-codes' && (
+          <ClassCodes />
         )}
 
         {/* VIEW 2: UNIVERSAL AI appetite SEARCH */}

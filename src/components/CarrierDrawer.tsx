@@ -12,9 +12,13 @@ interface CarrierDrawerProps {
   carrier: Carrier | null;
   onClose: () => void;
   onUpdateCarrier: (updated: Carrier) => void;
+  onDeleteCarrier?: (id: string) => void;
   isFavorite: boolean;
   onToggleFavorite: () => void;
 }
+
+// Carrier "type" is stored as the segment array; the card/tag shows segment[0].
+const SEGMENT_OPTIONS = ['Commercial Lines', 'Personal Lines', 'MGA', 'General Agent', 'Workers Comp Only', 'Life Insurance', 'Vendor'];
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -83,7 +87,7 @@ function AppetiteDetails({ details }: { details?: Record<string, unknown> }) {
   );
 }
 
-export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFavorite, onToggleFavorite }: CarrierDrawerProps) {
+export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDeleteCarrier, isFavorite, onToggleFavorite }: CarrierDrawerProps) {
   const [activeTab, setActiveTab] = useState<'appetite' | 'appetite-matrix' | 'contacts' | 'ai-advisor' | 'credentials' | 'incentives' | 'worksheets' | 'classes'>('appetite');
   const [copiedField, setCopiedField] = useState<string | null>(null);
   
@@ -95,7 +99,9 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
 
   // Editing Carrier fields
   const [isEditing, setIsEditing] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [editName, setEditName] = useState('');
+  const [editSegment, setEditSegment] = useState('Commercial Lines');
   const [editCode, setEditCode] = useState('');
   const [editGA, setEditGA] = useState('');
   const [editWebsite, setEditWebsite] = useState('');
@@ -161,6 +167,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
   useEffect(() => {
     if (carrier) {
       setEditName(carrier.name);
+      setEditSegment(carrier.segment?.[0] || 'Commercial Lines');
       setEditCode(carrier.agencyCode || '');
       setEditGA(carrier.generalAgent || '');
       setEditWebsite(carrier.website || '');
@@ -218,6 +225,10 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          // The id lets the server re-read this carrier's live appetite spine
+          // (class codes, states, premium bands, contacts) instead of relying on
+          // the prose summary below, which carries none of it.
+          carrierId: carrier.id,
           carrierName: carrier.name,
           appetiteInfo: {
             segment: carrier.segment,
@@ -251,6 +262,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
     const updatedCarrier: Carrier = {
       ...carrier,
       name: editName,
+      segment: editSegment ? [editSegment] : carrier.segment,
       agencyCode: editCode,
       generalAgent: editGA.trim() || undefined,
       website: editWebsite,
@@ -428,12 +440,27 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                   <span className="text-xs px-2 py-0.5 rounded bg-red-50 text-red-600 border border-red-100 font-normal">Inactive</span>
                 )}
               </h2>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {carrier.segment.map((seg, idx) => (
-                  <span key={idx} className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
-                    {seg}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-1 mt-1 items-center">
+                {isEditing ? (
+                  <>
+                    <span className="text-[10px] font-mono uppercase text-slate-400">Type</span>
+                    <select
+                      value={editSegment}
+                      onChange={(e) => setEditSegment(e.target.value)}
+                      className="text-xs px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-700 font-mono focus:outline-none focus:ring-2 focus:ring-blue-600/25"
+                    >
+                      {SEGMENT_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </>
+                ) : (
+                  carrier.segment.map((seg, idx) => (
+                    <span key={idx} className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
+                      {seg}
+                    </span>
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -462,17 +489,19 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
               </button>
             ) : (
               <div className="flex items-center gap-1">
-                <button 
+                <button
                   onClick={handleSaveCarrierEdits}
                   className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition"
                 >
                   Save
                 </button>
-                <button 
+                <button
                   onClick={() => {
                     setIsEditing(false);
+                    setConfirmDelete(false);
                     // Reset fields
                     setEditName(carrier.name);
+                    setEditSegment(carrier.segment?.[0] || 'Commercial Lines');
                     setEditCanWrite([...carrier.appetite.canWrite]);
                     setEditCannotWrite([...carrier.appetite.cannotWrite]);
                     setEditContacts([...carrier.contacts]);
@@ -481,6 +510,25 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, isFav
                 >
                   Cancel
                 </button>
+                {onDeleteCarrier && (
+                  confirmDelete ? (
+                    <button
+                      onClick={() => { onDeleteCarrier(carrier.id); }}
+                      className="px-3 py-1.5 bg-red-600 text-white rounded-lg text-xs font-semibold hover:bg-red-700 transition flex items-center gap-1"
+                      title="Permanently delete this carrier (and its contacts + appetite rows)"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Confirm delete
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmDelete(true)}
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      title="Delete carrier"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )
+                )}
               </div>
             )}
             <button 

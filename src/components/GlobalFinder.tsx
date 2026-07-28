@@ -1,41 +1,68 @@
-import React, { useState } from 'react';
-import { Search, Loader2, Sparkles, Building, AlertCircle, HelpCircle, ArrowRight, Compass } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, Loader2, Sparkles, Building, AlertCircle, HelpCircle, ArrowRight, Compass, RotateCcw } from 'lucide-react';
 import { Carrier } from '../types';
 
 interface GlobalFinderProps {
   carriers: Carrier[];
 }
 
+interface HubSource { carrier: string; sic: string; classCode: string; classDescription: string }
+interface HubTurn {
+  role: 'user' | 'assistant';
+  content: string;
+  sources?: HubSource[];
+}
+
 export default function GlobalFinder({ carriers }: GlobalFinderProps) {
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [resultText, setResultText] = useState<string | null>(null);
-  const [sources, setSources] = useState<{carrier:string;sic:string;classCode:string;classDescription:string}[] | null>(null);
+  // A running thread, not a single answer — follow-ups ("who do I call there?",
+  // "what about their work comp?") only work if prior turns go back to the server.
+  const [turns, setTurns] = useState<HubTurn[]>([]);
+  const threadEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    threadEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [turns, isSearching]);
 
   const handleGlobalSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim() || isSearching) return;
+    const inquiry = query.trim();
+    if (!inquiry || isSearching) return;
 
+    // Snapshot the history BEFORE adding this turn — the server appends the
+    // inquiry itself, so sending it in history too would duplicate it.
+    const history = turns.map((t) => ({ role: t.role, content: t.content }));
+    setTurns((prev) => [...prev, { role: 'user', content: inquiry }]);
+    setQuery('');
     setIsSearching(true);
-    setResultText(null);
-    setSources(null);
 
     try {
-      const response = await fetch('/api/global-advisor', {
+      // /api/hub-query, not /api/global-advisor: it grounds on the full live
+      // directory — appetite rows, class-code guides, and contacts — and returns
+      // the class-code rows it used as citations.
+      const response = await fetch('/api/hub-query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inquiry: query.trim() }),
+        body: JSON.stringify({ inquiry, history }),
       });
 
       if (!response.ok) {
-        throw new Error(`Server returned status: ${response.status}`);
+        const j = await response.json().catch(() => ({} as { error?: string }));
+        throw new Error(j.error || `Server returned status: ${response.status}`);
       }
 
       const data = await response.json();
-      setResultText(data.text);
-      setSources(Array.isArray(data.sources) ? data.sources : null);
+      setTurns((prev) => [...prev, {
+        role: 'assistant',
+        content: data.text,
+        sources: Array.isArray(data.sources) ? data.sources : undefined,
+      }]);
     } catch (err: any) {
-      setResultText(`❌ **Failed to consult underwriting index**: ${err.message}. Please verify the carrier server connector is running and your API Key is specified correctly.`);
+      setTurns((prev) => [...prev, {
+        role: 'assistant',
+        content: `❌ **Failed to consult the carrier hub**: ${err.message}. Please verify the carrier server connector is running and your API Key is specified correctly.`,
+      }]);
     } finally {
       setIsSearching(false);
     }
@@ -168,21 +195,31 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-xs max-w-4xl mx-auto space-y-6">
       
       {/* Search Header Banner */}
-      <div className="text-center max-w-2xl mx-auto space-y-2 py-4">
+      <div className="text-center max-w-2xl mx-auto space-y-2 py-4 relative">
         <div className="mx-auto w-10.5 h-10.5 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
           <Sparkles className="w-5.5 h-5.5 animate-pulse" />
         </div>
-        <h2 className="text-2xl font-sans font-semibold text-slate-900 tracking-tight">Cross-Carrier Underwriting Index</h2>
+        <h2 className="text-2xl font-sans font-semibold text-slate-900 tracking-tight">Ask Carrier Desk</h2>
         <p className="text-xs text-slate-400">
-          Double-check client risks across all active lines of business, carriers, and E&S packages in your entire agency deck in one single step.
+          Appetite, class codes, contacts and portal logins across the whole panel — grounded in the live carrier directory. Ask follow-ups; it keeps the thread.
         </p>
+        {turns.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setTurns([])}
+            className="absolute top-0 right-0 text-[10px] px-2.5 py-1 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-slate-700 transition flex items-center gap-1"
+            title="Start a new conversation"
+          >
+            <RotateCcw className="w-3 h-3" /> New thread
+          </button>
+        )}
       </div>
 
       {/* Main Form query box */}
       <form onSubmit={handleGlobalSearch} className="space-y-3">
         <div className="relative">
           <textarea
-            placeholder="Type your risk description... (e.g. 'I have a tenant looking for Airbnb coverage on a single family duplex held under an LLC', or 'Who writes Workers Comp for a local roofing crew with 4 employees in Texas?')"
+            placeholder="Ask about a risk, a class code, a contact, or a login… (e.g. 'What is the scope of Liberty Mutual's interior carpentry GL class code?', 'Who can write this — appointments by line?', 'What is the Liberty Mutual agent portal URL?')"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             disabled={isSearching}
@@ -199,24 +236,24 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
             <div className="flex flex-wrap gap-1">
               <button
                 type="button"
-                onClick={() => handleSampleSelect("Who is my best carrier option for commercial multi-family condo property with roof ages dating back to 2011?")}
+                onClick={() => handleSampleSelect("What is the scope of Liberty Mutual's interior carpentry GL class code?")}
                 className="text-[10px] px-2.5 py-1 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-slate-700 transition"
               >
-                "Old Roof Commercial HOA"
+                "Class code scope"
               </button>
               <button
                 type="button"
-                onClick={() => handleSampleSelect("Which providers write main-street retail BOP packages with instant approval APIs?")}
+                onClick={() => handleSampleSelect("Who can write ISO 91341 interior carpentry? Show me appointments by line.")}
                 className="text-[10px] px-2.5 py-1 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-slate-700 transition"
               >
-                "Quick BOP options"
+                "Who can write this"
               </button>
               <button
                 type="button"
-                onClick={() => handleSampleSelect("Do I have any carrier that writes Workers Compensation for heavy labor or artisan plumbers in Texas?")}
+                onClick={() => handleSampleSelect("Who is my underwriting contact at Liberty Mutual, and what is their agent portal URL?")}
                 className="text-[10px] px-2.5 py-1 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-slate-700 transition"
               >
-                "Texas plumbing artisan"
+                "Contact + portal login"
               </button>
             </div>
           </div>
@@ -229,11 +266,11 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
             {isSearching ? (
               <>
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                Asking the Hub...
+                Asking…
               </>
             ) : (
               <>
-                Ask the Hub
+                {turns.length > 0 ? 'Send' : 'Ask Carrier Desk'}
                 <ArrowRight className="w-3.5 h-3.5" />
               </>
             )}
@@ -241,39 +278,50 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
         </div>
       </form>
 
-      {/* Results output section */}
-      {resultText || isSearching ? (
+      {/* Conversation thread */}
+      {turns.length > 0 || isSearching ? (
         <div className="mt-8 border-t border-slate-100 pt-6 space-y-4">
           <div className="flex items-center gap-2">
-            <h3 className="font-sans font-bold text-sm text-slate-900">Hub Answer</h3>
-            <span className="text-[9px] px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 rounded font-mono font-bold uppercase tracking-wide">AI Checked</span>
+            <h3 className="font-sans font-bold text-sm text-slate-900">Carrier Desk</h3>
+            <span className="text-[9px] px-1.5 py-0.5 bg-blue-50 border border-blue-100 text-blue-700 rounded font-mono font-bold uppercase tracking-wide">Grounded in the directory</span>
           </div>
 
-          {isSearching ? (
-            <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col items-center justify-center space-y-3 min-h-[220px]">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-              <div className="text-center space-y-1">
-                <p className="text-xs font-semibold text-slate-700">Checking submission guidelines across carrier panel...</p>
-                <p className="text-[10px] text-slate-400">Grounded in the live carrier directory, contacts, and CNA class codes...</p>
+          {turns.map((turn, i) =>
+            turn.role === 'user' ? (
+              <div key={i} className="flex justify-end">
+                <div className="bg-blue-600 text-white text-xs font-sans px-4 py-2.5 rounded-2xl rounded-br-sm max-w-[80%] leading-relaxed shadow-xs">
+                  {turn.content}
+                </div>
+              </div>
+            ) : (
+              <div key={i} className="space-y-2">
+                <div className="bg-slate-50 p-5 rounded-2xl rounded-bl-sm border border-slate-200/50 shadow-xs">
+                  {renderFormattedResult(turn.content)}
+                </div>
+                {turn.sources && turn.sources.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 items-center pl-1">
+                    <span className="text-[10px] font-mono uppercase text-slate-400">Class codes used:</span>
+                    {turn.sources.map((src, j) => (
+                      <span key={j} className="text-[10px] px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-600 font-mono" title={src.classDescription}>
+                        {src.carrier} · {src.classCode} · {src.classDescription.slice(0, 36)}{src.classDescription.length > 36 ? '…' : ''}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ),
+          )}
+
+          {isSearching && (
+            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 flex items-center gap-3">
+              <Loader2 className="w-5 h-5 animate-spin text-blue-600 shrink-0" />
+              <div className="space-y-0.5">
+                <p className="text-xs font-semibold text-slate-700">Checking the carrier panel…</p>
+                <p className="text-[10px] text-slate-400">Live directory, appetite rows, contacts, and class-code guides.</p>
               </div>
             </div>
-          ) : (
-            <>
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200/50 min-h-[180px] shadow-xs">
-                {renderFormattedResult(resultText || '')}
-              </div>
-              {sources && sources.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 items-center">
-                  <span className="text-[10px] font-mono uppercase text-slate-400">Class codes used:</span>
-                  {sources.map((src, i) => (
-                    <span key={i} className="text-[10px] px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-600 font-mono" title={src.classDescription}>
-                      {src.carrier} · {src.classCode} · {src.classDescription.slice(0, 36)}{src.classDescription.length > 36 ? '…' : ''}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </>
           )}
+          <div ref={threadEndRef} />
         </div>
       ) : (
         <div className="bg-slate-50 p-8 rounded-2xl border border-dashed border-slate-200 text-center flex flex-col items-center justify-center py-10 space-y-3">
@@ -281,9 +329,9 @@ export default function GlobalFinder({ carriers }: GlobalFinderProps) {
             <Compass className="w-5 h-5 stroke-[1.5px]" />
           </div>
           <div className="space-y-1 max-w-sm">
-            <span className="block font-semibold text-slate-700 text-xs text-center">Standby for appetite scan</span>
+            <span className="block font-semibold text-slate-700 text-xs text-center">Ask the desk anything about your panel</span>
             <p className="text-[11px] text-slate-400 leading-normal text-center">
-              Describe your commercial case or personal lines risk detail above. The AI advisor loops through active guidelines to highlight perfect carrier placement.
+              Appetite and placement, what a class code covers, who your underwriter is at a carrier, or an agent portal URL. Follow-up questions keep the context.
             </p>
           </div>
         </div>

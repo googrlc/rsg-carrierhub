@@ -17,6 +17,38 @@ Run static app.
   adding or removing a device from the tailnet; no allowlist, no password.
 - **AI advisor:** `/api/advisor` + `/api/global-advisor` call an
   OpenAI-compatible endpoint (Hermes LiteLLM proxy), replacing the old Gemini call.
+- **Ask Carrier Desk:** `/api/hub-query` — the conversational desk. Grounded on the
+  live directory (carriers, appetite rows, contacts) plus the class-code reference;
+  accepts `history` so follow-ups keep context.
+
+## Carrier knowledge API
+
+Separate tables answer separate questions. **A code tells you how an operation
+classifies; a link tells you who will write it.** Never infer one from the other.
+
+| Table | Question it answers |
+|---|---|
+| `carriers` + `carrier_contacts` | Who we're appointed with, who to call, portal logins |
+| `carrier_appetite` | Appetite by line — premium bands, states, exclusions |
+| `gl_class_codes` (1,154) / `wc_class_codes` (499) | What a class code **is** — the manual description |
+| `carrier_appetite_class_codes` | The **bridge**: which carrier writes which code, and on what terms |
+
+| Endpoint | Use |
+|---|---|
+| `GET /api/class-codes?q=` | Search by code (`91341`, `ISO 91341`) **or** by description (`cabinets and countertops`) — the reverse lookup, ranked |
+| `GET /api/class-codes/:code` | One code + the neighbouring codes in its manual family + who writes it |
+| `POST /api/class-codes` | Fill in `search_keywords` / typical businesses / notes on a manual code. Omitted fields keep their value |
+| `POST /api/class-codes/link` | Link a code to a carrier's appetite row with eligibility + provenance |
+| `GET /api/appointments?lob=` | The panel inverted — appointments by line, direct vs. via a GA |
+| `POST /api/appetite-match` | Deterministic risk → ranked carrier/program fits |
+
+The manual descriptions are already loaded; the gap is the **search layer**
+(`search_keywords` was populated on 0 of 1,154 GL rows), which is what makes
+describing an operation find the right code. `POST /api/class-codes` fills that in.
+
+On the bridge, `match_method` is load-bearing: `explicit_source` means the carrier's
+own source states the code, `keyword`/`embedding` means we derived it. Derived links
+are annotation and tiebreaker only — never presented as carrier-verified appetite.
 
 > **Branch:** everything is on **`main`** (Supabase + auth + Docker + LiteLLM). The
 > old pre-Supabase AI Studio / Gemini export was consolidated away — there is no
