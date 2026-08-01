@@ -6,3 +6,26 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Sync-tool duplicates: "Dockerfile 2", "package 2.json", "index 2.html".
+# A file-sync path drops byte-identical copies next to the originals — 13 of
+# them are sitting in this working tree right now, untracked but unignored, so
+# one `git add -A` commits the lot. A duplicate Dockerfile or deploy.sh is a
+# live trap for whoever edits the wrong one.
+#
+# Deliberately not a blanket "* [0-9].*": that would silently swallow a
+# legitimately named "Phase 2.md", and an ignored file you meant to commit is
+# the worse failure. Only the types where a stray copy does damage.
+* [0-9].py
+* [0-9].ts
+* [0-9].tsx
+* [0-9].js
+* [0-9].jsx
+* [0-9].json
+* [0-9].yml
+* [0-9].yaml
+* [0-9].sh
+* [0-9].html
+* [0-9].sql
+* [0-9].toml
+Dockerfile [0-9]
