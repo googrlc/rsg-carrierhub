@@ -57,10 +57,10 @@ SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg-infrastructure/sup
 
 Change the advisor model or route → edit `.env.deploy`, run `./deploy.sh`.
 
-These replace the old `HERMES_OPENAI_*` names. The app still reads the old names
-as a fallback, and `deploy.sh` copies whatever the running container has across
-on the first deploy — so nothing breaks if `.env.deploy` hasn't been updated yet.
-Rename the keys in `.env.deploy` when convenient.
+`CARRIERHUB_*` is the **only** set the app reads. The old `HERMES_OPENAI_*` names
+were removed on 2026-08-02 after the box migrated — there is no fallback, so a
+key under an old name is simply not seen. If the advisors go unavailable after an
+`.env.deploy` edit, check the variable name first.
 
 ### The MCP door
 

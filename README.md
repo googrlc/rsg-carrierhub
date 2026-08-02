@@ -146,9 +146,10 @@ Everything the app reads is documented in [`.env.example`](.env.example). Summar
 | `CARRIERHUB_MCP_TOKEN` | runtime | ⛔ optional | Bearer token for `POST /mcp`. Unset → the MCP door refuses every call. `openssl rand -hex 32`. |
 | `PORT` | runtime | ⛔ optional | Listen port, default `3000`. |
 
-The old `HERMES_OPENAI_*` / `LITELLM_*` / `OPENAI_*` names are still read as a
-fallback so a running container survives the rename; `deploy.sh` copies them
-across on the first deploy after it. `CARRIERHUB_*` is the canonical set.
+`CARRIERHUB_*` is the **only** set read. There is deliberately no fallback to
+`HERMES_OPENAI_*` / `LITELLM_API_KEY` / `OPENAI_API_KEY` — a key sitting in the
+environment for another tool must not silently become the one this app bills
+against. An unset key warns at startup and is visible in `/api/health`.
 
 **Where to get the values:**
 - **Supabase URL + publishable key** — Supabase Dashboard → project
@@ -205,9 +206,12 @@ CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>   # opens POST /mcp
 ```
 
 then run `./deploy.sh`. (Supabase build args default inside `deploy.sh`; override
-in `.env.deploy` if they ever rotate. If `.env.deploy` still has the old
-`HERMES_OPENAI_*` names, `deploy.sh` carries the running container's values
-across — the first deploy after the rename works untouched.)
+in `.env.deploy` if they ever rotate.)
+
+> `deploy.sh` rewrites itself via its own `git pull`. When a commit changes
+> `deploy.sh`, the **first** run executes the old script — bash already read it —
+> so a newly added `-e` flag silently misses the container while the health check
+> still passes. Run it twice on those deploys and confirm via `/api/health`.
 
 **Access:** reachable **only** over Tailscale at `http://100.75.67.72:3200` or
 `http://hermes-gretch:3200`. This is the intended access gate — the host firewall

@@ -22,9 +22,11 @@
 #   CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>
 # Without it the door refuses every call — see the WARN below.
 #
-# The old HERMES_OPENAI_* names still work (the app reads them as a fallback) and
-# are carried over automatically from a running container on the first deploy
-# after the rename.
+# NOTE: this script rewrites itself via the `git pull` above. When a commit
+# changes deploy.sh, the first run executes the OLD script — bash already read it
+# — so any newly added `-e` flag silently misses the container while the health
+# check still passes. Run it twice after a deploy.sh change, and confirm the
+# result in /api/health rather than trusting the "OK" line.
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -44,20 +46,15 @@ if [ -f .env.deploy ]; then echo "==> sourcing .env.deploy"; set -a; . ./.env.de
 : "${SUPABASE_URL:=${VITE_SUPABASE_URL}}"
 
 # Read a var out of the currently-running container, so a bare re-run keeps
-# working without .env.deploy. Also the migration path off the HERMES_* names:
-# pass the old name second and it is picked up from the live container once.
+# working without .env.deploy.
 from_container() {
-  local val
-  for key in "$@"; do
-    val=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null \
-          | sed -n "s/^${key}=//p" | head -1 || true)
-    [ -n "$val" ] && { printf '%s' "$val"; return; }
-  done
+  docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null \
+    | sed -n "s/^$1=//p" | head -1 || true
 }
 
-[ -n "${CARRIERHUB_LLM_API_KEY:-}" ] || CARRIERHUB_LLM_API_KEY=$(from_container CARRIERHUB_LLM_API_KEY HERMES_OPENAI_API_KEY)
-[ -n "${CARRIERHUB_LLM_BASE_URL:-}" ] || CARRIERHUB_LLM_BASE_URL=$(from_container CARRIERHUB_LLM_BASE_URL HERMES_OPENAI_BASE_URL)
-[ -n "${CARRIERHUB_LLM_MODEL:-}" ] || CARRIERHUB_LLM_MODEL=$(from_container CARRIERHUB_LLM_MODEL HERMES_OPENAI_MODEL)
+[ -n "${CARRIERHUB_LLM_API_KEY:-}" ] || CARRIERHUB_LLM_API_KEY=$(from_container CARRIERHUB_LLM_API_KEY)
+[ -n "${CARRIERHUB_LLM_BASE_URL:-}" ] || CARRIERHUB_LLM_BASE_URL=$(from_container CARRIERHUB_LLM_BASE_URL)
+[ -n "${CARRIERHUB_LLM_MODEL:-}" ] || CARRIERHUB_LLM_MODEL=$(from_container CARRIERHUB_LLM_MODEL)
 : "${CARRIERHUB_LLM_MODEL:=gpt-4.1-mini}"
 [ -n "${CARRIERHUB_LLM_API_KEY:-}" ] || echo "WARN: no CARRIERHUB_LLM_API_KEY — the advisors will report themselves unavailable"
 
