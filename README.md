@@ -156,8 +156,8 @@ across on the first deploy after it. `CARRIERHUB_*` is the canonical set.
   (`sb_publishable_...`, or the legacy `anon`/public key) is browser-safe.
 - **LiteLLM / OpenAI key** — the LiteLLM proxy virtual key, read with
   `op read "op://rsg-infrastructure/Litellm_vk/text"`, or any OpenAI key for a
-  direct call. The vault is `rsg-infrastructure` with **hyphens**. The older item
-  named `litellm_virtualkey` holds a **revoked** key — the proxy 401s on it.
+  direct call. The vault is `rsg-infrastructure` with **hyphens**; the related
+  items are `Litellm_vk` (the API key), `litellm admin login`, and `litellm_ssh`.
 
 > ⚠️ The Supabase **service_role** key is never needed to run the portal and must
 > never be committed or shipped to the browser. RLS handles all browser access.
