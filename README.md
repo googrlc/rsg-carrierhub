@@ -66,6 +66,29 @@ curl -s localhost:3200/mcp -X POST \
 > door sets a matching HTTP status **as well** (401 on a bad token, 405 on GET),
 > so a smoke test can key on either.
 
+### Connecting Hermes / Claude to it
+
+Point the client **straight at this door** — do not proxy it through the Hermes
+bridge:
+
+```
+URL:    https://hermes-gretch.tail1cbc83.ts.net:8445/mcp
+Header: Authorization: Bearer <CARRIERHUB_MCP_TOKEN from /opt/rsg-carrierhub/.env.deploy>
+```
+
+Tailnet-only, on a real auto-renewing Let's Encrypt cert (Tailscale issues it for
+the `.ts.net` name), so there is no self-signed exception to carry around.
+
+**Why direct rather than a bridge proxy.** The tool list here is generated from
+the function registry, so a new capability shows up in `tools/list` with no work
+anywhere else — that property is the whole point of the registry. A bridge proxy
+would have to reimplement it in `app-rsg-hermes-mcp-1:/app/app.py`, live in that
+bridge's source to survive a rebuild, and adds a hop that fails when either side
+is down. The one-door rule exists to prevent hand-written per-capability bridge
+tools; connecting directly avoids those entirely. The trade is real though —
+this is a second connector with its own bearer, so rotating
+`CARRIERHUB_MCP_TOKEN` means re-authing the client, with no grace period.
+
 ## Carrier knowledge API
 
 Separate tables answer separate questions. **A code tells you how an operation

@@ -80,8 +80,21 @@ curl -s localhost:3200/mcp -X POST \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
-Rotating the token: change it in `.env.deploy`, `./deploy.sh`, then update every
-client that points at the door — there is no grace period on the old value.
+Clients connect **directly** to this door, not through the Hermes bridge:
+
+```
+URL:    https://hermes-gretch.tail1cbc83.ts.net:8445/mcp
+Header: Authorization: Bearer $CARRIERHUB_MCP_TOKEN
+```
+
+Tailnet-only, on a Tailscale-issued Let's Encrypt cert that auto-renews. The tool
+list is generated from the app's function registry, so a new Carrier Hub
+capability appears to the client with no change on the Hermes side — that is why
+there is no bridge proxy to maintain.
+
+Rotating the token: change it in `.env.deploy`, `./deploy.sh` (twice if the same
+commit changed `deploy.sh`), then re-auth every client pointing at the door —
+there is no grace period on the old value.
 
 ## Access model — no login (tailnet is the gate)
 
