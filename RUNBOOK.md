@@ -48,10 +48,10 @@ truth for runtime + build values. `deploy.sh` sources it.
 
 ```
 CARRIERHUB_LLM_BASE_URL=https://litellm-qidsf-u69864.vm.elestio.app/v1
-CARRIERHUB_LLM_API_KEY=<litellm virtual key>         # 1P rsg_infrastructure/litellm_virtualkey
+CARRIERHUB_LLM_API_KEY=<litellm virtual key>         # 1P rsg-infrastructure/Litellm_vk
 CARRIERHUB_LLM_MODEL=gpt-4.1-mini                     # or claude-sonnet / claude-opus / deepseek-v4-flash
 CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>          # opens POST /mcp; unset = the door refuses every call
-SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg_infrastructure/supabase_rsg_infastructure — powers the carrier endpoints, server-side ONLY
+SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg-infrastructure/supabase_rsg_infastructure/service_role_key — powers the carrier endpoints, server-side ONLY
 # SUPABASE_URL / VITE_SUPABASE_* default inside deploy.sh; override here if rotated
 ```
 

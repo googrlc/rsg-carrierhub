@@ -154,8 +154,10 @@ across on the first deploy after it. `CARRIERHUB_*` is the canonical set.
 - **Supabase URL + publishable key** — Supabase Dashboard → project
   `wibscqhkvpijzqbhjphg` → **Project Settings → API keys**. The publishable key
   (`sb_publishable_...`, or the legacy `anon`/public key) is browser-safe.
-- **LiteLLM / OpenAI key** — the Hermes LiteLLM proxy key (1Password vault
-  `rsg_infrastructure`), or any OpenAI key for a direct call.
+- **LiteLLM / OpenAI key** — the LiteLLM proxy virtual key, read with
+  `op read "op://rsg-infrastructure/Litellm_vk/text"`, or any OpenAI key for a
+  direct call. The vault is `rsg-infrastructure` with **hyphens**. The older item
+  named `litellm_virtualkey` holds a **revoked** key — the proxy 401s on it.
 
 > ⚠️ The Supabase **service_role** key is never needed to run the portal and must
 > never be committed or shipped to the browser. RLS handles all browser access.
@@ -250,6 +252,6 @@ it (unlike the Commission Tracker at
   matched to carriers via `match_key`.
 - **Onyx (appetite knowledge base):** https://onyx-1t6jv-u69864.vm.elestio.app/app/agents
 - **Rule:** No real carrier portal passwords in this app — login URLs only;
-  credentials stay in 1Password (`rsg_infrastructure`).
+  credentials stay in 1Password (vault `rsg-infrastructure`).
 - **Verify before trusting:** underwriter contact names seeded from the original
   `src/data/carriers.ts` were AI-generated during the build and may be fictional.
