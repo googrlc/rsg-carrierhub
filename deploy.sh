@@ -12,11 +12,19 @@
 #   2. the currently-running container's env (fallback, so a bare run still works)
 #   3. built-in defaults below
 #
-# To route the AI advisor through the LiteLLM proxy, put these in .env.deploy:
-#   HERMES_OPENAI_BASE_URL=https://<litellm-vps>/v1
-#   HERMES_OPENAI_API_KEY=<litellm virtual key>
-#   HERMES_OPENAI_MODEL=gpt-4.1-mini
-# Omit HERMES_OPENAI_BASE_URL to call OpenAI directly.
+# To route the AI advisors through the LiteLLM proxy, put these in .env.deploy:
+#   CARRIERHUB_LLM_BASE_URL=https://<litellm-vps>/v1
+#   CARRIERHUB_LLM_API_KEY=<litellm virtual key>
+#   CARRIERHUB_LLM_MODEL=gpt-4.1-mini
+# Omit CARRIERHUB_LLM_BASE_URL to call OpenAI directly.
+#
+# To open the MCP door at POST /mcp, also set:
+#   CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>
+# Without it the door refuses every call — see the WARN below.
+#
+# The old HERMES_OPENAI_* names still work (the app reads them as a fallback) and
+# are carried over automatically from a running container on the first deploy
+# after the rename.
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -34,22 +42,36 @@ if [ -f .env.deploy ]; then echo "==> sourcing .env.deploy"; set -a; . ./.env.de
 : "${VITE_SUPABASE_URL:=https://wibscqhkvpijzqbhjphg.supabase.co}"
 : "${VITE_SUPABASE_PUBLISHABLE_KEY:=sb_publishable_ULhQgB2QZzQM3HfQqgaZQA_jTZJxer8}"
 : "${SUPABASE_URL:=${VITE_SUPABASE_URL}}"
-: "${HERMES_OPENAI_MODEL:=gpt-4.1-mini}"
 
-# Fall back to the running container's key if .env.deploy didn't set one.
-if [ -z "${HERMES_OPENAI_API_KEY:-}" ]; then
-  HERMES_OPENAI_API_KEY=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null | sed -n 's/^HERMES_OPENAI_API_KEY=//p' || true)
-fi
-[ -n "${HERMES_OPENAI_API_KEY:-}" ] || echo "WARN: no HERMES_OPENAI_API_KEY — advisor will show 'AI Advisor Unavailable'"
+# Read a var out of the currently-running container, so a bare re-run keeps
+# working without .env.deploy. Also the migration path off the HERMES_* names:
+# pass the old name second and it is picked up from the live container once.
+from_container() {
+  local val
+  for key in "$@"; do
+    val=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null \
+          | sed -n "s/^${key}=//p" | head -1 || true)
+    [ -n "$val" ] && { printf '%s' "$val"; return; }
+  done
+}
 
-# The service-role key powers /api/carriers (server-side DB access, no browser
-# login). It NEVER goes to the browser. Fall back to the running container's
-# value so a bare re-run keeps working.
-if [ -z "${SUPABASE_SERVICE_ROLE_KEY:-}" ]; then
-  SUPABASE_SERVICE_ROLE_KEY=$(docker inspect "$NAME" --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null | sed -n 's/^SUPABASE_SERVICE_ROLE_KEY=//p' || true)
-fi
+[ -n "${CARRIERHUB_LLM_API_KEY:-}" ] || CARRIERHUB_LLM_API_KEY=$(from_container CARRIERHUB_LLM_API_KEY HERMES_OPENAI_API_KEY)
+[ -n "${CARRIERHUB_LLM_BASE_URL:-}" ] || CARRIERHUB_LLM_BASE_URL=$(from_container CARRIERHUB_LLM_BASE_URL HERMES_OPENAI_BASE_URL)
+[ -n "${CARRIERHUB_LLM_MODEL:-}" ] || CARRIERHUB_LLM_MODEL=$(from_container CARRIERHUB_LLM_MODEL HERMES_OPENAI_MODEL)
+: "${CARRIERHUB_LLM_MODEL:=gpt-4.1-mini}"
+[ -n "${CARRIERHUB_LLM_API_KEY:-}" ] || echo "WARN: no CARRIERHUB_LLM_API_KEY — the advisors will report themselves unavailable"
+
+# The MCP door fails closed. No token means /mcp refuses every call; the HTTP API
+# and the UI are unaffected.
+[ -n "${CARRIERHUB_MCP_TOKEN:-}" ] || CARRIERHUB_MCP_TOKEN=$(from_container CARRIERHUB_MCP_TOKEN)
+[ -n "${CARRIERHUB_MCP_TOKEN:-}" ] || echo "WARN: no CARRIERHUB_MCP_TOKEN — /mcp will refuse every call (set one: openssl rand -hex 32)"
+
+# The service-role key powers the carrier endpoints (server-side DB access, no
+# browser login). It NEVER goes to the browser.
+[ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ] || SUPABASE_SERVICE_ROLE_KEY=$(from_container SUPABASE_SERVICE_ROLE_KEY)
 [ -n "${SUPABASE_SERVICE_ROLE_KEY:-}" ] || echo "WARN: no SUPABASE_SERVICE_ROLE_KEY — /api/carriers will 503 (carrier directory won't load)"
-if [ -n "${HERMES_OPENAI_BASE_URL:-}" ]; then echo "==> advisor route: LiteLLM ($HERMES_OPENAI_BASE_URL)"; else echo "==> advisor route: OpenAI direct"; fi
+
+if [ -n "${CARRIERHUB_LLM_BASE_URL:-}" ]; then echo "==> advisor route: LiteLLM ($CARRIERHUB_LLM_BASE_URL)"; else echo "==> advisor route: OpenAI direct"; fi
 
 # ---- build (old container still serving) -----------------------------------
 echo "==> docker build"
@@ -63,9 +85,13 @@ docker build \
 echo "==> swapping container"
 docker rm -f "$NAME" 2>/dev/null || true
 docker run -d --name "$NAME" --restart unless-stopped -p "$PORT_MAP" \
-  -e HERMES_OPENAI_API_KEY="${HERMES_OPENAI_API_KEY:-}" \
-  ${HERMES_OPENAI_BASE_URL:+-e HERMES_OPENAI_BASE_URL="$HERMES_OPENAI_BASE_URL"} \
-  -e HERMES_OPENAI_MODEL="$HERMES_OPENAI_MODEL" \
+  -e CARRIERHUB_LLM_API_KEY="${CARRIERHUB_LLM_API_KEY:-}" \
+  ${CARRIERHUB_LLM_BASE_URL:+-e CARRIERHUB_LLM_BASE_URL="$CARRIERHUB_LLM_BASE_URL"} \
+  -e CARRIERHUB_LLM_MODEL="$CARRIERHUB_LLM_MODEL" \
+  ${CARRIERHUB_MODEL_DESK:+-e CARRIERHUB_MODEL_DESK="$CARRIERHUB_MODEL_DESK"} \
+  ${CARRIERHUB_MODEL_ADVISOR:+-e CARRIERHUB_MODEL_ADVISOR="$CARRIERHUB_MODEL_ADVISOR"} \
+  ${CARRIERHUB_MODEL_QUICK:+-e CARRIERHUB_MODEL_QUICK="$CARRIERHUB_MODEL_QUICK"} \
+  ${CARRIERHUB_MCP_TOKEN:+-e CARRIERHUB_MCP_TOKEN="$CARRIERHUB_MCP_TOKEN"} \
   -e SUPABASE_URL="$SUPABASE_URL" \
   ${SUPABASE_SERVICE_ROLE_KEY:+-e SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY"} \
   -e NODE_ENV=production -e PORT=3000 \

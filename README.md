@@ -7,7 +7,8 @@ Express app, deployed via Docker on the **hermes-gretch box** and reachable over
 the RSG tailnet at **`:3200`**. It replaces the retired Google AI Studio / Cloud
 Run static app.
 
-- **Stack:** React 19 + Vite + Tailwind v4 + Express (`server.ts`), TypeScript.
+- **Stack:** React 19 + Vite + Tailwind v4 + Express, TypeScript. Server code is
+  in [`server/`](server/); `server.ts` is just the entry point.
 - **Data:** Supabase (`rsg-infrastructure`, ref `wibscqhkvpijzqbhjphg`). In the
   deployed build the browser never talks to Supabase directly — it calls the
   box's server-side `/api/carriers` (service-role key); the public Supabase
@@ -16,10 +17,54 @@ Run static app.
   (the host firewall accepts `:3200` on `tailscale0` only). Grant/revoke by
   adding or removing a device from the tailnet; no allowlist, no password.
 - **AI advisor:** `/api/advisor` + `/api/global-advisor` call an
-  OpenAI-compatible endpoint (Hermes LiteLLM proxy), replacing the old Gemini call.
+  OpenAI-compatible endpoint (LiteLLM proxy), replacing the old Gemini call.
 - **Ask Carrier Desk:** `/api/hub-query` — the conversational desk. Grounded on the
   live directory (carriers, appetite rows, contacts) plus the class-code reference;
   accepts `history` so follow-ups keep context.
+
+## A standalone app; Hermes is the runner
+
+Carrier Hub is a service, not a Hermes component. It owns its data access, its
+LLM client, and its own configuration (`CARRIERHUB_*`), and it runs and answers
+on its own. Hermes starts it and calls it; nothing here reaches back into Hermes.
+
+Every capability is defined once, in the **function registry** at
+[`server/functions/`](server/functions/) — a name, a description an agent can
+pick from, a Zod input schema, and a handler. Two doors are generated from that
+one list, so a capability can never exist on one and not the other:
+
+| Door | For | Auth |
+|---|---|---|
+| `/api/*` | the browser UI and plain HTTP callers | none — the tailnet is the gate |
+| `POST /mcp` | an agent, over MCP (Streamable HTTP, stateless) | `Authorization: Bearer $CARRIERHUB_MCP_TOKEN` |
+
+```bash
+GET  /api/health           # identity, store status, function count, MCP state
+GET  /api/functions        # the whole surface, with JSON Schema inputs
+POST /api/functions/:name  # invoke any function generically
+```
+
+The MCP door **fails closed**: with no `CARRIERHUB_MCP_TOKEN` set it refuses
+every call (`-32001`) rather than serving the write tools — including
+`delete_carrier` — to anything that can reach the port. Tools carry
+`readOnlyHint` / `destructiveHint` annotations so a client can confirm before a
+destructive call.
+
+Adding a capability means adding one entry to the registry. It appears on both
+doors automatically.
+
+```bash
+# list the tools
+curl -s localhost:3200/mcp -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H "Authorization: Bearer $CARRIERHUB_MCP_TOKEN" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+> MCP-over-HTTP normally reports protocol problems in the JSON-RPC body. This
+> door sets a matching HTTP status **as well** (401 on a bad token, 405 on GET),
+> so a smoke test can key on either.
 
 ## Carrier knowledge API
 
@@ -33,14 +78,24 @@ classifies; a link tells you who will write it.** Never infer one from the other
 | `gl_class_codes` (1,154) / `wc_class_codes` (499) | What a class code **is** — the manual description |
 | `carrier_appetite_class_codes` | The **bridge**: which carrier writes which code, and on what terms |
 
-| Endpoint | Use |
-|---|---|
-| `GET /api/class-codes?q=` | Search by code (`91341`, `ISO 91341`) **or** by description (`cabinets and countertops`) — the reverse lookup, ranked |
-| `GET /api/class-codes/:code` | One code + the neighbouring codes in its manual family + who writes it |
-| `POST /api/class-codes` | Fill in `search_keywords` / typical businesses / notes on a manual code. Omitted fields keep their value |
-| `POST /api/class-codes/link` | Link a code to a carrier's appetite row with eligibility + provenance |
-| `GET /api/appointments?lob=` | The panel inverted — appointments by line, direct vs. via a GA |
-| `POST /api/appetite-match` | Deterministic risk → ranked carrier/program fits |
+| Endpoint | MCP tool | Use |
+|---|---|---|
+| `GET /api/class-codes/all` | `list_class_codes` | **Every** code with its description, paged (`limit` up to 2000, `total` tells you how many). The exhaustive dump |
+| `GET /api/class-codes?q=` | `search_class_codes` | Search by code (`91341`, `ISO 91341`) **or** by description (`cabinets and countertops`) — the reverse lookup, ranked |
+| `GET /api/class-codes/:code` | `get_class_code` | One code + the neighbouring codes in its manual family + who writes it |
+| `POST /api/class-codes` | `save_class_code` | Fill in `search_keywords` / typical businesses / notes on a manual code. Omitted fields keep their value |
+| `POST /api/class-codes/link` | `link_class_code` | Link a code to a carrier's appetite row with eligibility + provenance |
+| `GET /api/appointments?lob=` | `appointments_by_line` | The panel inverted — appointments by line, direct vs. via a GA |
+| `POST /api/appetite-match` | `match_appetite` | Deterministic risk → ranked carrier/program fits |
+| `POST /api/appetite-match/opportunity` | `match_opportunity_appetite` | Same, but the risk is built from a CRM opportunity; optional write-back |
+| `GET`/`POST` `/api/carriers`, `DELETE /api/carriers/:id` | `list_carriers`, `get_carrier`, `save_carrier`, `delete_carrier` | The directory itself |
+| `POST /api/hub-query` | `ask_carrier_desk` | Grounded conversational Q&A over everything above |
+| `POST /api/advisor`, `POST /api/global-advisor` | `carrier_advisor`, `panel_advisor` | One carrier's appetite / the whole panel |
+
+Both class-code tables are read with explicit paging. `gl_class_codes` is 1,154
+rows, past PostgREST's default 1,000-row page, and a truncated dictionary is
+indistinguishable from a code we don't cover — so `list_class_codes` really does
+return all 1,653.
 
 The manual descriptions are already loaded; the gap is the **search layer**
 (`search_keywords` was populated on 0 of 1,154 GL rows), which is what makes
@@ -84,9 +139,16 @@ Everything the app reads is documented in [`.env.example`](.env.example). Summar
 |---|---|---|---|
 | `VITE_SUPABASE_URL` | build | ✅ | Supabase project URL (browser-safe). Plain `SUPABASE_URL` also works. |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | build | ✅ | Browser-safe publishable/anon key (RLS-protected). Plain `SUPABASE_PUBLISHABLE_KEY` also works. |
-| `HERMES_OPENAI_API_KEY` *(or `LITELLM_API_KEY` / `OPENAI_API_KEY`)* | runtime | ⛔ optional | Key for the AI advisor. Missing key → advisor shows "AI Advisor Unavailable"; the rest of the app works. |
-| `HERMES_OPENAI_BASE_URL` *(or `OPENAI_BASE_URL` / `LITELLM_BASE_URL`)* | runtime | ⛔ optional | Point the advisor at the LiteLLM proxy. Omit for direct OpenAI. |
-| `HERMES_OPENAI_MODEL` | runtime | ⛔ optional | Advisor model, default `gpt-4.1-mini`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | runtime | ✅ on the box | Server-side DB access. Missing → carrier endpoints 503. Never shipped to the browser. |
+| `CARRIERHUB_LLM_API_KEY` | runtime | ⛔ optional | Key for the AI advisors. Missing key → advisors report unavailable; the rest of the app works. |
+| `CARRIERHUB_LLM_BASE_URL` | runtime | ⛔ optional | Point the advisors at the LiteLLM proxy. Omit for direct OpenAI. |
+| `CARRIERHUB_LLM_MODEL` | runtime | ⛔ optional | Global model default, `gpt-4.1-mini`. Per-task overrides: `CARRIERHUB_MODEL_DESK` / `_ADVISOR` / `_QUICK`. |
+| `CARRIERHUB_MCP_TOKEN` | runtime | ⛔ optional | Bearer token for `POST /mcp`. Unset → the MCP door refuses every call. `openssl rand -hex 32`. |
+| `PORT` | runtime | ⛔ optional | Listen port, default `3000`. |
+
+The old `HERMES_OPENAI_*` / `LITELLM_*` / `OPENAI_*` names are still read as a
+fallback so a running container survives the rename; `deploy.sh` copies them
+across on the first deploy after it. `CARRIERHUB_*` is the canonical set.
 
 **Where to get the values:**
 - **Supabase URL + publishable key** — Supabase Dashboard → project
@@ -134,13 +196,16 @@ Runtime + build config lives in `/opt/rsg-carrierhub/.env.deploy` (gitignored,
 **LiteLLM proxy** (its own Elestio VPS) instead of calling OpenAI directly, set:
 
 ```
-HERMES_OPENAI_BASE_URL=https://<litellm-vps>/v1
-HERMES_OPENAI_API_KEY=<litellm virtual key>
-HERMES_OPENAI_MODEL=gpt-4.1-mini
+CARRIERHUB_LLM_BASE_URL=https://<litellm-vps>/v1
+CARRIERHUB_LLM_API_KEY=<litellm virtual key>
+CARRIERHUB_LLM_MODEL=gpt-4.1-mini
+CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>   # opens POST /mcp
 ```
 
 then run `./deploy.sh`. (Supabase build args default inside `deploy.sh`; override
-in `.env.deploy` if they ever rotate.)
+in `.env.deploy` if they ever rotate. If `.env.deploy` still has the old
+`HERMES_OPENAI_*` names, `deploy.sh` carries the running container's values
+across — the first deploy after the rename works untouched.)
 
 **Access:** reachable **only** over Tailscale at `http://100.75.67.72:3200` or
 `http://hermes-gretch:3200`. This is the intended access gate — the host firewall
@@ -157,8 +222,11 @@ it (unlike the Commission Tracker at
 - **Blank grid / zero carriers (deployed)** — `/api/carriers` is returning 503
   because `SUPABASE_SERVICE_ROLE_KEY` is missing in `.env.deploy`. Set it and
   `./deploy.sh`. Check: `curl -s localhost:3200/api/carriers | head -c 200`.
-- **"AI Advisor Unavailable"** — no LLM key resolved. Set `HERMES_OPENAI_API_KEY`
-  (or `LITELLM_API_KEY` / `OPENAI_API_KEY`) as a **runtime** env, not a build arg.
+- **"AI Advisor Unavailable"** — no LLM key resolved. Set `CARRIERHUB_LLM_API_KEY`
+  as a **runtime** env, not a build arg.
+- **`/mcp` refuses everything with `-32001`** — either `CARRIERHUB_MCP_TOKEN` is
+  unset on the server (the door fails closed by design) or the caller's bearer is
+  wrong. The JSON-RPC `message` says which.
 - **Edits don't persist (deployed)** — `POST /api/carriers` failing; check
   `docker logs rsg-carrierhub` for the Supabase error (service-role key valid?).
 - **Can't reach it from your Mac** — expected; it's tailnet-only. Use Tailscale,

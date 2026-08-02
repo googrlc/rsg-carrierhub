@@ -47,14 +47,41 @@ curl -s localhost:3200/api/health
 truth for runtime + build values. `deploy.sh` sources it.
 
 ```
-HERMES_OPENAI_BASE_URL=https://litellm-qidsf-u69864.vm.elestio.app/v1
-HERMES_OPENAI_API_KEY=<litellm virtual key>          # 1P rsg_infrastructure/litellm_virtualkey
-HERMES_OPENAI_MODEL=gpt-4.1-mini                      # or claude-sonnet / claude-opus / deepseek-v4-flash
-SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg_infrastructure/supabase_rsg_infastructure — powers /api/carriers, server-side ONLY
+CARRIERHUB_LLM_BASE_URL=https://litellm-qidsf-u69864.vm.elestio.app/v1
+CARRIERHUB_LLM_API_KEY=<litellm virtual key>         # 1P rsg_infrastructure/litellm_virtualkey
+CARRIERHUB_LLM_MODEL=gpt-4.1-mini                     # or claude-sonnet / claude-opus / deepseek-v4-flash
+CARRIERHUB_MCP_TOKEN=<openssl rand -hex 32>          # opens POST /mcp; unset = the door refuses every call
+SUPABASE_SERVICE_ROLE_KEY=<service_role key>         # 1P rsg_infrastructure/supabase_rsg_infastructure — powers the carrier endpoints, server-side ONLY
 # SUPABASE_URL / VITE_SUPABASE_* default inside deploy.sh; override here if rotated
 ```
 
 Change the advisor model or route → edit `.env.deploy`, run `./deploy.sh`.
+
+These replace the old `HERMES_OPENAI_*` names. The app still reads the old names
+as a fallback, and `deploy.sh` copies whatever the running container has across
+on the first deploy — so nothing breaks if `.env.deploy` hasn't been updated yet.
+Rename the keys in `.env.deploy` when convenient.
+
+### The MCP door
+
+Carrier Hub serves its own MCP endpoint at `POST /mcp` — one tool per app
+function, the same surface `GET /api/functions` describes. It fails closed:
+without `CARRIERHUB_MCP_TOKEN` every call is refused, including the read tools.
+
+```bash
+# is it open?
+curl -s localhost:3200/api/health | grep -o '"mcp":"[^"]*"'
+
+# list the tools
+curl -s localhost:3200/mcp -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -H "Authorization: Bearer $CARRIERHUB_MCP_TOKEN" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Rotating the token: change it in `.env.deploy`, `./deploy.sh`, then update every
+client that points at the door — there is no grace period on the old value.
 
 ## Access model — no login (tailnet is the gate)
 
@@ -86,7 +113,8 @@ cat /var/tmp/carrierhub-health.state    # current known state (up/down)
 |---|---|
 | Container not in `docker ps` | crashed on boot → `docker logs rsg-carrierhub`; usually a bad `.env.deploy`. Fix + `./deploy.sh`, or roll back. |
 | Blank grid / zero carriers | `/api/carriers` returning **503** → `SUPABASE_SERVICE_ROLE_KEY` missing in `.env.deploy`. Set it, `./deploy.sh`. Check: `curl -s localhost:3200/api/carriers \| head -c 200`. |
-| "AI Advisor Unavailable" | no LLM key resolved → check `HERMES_OPENAI_API_KEY` in `.env.deploy`. |
+| "AI Advisor Unavailable" | no LLM key resolved → check `CARRIERHUB_LLM_API_KEY` in `.env.deploy`. |
+| `/mcp` returns `-32001` | `CARRIERHUB_MCP_TOKEN` unset on the server, or the caller sent the wrong bearer. Read the JSON-RPC `message` — it says which. |
 | Advisor errors / 500 | LiteLLM proxy issue. Test: `curl -H "Authorization: Bearer <key>" https://litellm-qidsf-u69864.vm.elestio.app/v1/models`. Check the litellm box. |
 | Edits don't persist | `POST /api/carriers` failing → check `docker logs rsg-carrierhub` for the Supabase error (service-role key valid?). |
 | Can't reach it from your Mac | public/off-tailnet is firewalled — that's expected. Use Tailscale, or `ssh hermes` and hit `localhost:3200`. |
