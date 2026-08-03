@@ -18,9 +18,9 @@
 
 import type { LucideIcon } from 'lucide-react';
 import {
-  Building2, FileText, DollarSign, Globe,
+  FileText, DollarSign, Globe,
   FolderOpen, Database, Grid3x3, Sparkles, ClipboardList,
-  LogIn, PenTool, Gauge, UserPlus, LayoutDashboard, UserCog, DoorOpen, Calculator,
+  PenTool, UserPlus, DoorOpen, Calculator,
 } from 'lucide-react';
 
 export type LaunchpadTab = 'panel' | 'global-ai' | 'submissions' | 'profile';
@@ -37,14 +37,6 @@ export interface LaunchpadLink {
 }
 
 export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
-  // ── Cockpits — primary daily surfaces, pinned to the top ───────────────────
-  { section: 'Cockpits', name: 'My Cockpit', icon: LayoutDashboard,
-    url: 'http://100.75.67.72:8788/cockpit',
-    desc: 'Lamar’s Hermes cockpit (tailnet).' },
-  { section: 'Cockpits', name: 'Gretchen’s Cockpit', icon: UserCog,
-    url: 'http://100.75.67.72:8788/cockpit?u=gretchen',
-    desc: 'Gretchen’s Hermes cockpit (tailnet).' },
-
   // ── Carriers — this app's own carrier surfaces ─────────────────────────────
   { section: 'Carriers', name: 'Carrier Directory', icon: Grid3x3, tab: 'panel',
     desc: 'Appointed carriers — appetite, contacts, agency codes, portal logins.' },
@@ -52,11 +44,11 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
     desc: 'Ask the panel: which carrier fits this risk?' },
   { section: 'Carriers', name: 'Submissions & Guidelines', icon: ClipboardList, tab: 'submissions',
     desc: 'Bind pipeline, bulletins, and carrier guideline library.' },
+  { section: 'Carriers', name: 'PayComp', icon: Calculator,
+    url: 'https://oht.servehttp.com/agency-app/login/',
+    desc: 'Workers’ comp pay-as-you-go payroll processing — agency login.' },
 
   // ── Sales Tools ────────────────────────────────────────────────────────────
-  { section: 'Sales Tools', name: 'EspoCRM', icon: Building2,
-    url: 'https://rrespocrm-rsg-u69864.vm.elestio.app',
-    desc: 'CRM — pipelines, opportunities, renewals, tasks.' },
   { section: 'Sales Tools', name: 'Client Intake Space', icon: UserPlus,
     url: 'https://lamars-mac-mini.tail1cbc83.ts.net/app',
     desc: 'New-client intake workspace (tailnet).' },
@@ -64,20 +56,14 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
     url: 'https://hermes-gretch.tail1cbc83.ts.net/app',
     desc: 'Intake Gate — new-business gate (tailnet).' },
   { section: 'Sales Tools', name: 'NowCerts', icon: FileText,
-    url: 'https://app.nowcerts.com',
+    url: 'https://www6.nowcerts.com',
     desc: 'AMS system of record. Policies, insureds, certificates.' },
-  { section: 'Sales Tools', name: 'NowCerts Login', icon: LogIn,
-    url: 'https://identity.nowcerts.com/Account/Login?ReturnUrl=%2FAccount%2FLoginRedirectUrl',
-    desc: 'NowCerts identity / SSO sign-in portal.' },
   { section: 'Sales Tools', name: 'Napkin AI', icon: PenTool,
     url: 'https://www.napkin.ai',
     desc: 'Turn text into visuals — diagrams & graphics for proposals.' },
   { section: 'Sales Tools', name: 'Commission Tracker', icon: DollarSign,
     url: 'https://rsg-commission-tracker-339396843209.us-east1.run.app',
     desc: 'Track commissions by carrier, policy, and month.' },
-  { section: 'Sales Tools', name: 'PayComp', icon: Calculator,
-    url: 'https://oht.servehttp.com/agency-app/login/',
-    desc: 'Workers’ comp pay-as-you-go payroll processing — agency login.' },
   { section: 'Sales Tools', name: 'RSG Website', icon: Globe,
     url: 'https://www.risksolutionsgroup.com',
     desc: 'Public site — Risk Diagnostic, referral hub, client quick actions.' },
@@ -91,7 +77,4 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
   { section: 'Back Office', name: 'Supabase', icon: Database,
     url: 'https://supabase.com/dashboard/project/wibscqhkvpijzqbhjphg',
     desc: 'rsg-infrastructure database & cron jobs.' },
-  { section: 'Back Office', name: 'Hermes Command Center', icon: Gauge,
-    url: 'https://hermes-gretch-u69864.vm.elestio.app/command-center/cockpit.html',
-    desc: 'Hermes cockpit — agent ops, health, and controls.' },
 ];
