@@ -3257,7 +3257,8 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "linesOfBusiness": [
       "IUL / term"
     ],
-    "agencyCode": "Producer IDs 1087863 and 1120392",
+    "agencyCode": "RSG LLC 1120392 · Ronald Coates 1087863",
+    "website": "https://www.mutualofomaha.com",
     "appetite": {
       "canWrite": [
         "Approved classes under Carrier (Life) program.",
@@ -3266,9 +3267,26 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "IUL / term"
+      "notes": "IUL / term. Producer appointments: RISK SOLUTIONS GROUP LLC — 1120392 (carriers@risksolutionsgroup.net); RONALD COATES — 1087863."
     },
-    "contacts": []
+    "contacts": [
+      {
+        "id": "mutual-of-omaha-prod-rsg",
+        "name": "RISK SOLUTIONS GROUP LLC",
+        "role": "Agency producer appointment (Producer #1120392)",
+        "email": "carriers@risksolutionsgroup.net",
+        "phone": "",
+        "region": "Source: Mutual of Omaha producer numbers"
+      },
+      {
+        "id": "mutual-of-omaha-prod-coates",
+        "name": "RONALD COATES",
+        "role": "Individual producer appointment (Producer #1087863)",
+        "email": "",
+        "phone": "",
+        "region": "Source: Mutual of Omaha producer numbers"
+      }
+    ]
   },
   {
     "id": "american-general-life-aig-corebridge",
