@@ -1,11 +1,11 @@
 /**
- * Life carriers appointed via GA AMGDA (AMG/IDA life brokerage).
+ * Life carriers appointed via AMGIDA (AMG/IDA life brokerage).
  * Pay schedule details are stored in incentives.notes for display in the
  * Carrier Drawer → Incentives tab.
  */
 import type { Carrier } from '../types';
 
-export const GA_AMGDA = 'GA AMGDA';
+export const GA_AMGIDA = 'AMGIDA';
 
 interface AmgdaLifeCarrierDef {
   id: string;
@@ -296,27 +296,33 @@ function buildCarrier(def: AmgdaLifeCarrierDef): Carrier {
     isActive: true,
     segment: ['Carrier (Life)'],
     linesOfBusiness: def.linesOfBusiness ?? ['Life'],
-    generalAgent: GA_AMGDA,
+    generalAgent: GA_AMGIDA,
     agencyCode: def.agencyCode,
     website: def.website,
     agentLogin: def.agentLogin,
     appetite: {
-      canWrite: ['Approved classes under AMGDA life brokerage program.'],
+      canWrite: ['Approved classes under AMGIDA life brokerage program.'],
       cannotWrite: ['Exposures outside standard carrier underwriting guidelines.'],
-      notes: `Appointed via ${GA_AMGDA}.`,
+      notes: `Appointed via ${GA_AMGIDA}.`,
     },
     contacts: [],
     incentives: {
-      commissionRate: 'AMGDA Pay Schedule',
+      commissionRate: 'AMGIDA Pay Schedule',
       notes: def.paySchedule,
     },
   };
 }
 
-/** All life carriers appointed through GA AMGDA with pay schedule details. */
-export const AMGDA_LIFE_CARRIERS: Carrier[] = DEFS.map(buildCarrier);
+/** All life carriers appointed through AMGIDA with pay schedule details. */
+export const AMGIDA_LIFE_CARRIERS: Carrier[] = DEFS.map(buildCarrier);
+
+/** @deprecated Use AMGIDA_LIFE_CARRIERS */
+export const AMGDA_LIFE_CARRIERS = AMGIDA_LIFE_CARRIERS;
 
 /** Lookup pay schedule text by carrier id. */
-export const AMGDA_PAY_SCHEDULES: Record<string, string> = Object.fromEntries(
+export const AMGIDA_PAY_SCHEDULES: Record<string, string> = Object.fromEntries(
   DEFS.map((d) => [d.id, d.paySchedule]),
 );
+
+/** @deprecated Use AMGIDA_PAY_SCHEDULES */
+export const AMGDA_PAY_SCHEDULES = AMGIDA_PAY_SCHEDULES;

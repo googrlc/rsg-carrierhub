@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Upsert GA AMGDA life carriers (with pay schedules) into Supabase.
+ * Upsert AMGIDA life carriers (with pay schedules) into Supabase.
  *
  * Usage:
  *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npx tsx scripts/seed-amgda-life-carriers.ts
@@ -9,7 +9,7 @@
  */
 import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
-import { AMGDA_LIFE_CARRIERS } from '../src/data/amgda-life-carriers';
+import { AMGIDA_LIFE_CARRIERS } from '../src/data/amgda-life-carriers';
 
 const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -21,7 +21,7 @@ if (!url || !key) {
 
 const db = createClient(url, key);
 
-function toRow(c: (typeof AMGDA_LIFE_CARRIERS)[number]) {
+function toRow(c: (typeof AMGIDA_LIFE_CARRIERS)[number]) {
   return {
     id: c.id,
     name: c.name,
@@ -40,8 +40,8 @@ function toRow(c: (typeof AMGDA_LIFE_CARRIERS)[number]) {
 }
 
 async function main() {
-  const rows = AMGDA_LIFE_CARRIERS.map(toRow);
-  console.log(`Upserting ${rows.length} GA AMGDA life carriers...`);
+  const rows = AMGIDA_LIFE_CARRIERS.map(toRow);
+  console.log(`Upserting ${rows.length} AMGIDA life carriers...`);
 
   const { error } = await db.from('carriers').upsert(rows, { onConflict: 'id' });
   if (error) {
@@ -50,7 +50,7 @@ async function main() {
   }
 
   console.log('Done. Carriers upserted with pay schedules in incentives.notes.');
-  for (const c of AMGDA_LIFE_CARRIERS) {
+  for (const c of AMGIDA_LIFE_CARRIERS) {
     console.log(`  • ${c.name} (${c.id}) → ${c.generalAgent}`);
   }
 }

@@ -1,8 +1,8 @@
 // Automatically generated from Lamar's Carrier & Contact records
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from '../types';
-import { AMGDA_LIFE_CARRIERS } from './amgda-life-carriers';
+import { AMGIDA_LIFE_CARRIERS } from './amgda-life-carriers';
 
-const EXISTING_AMGDA_LIFE_IDS = new Set([
+const EXISTING_AMGIDA_LIFE_IDS = new Set([
   'banner-life-legal-general-america',
   'symetra-life',
   'mutual-of-omaha-united-of-omaha',
@@ -3222,19 +3222,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Term / IUL"
     ],
     "agencyCode": "Agent number Y710715",
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "Direct deposit is preferred. Checks are sent to AMG's home office, then forwarded to the agent. A $50 minimum is required for all payouts and resets after each payment (e.g., $25/month pays out every other month). Payment frequency is set during contracting, with weekly as the default. EFTs are sent one business day after the commission cycle."
     }
   },
@@ -3249,19 +3249,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Term",
       "IUL"
     ],
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "Commissions are paid weekly, bi-weekly, monthly, or quarterly. There is no minimum for EFT, but the check minimum is $500. Weekly EFTs are processed on Fridays and may take 24-72 business hours to deposit."
     }
   },
@@ -3276,19 +3276,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "IUL / Term"
     ],
     "agencyCode": "Producer IDs 1087863 and 1120392",
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "Checks are mailed weekly on Thursday or Friday with a $250 minimum. EFTs are deposited weekly on Fridays with a $25 minimum. The weekly cutoff is Tuesday after close. Express Pay is available via EFT only and is issued daily as commissions are earned."
     }
   },
@@ -3302,19 +3302,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "linesOfBusiness": [
       "Life"
     ],
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "Checks are mailed every two weeks on Fridays. New agents are paid by EFT only, with deposits made weekly on Thursdays. There is a $50 minimum and a Friday cut-off. For commission questions or statements, email Corebridge commissions at imobgacomp@corebridgefinancial.com."
     }
   },
@@ -3328,19 +3328,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "linesOfBusiness": [
       "Juvenile Life"
     ],
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "A $25 minimum is required for checks and EFT. Commissions are processed on Mondays and paid out on Wednesdays."
     }
   },
@@ -3355,19 +3355,19 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "DI / Life"
     ],
     "agencyCode": "Producer code 89431",
-    "generalAgent": "GA AMGDA",
+    "generalAgent": "AMGIDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under AMGDA life brokerage program."
+        "Approved classes under AMGIDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed via GA AMGDA."
+      "notes": "Appointed via AMGIDA."
     },
     "contacts": [],
     "incentives": {
-      "commissionRate": "AMGDA Pay Schedule",
+      "commissionRate": "AMGIDA Pay Schedule",
       "notes": "Commission checks are mailed twice a month with a $500 minimum—around the 16th and the first week of the next month (includes the commission statement). For electronic payments, the minimum is $5. Commission statements are available on the carrier's Agent Forum."
     }
   },
@@ -4601,7 +4601,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
       }
     ]
   },
-  ...AMGDA_LIFE_CARRIERS.filter((c) => !EXISTING_AMGDA_LIFE_IDS.has(c.id))
+  ...AMGIDA_LIFE_CARRIERS.filter((c) => !EXISTING_AMGIDA_LIFE_IDS.has(c.id))
 ];
 
 export const INITIAL_SYSTEM_STATUSES: CarrierSystemStatus[] = [
