@@ -612,6 +612,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "BOP"
     ],
     "agencyCode": "PR-201991",
+    "generalAgent": "AMGIDA",
     "website": "https://www.progressive.com",
     "agentLogin": "https://www.foragentsonly.com/login/",
     "appetite": {
@@ -645,7 +646,11 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "phone": "",
         "region": "Source: Client (Last interaction: 2025-08-25)"
       }
-    ]
+    ],
+    "incentives": {
+      "commissionRate": "AMGIDA Pay Schedule",
+      "notes": "Month End Closing Schedule 2026\n\nJanuary — Closing: 02/06/2026 | Commission EFT: 02/12/2026\nFebruary — Closing: 03/06/2026 | Commission EFT: 03/12/2026\nMarch — Closing: 04/03/2026 | Commission EFT: 04/09/2026\nApril — Closing: 05/08/2026 | Commission EFT: 05/14/2026\nMay — Closing: 06/05/2026 | Commission EFT: 06/11/2026\nJune — Closing: 07/03/2026 | Commission EFT: 07/09/2026\nJuly — Closing: 08/07/2026 | Commission EFT: 08/13/2026\nAugust — Closing: 09/04/2026 | Commission EFT: 09/11/2026\nSeptember — Closing: 10/02/2026 | Commission EFT: 10/08/2026\nOctober — Closing: 11/06/2026 | Commission EFT: 11/13/2026\nNovember — Closing: 12/04/2026 | Commission EFT: 12/10/2026\nDecember — Closing: 01/01/2027 | Commission EFT: 01/07/2027"
+    }
   },
   {
     "id": "scottsdale",
