@@ -1,5 +1,15 @@
 // Automatically generated from Lamar's Carrier & Contact records
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from '../types';
+import { AMGDA_LIFE_CARRIERS } from './amgda-life-carriers';
+
+const EXISTING_AMGDA_LIFE_IDS = new Set([
+  'banner-life-legal-general-america',
+  'symetra-life',
+  'mutual-of-omaha-united-of-omaha',
+  'american-general-life-aig-corebridge',
+  'gerber-life',
+  'illinois-mutual',
+]);
 
 export const INITIAL_CARRIERS: Carrier[] = [
   {
@@ -3203,139 +3213,163 @@ export const INITIAL_CARRIERS: Carrier[] = [
   },
   {
     "id": "banner-life-legal-general-america",
-    "name": "Banner Life / Legal & General America",
+    "name": "Banner",
     "isActive": true,
     "segment": [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
-      "Term / appointed"
+      "Term / IUL"
     ],
     "agencyCode": "Agent number Y710715",
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: Term / appointed"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Term / appointed"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "Direct deposit is preferred. Checks are sent to AMG's home office, then forwarded to the agent. A $50 minimum is required for all payouts and resets after each payment (e.g., $25/month pays out every other month). Payment frequency is set during contracting, with weekly as the default. EFTs are sent one business day after the commission cycle."
+    }
   },
   {
     "id": "symetra-life",
-    "name": "Symetra Life",
+    "name": "Symetra",
     "isActive": true,
     "segment": [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
       "Term",
-      "IUL - approved GA eff 10/18/2023"
+      "IUL"
     ],
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: Term, IUL - approved GA eff 10/18/2023"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Term, IUL - approved GA eff 10/18/2023"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "Commissions are paid weekly, bi-weekly, monthly, or quarterly. There is no minimum for EFT, but the check minimum is $500. Weekly EFTs are processed on Fridays and may take 24-72 business hours to deposit."
+    }
   },
   {
     "id": "mutual-of-omaha-united-of-omaha",
-    "name": "Mutual of Omaha / United of Omaha",
+    "name": "Mutual of Omaha",
     "isActive": true,
     "segment": [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
-      "IUL / term"
+      "IUL / Term"
     ],
     "agencyCode": "Producer IDs 1087863 and 1120392",
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: IUL / term"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "IUL / term"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "Checks are mailed weekly on Thursday or Friday with a $250 minimum. EFTs are deposited weekly on Fridays with a $25 minimum. The weekly cutoff is Tuesday after close. Express Pay is available via EFT only and is issued daily as commissions are earned."
+    }
   },
   {
     "id": "american-general-life-aig-corebridge",
-    "name": "American General Life / AIG / Corebridge",
+    "name": "American General",
     "isActive": true,
     "segment": [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
-      "Appointed"
+      "Life"
     ],
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: Appointed"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointed"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "Checks are mailed every two weeks on Fridays. New agents are paid by EFT only, with deposits made weekly on Thursdays. There is a $50 minimum and a Friday cut-off. For commission questions or statements, email Corebridge commissions at imobgacomp@corebridgefinancial.com."
+    }
   },
   {
     "id": "gerber-life",
-    "name": "Gerber Life",
+    "name": "Gerber",
     "isActive": true,
     "segment": [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
-      "Contracted via AMG"
+      "Juvenile Life"
     ],
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: Contracted via AMG"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Contracted via AMG"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "A $25 minimum is required for checks and EFT. Commissions are processed on Mondays and paid out on Wednesdays."
+    }
   },
   {
     "id": "illinois-mutual",
     "name": "Illinois Mutual",
     "isActive": true,
     "segment": [
-      "Carrier (DI/Life)"
+      "Carrier (Life)"
     ],
     "linesOfBusiness": [
-      "Appointment active"
+      "DI / Life"
     ],
     "agencyCode": "Producer code 89431",
+    "generalAgent": "GA AMGDA",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (DI/Life) program.",
-        "Appetite details: Appointment active"
+        "Approved classes under AMGDA life brokerage program."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Appointment active"
+      "notes": "Appointed via GA AMGDA."
     },
-    "contacts": []
+    "contacts": [],
+    "incentives": {
+      "commissionRate": "AMGDA Pay Schedule",
+      "notes": "Commission checks are mailed twice a month with a $500 minimum—around the 16th and the first week of the next month (includes the commission statement). For electronic payments, the minimum is $5. Commission statements are available on the carrier's Agent Forum."
+    }
   },
   {
     "id": "img-imglobal",
@@ -4566,7 +4600,8 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "region": "Source: Carrier folder (email) (Last interaction: 2026-06-07)"
       }
     ]
-  }
+  },
+  ...AMGDA_LIFE_CARRIERS.filter((c) => !EXISTING_AMGDA_LIFE_IDS.has(c.id))
 ];
 
 export const INITIAL_SYSTEM_STATUSES: CarrierSystemStatus[] = [
