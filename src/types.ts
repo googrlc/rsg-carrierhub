@@ -70,6 +70,8 @@ export interface Carrier {
     levelBonus?: string;
     preferredTier?: string;
     notes?: string;
+    /** Commission pay cadence / cutoffs / minimums (checks vs EFT). */
+    paySchedule?: string;
   };
 }
 

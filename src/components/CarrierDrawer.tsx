@@ -119,6 +119,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
   const [editIncentiveBonus, setEditIncentiveBonus] = useState('');
   const [editIncentiveTier, setEditIncentiveTier] = useState('');
   const [editIncentiveNotes, setEditIncentiveNotes] = useState('');
+  const [editIncentivePaySchedule, setEditIncentivePaySchedule] = useState('');
   
   // Structured Appetite (carrier_appetite spine) Editor State
   const [editAppetiteRows, setEditAppetiteRows] = useState<AppetiteRecord[]>([]);
@@ -183,6 +184,7 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
       setEditIncentiveBonus(carrier.incentives?.levelBonus || '');
       setEditIncentiveTier(carrier.incentives?.preferredTier || '');
       setEditIncentiveNotes(carrier.incentives?.notes || '');
+      setEditIncentivePaySchedule(carrier.incentives?.paySchedule || '');
       setEditWorksheets(carrier.worksheets || []);
       
       // Reset AI Chat for new carrier
@@ -288,7 +290,8 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
         commissionRate: editIncentiveCommission || undefined,
         levelBonus: editIncentiveBonus || undefined,
         preferredTier: editIncentiveTier || undefined,
-        notes: editIncentiveNotes || undefined
+        notes: editIncentiveNotes || undefined,
+        paySchedule: editIncentivePaySchedule || undefined,
       }
     };
     onUpdateCarrier(updatedCarrier);
@@ -1420,6 +1423,24 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
                     </div>
                   </div>
                 )}
+
+                {/* Pay schedule */}
+                <div className="bg-white/80 p-4 rounded-xl border border-slate-100/80 text-xs">
+                  <span className="block text-[10px] text-slate-400 font-mono uppercase font-bold mb-1.5">Commission pay schedule</span>
+                  {!isEditing ? (
+                    <p className="text-slate-600 leading-relaxed font-sans whitespace-pre-wrap">
+                      {editIncentivePaySchedule || 'No pay schedule on file. Add check vs EFT cadence, cutoffs, and minimums.'}
+                    </p>
+                  ) : (
+                    <textarea
+                      placeholder="e.g. EFT deposited Fridays; weekly cutoff Thursday; $50 minimum. Checks mailed Mondays."
+                      value={editIncentivePaySchedule}
+                      onChange={(e) => setEditIncentivePaySchedule(e.target.value)}
+                      className="w-full text-xs p-2 border border-slate-200 rounded bg-white text-slate-800 focus:outline-blue-500"
+                      rows={4}
+                    />
+                  )}
+                </div>
 
                 {/* Notes block */}
                 <div className="bg-white/80 p-4 rounded-xl border border-slate-100/80 text-xs">

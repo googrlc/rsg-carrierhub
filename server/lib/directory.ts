@@ -34,12 +34,22 @@ export function formatDirectory(carriers: any[]): string {
     .map((c) => {
       const lines = [`Carrier: ${c.name} (id: ${c.id})`];
       if (c.lines_of_business?.length) lines.push(`  LOBs: ${c.lines_of_business.join(", ")}`);
+      if (c.general_agent) lines.push(`  General agent: ${c.general_agent}`);
+      else lines.push(`  Appointment: direct`);
       if (c.agency_code) lines.push(`  Agency code: ${c.agency_code}`);
       const aw = c.appetite_can_write || [];
       const an = c.appetite_cannot_write || [];
       if (aw.length) lines.push(`  Will write: ${aw.join(" | ")}`);
       if (an.length) lines.push(`  Won't write: ${an.join(" | ")}`);
       if (c.appetite_notes) lines.push(`  Notes: ${c.appetite_notes}`);
+      const inc = c.incentives;
+      if (inc && typeof inc === "object") {
+        if (inc.commissionRate) lines.push(`  Commission summary: ${inc.commissionRate}`);
+        if (inc.levelBonus) lines.push(`  Level bonus: ${inc.levelBonus}`);
+        if (inc.preferredTier) lines.push(`  Appointment tier: ${inc.preferredTier}`);
+        if (inc.paySchedule) lines.push(`  Pay schedule: ${inc.paySchedule}`);
+        if (inc.notes) lines.push(`  Incentive notes: ${inc.notes}`);
+      }
       // Structured appetite spine — the machine-queryable facts per LOB.
       for (const a of c.carrier_appetite || []) {
         const bits: string[] = [];

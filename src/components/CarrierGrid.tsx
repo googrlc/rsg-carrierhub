@@ -67,7 +67,7 @@ export default function CarrierGrid({
     const matchesFavorites = !favoritesOnly || favorites.includes(c.id);
 
     // 5. Incentives presence filter
-    const matchesIncentives = !hasIncentives || !!(c.incentives && (c.incentives.commissionRate || c.incentives.levelBonus));
+    const matchesIncentives = !hasIncentives || !!(c.incentives && (c.incentives.commissionRate || c.incentives.levelBonus || c.incentives.paySchedule));
 
     // 6. Hotline presence filter
     const matchesHotline = !hasActiveHotline || !!(c.appetite && c.appetite.underwritingHotline);

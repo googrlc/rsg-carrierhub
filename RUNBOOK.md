@@ -120,6 +120,23 @@ crontab -l | grep healthcheck          # confirm it's installed
 cat /var/tmp/carrierhub-health.state    # current known state (up/down)
 ```
 
+## Seed AMG/IDA (AMGDA) life pay schedules
+
+Life/annuity carriers appointed through GA **AMG/IDA** carry commission pay
+schedules in `carriers.incentives.paySchedule`. The canonical list lives in
+`src/data/amg-ida-carriers.ts`. To push it into Supabase (from a machine with
+the service-role key — typically `ssh hermes`):
+
+```bash
+cd /opt/rsg-carrierhub   # or a laptop checkout with .env.local
+# SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY must be set (box: .env.deploy)
+npm run seed:amg-ida -- --dry-run   # list what would write
+npm run seed:amg-ida                # upsert GA + pay schedules
+```
+
+Existing carrier rows keep contacts/appetite; only `general_agent`,
+`incentives`, and `lines_of_business` are patched. Missing carriers are inserted.
+
 ## Common issues
 
 | Symptom | Cause / fix |

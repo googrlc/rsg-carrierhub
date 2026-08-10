@@ -1,7 +1,8 @@
 // Automatically generated from Lamar's Carrier & Contact records
 import { Carrier, CarrierSystemStatus, GuidelineBulletin, Submission } from '../types';
+import { AMG_IDA_CARRIERS, AMG_IDA_GA } from './amg-ida-carriers';
 
-export const INITIAL_CARRIERS: Carrier[] = [
+const BASE_CARRIERS: Carrier[] = [
   {
     "id": "amtrust-financial",
     "name": "AmTrust Financial Services",
@@ -1802,17 +1803,17 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Life Brokerage"
     ],
     "linesOfBusiness": [
-      "Life - Term/IUL/LTC (United of Omaha/Banner/Illinois Mutual)"
+      "Life Brokerage GA (AMGDA) — Term/IUL/LTC/Annuity panel with commission pay schedules"
     ],
     "appetite": {
       "canWrite": [
         "Approved classes under Life Brokerage program.",
-        "Appetite details: Life - Term/IUL/LTC (United of Omaha/Banner/Illinois Mutual)"
+        "Appetite details: Life carriers coded through AMG/IDA (AMGDA) with commission pay schedules on file."
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Life - Term/IUL/LTC (United of Omaha/Banner/Illinois Mutual)"
+      "notes": "GA AMGDA (AMG/IDA). Downstream life/annuity carriers are appointed via this GA; see each carrier's incentives.paySchedule."
     },
     "contacts": [
       {
@@ -4568,6 +4569,57 @@ export const INITIAL_CARRIERS: Carrier[] = [
     ]
   }
 ];
+
+/** Merge AMG/IDA (AMGDA) life carriers + pay schedules into the historical seed. */
+export const INITIAL_CARRIERS: Carrier[] = (() => {
+  const amgById = new Map(AMG_IDA_CARRIERS.map((c) => [c.id, c]));
+  const seen = new Set<string>();
+  const merged = BASE_CARRIERS.map((c) => {
+    const amg = amgById.get(c.id);
+    if (!amg) {
+      // Near-duplicate life rows (Banner / Symetra) also code to AMG/IDA.
+      if (
+        c.id === 'banner-life-legal-general' ||
+        c.id === 'symetra'
+      ) {
+        return {
+          ...c,
+          generalAgent: AMG_IDA_GA,
+          incentives: {
+            ...(c.incentives || {}),
+            preferredTier: `via ${AMG_IDA_GA}`,
+            paySchedule:
+              c.id === 'symetra'
+                ? amgById.get('symetra-life')?.incentives?.paySchedule
+                : amgById.get('banner-life-legal-general-america')?.incentives?.paySchedule,
+            commissionRate:
+              c.id === 'symetra'
+                ? amgById.get('symetra-life')?.incentives?.commissionRate
+                : amgById.get('banner-life-legal-general-america')?.incentives?.commissionRate,
+          },
+        };
+      }
+      return c;
+    }
+    seen.add(c.id);
+    return {
+      ...c,
+      generalAgent: amg.generalAgent,
+      linesOfBusiness: amg.linesOfBusiness?.length ? amg.linesOfBusiness : c.linesOfBusiness,
+      incentives: amg.incentives,
+      appetite: {
+        ...c.appetite,
+        notes: c.appetite?.notes
+          ? `${c.appetite.notes} | Appointed via ${AMG_IDA_GA}.`
+          : `Appointed via ${AMG_IDA_GA}.`,
+      },
+    };
+  });
+  for (const c of AMG_IDA_CARRIERS) {
+    if (!seen.has(c.id)) merged.push(c);
+  }
+  return merged;
+})();
 
 export const INITIAL_SYSTEM_STATUSES: CarrierSystemStatus[] = [
   {
