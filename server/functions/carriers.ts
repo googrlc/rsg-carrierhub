@@ -14,6 +14,7 @@ import {
 const contactSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
+  // Job title / underwriting role for the contact (e.g. "Senior Underwriter").
   role: z.string().nullish(),
   email: z.string().nullish(),
   phone: z.string().nullish(),

@@ -8,6 +8,7 @@ export interface Appetite {
 export interface Contact {
   id: string;
   name: string;
+  /** Job title / underwriting role (e.g. "Senior Underwriter"). */
   role: string;
   email: string;
   phone: string;

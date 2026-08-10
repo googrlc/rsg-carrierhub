@@ -23,7 +23,7 @@ export async function syncCarrierContacts(
   const incoming = (contacts ?? [])
     .filter((c) => c && (c.id || c.name))
     .map((c) => ({
-      id: String(c.id ?? `contact-${carrierId}-${Date.now()}`),
+      id: String(c.id || randomUUID()),
       carrier_id: carrierId,
       name: c.name ?? "",
       role: c.role ?? null,

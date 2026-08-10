@@ -274,7 +274,14 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
         notes: editNotes,
         underwritingHotline: editHotline
       },
-      contacts: editContacts,
+      contacts: editContacts.map((c) => ({
+        ...c,
+        name: c.name.trim(),
+        role: c.role.trim(),
+        email: c.email.trim(),
+        phone: c.phone.trim(),
+        region: c.region?.trim() || undefined,
+      })),
       appetiteRows: editAppetiteRows,
       worksheets: editWorksheets,
       incentives: {
@@ -314,7 +321,9 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
   const handleAddContact = () => {
     if (!newContactName.trim() || !newContactRole.trim()) return;
     const newContact: Contact = {
-      id: `contact-${Date.now()}`,
+      id: typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? `contact-${crypto.randomUUID()}`
+        : `contact-${Date.now()}`,
       name: newContactName.trim(),
       role: newContactRole.trim(),
       email: newContactEmail.trim(),
@@ -327,6 +336,16 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
     setNewContactEmail('');
     setNewContactPhone('');
     setNewContactRegion('');
+  };
+
+  const handleUpdateContact = (
+    id: string,
+    field: keyof Pick<Contact, 'name' | 'role' | 'email' | 'phone' | 'region'>,
+    value: string,
+  ) => {
+    setEditContacts((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: value } : c)),
+    );
   };
 
   const handleRemoveContact = (id: string) => {
@@ -1155,41 +1174,100 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
               <div className="space-y-3">
                 {editContacts.map((contact) => (
                   <div key={contact.id} className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs flex items-start justify-between gap-4 group">
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-sans font-semibold text-slate-800 text-sm">{contact.name}</h4>
-                        <span className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded">
-                          {contact.role}
-                        </span>
+                    {isEditing ? (
+                      <div className="space-y-3 flex-1 min-w-0">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <label className="space-y-1">
+                            <span className="block text-[10px] font-sans font-semibold uppercase tracking-wide text-slate-400">Name</span>
+                            <input
+                              type="text"
+                              value={contact.name}
+                              onChange={(e) => handleUpdateContact(contact.id, 'name', e.target.value)}
+                              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
+                              placeholder="Contact name"
+                            />
+                          </label>
+                          <label className="space-y-1">
+                            <span className="block text-[10px] font-sans font-semibold uppercase tracking-wide text-slate-400">Title</span>
+                            <input
+                              type="text"
+                              value={contact.role}
+                              onChange={(e) => handleUpdateContact(contact.id, 'role', e.target.value)}
+                              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
+                              placeholder="Title (e.g. Senior Underwriter)"
+                            />
+                          </label>
+                          <label className="space-y-1">
+                            <span className="block text-[10px] font-sans font-semibold uppercase tracking-wide text-slate-400">Email</span>
+                            <input
+                              type="email"
+                              value={contact.email}
+                              onChange={(e) => handleUpdateContact(contact.id, 'email', e.target.value)}
+                              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
+                              placeholder="Email address"
+                            />
+                          </label>
+                          <label className="space-y-1">
+                            <span className="block text-[10px] font-sans font-semibold uppercase tracking-wide text-slate-400">Phone</span>
+                            <input
+                              type="text"
+                              value={contact.phone}
+                              onChange={(e) => handleUpdateContact(contact.id, 'phone', e.target.value)}
+                              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
+                              placeholder="Phone number"
+                            />
+                          </label>
+                          <label className="space-y-1 sm:col-span-2">
+                            <span className="block text-[10px] font-sans font-semibold uppercase tracking-wide text-slate-400">Region</span>
+                            <input
+                              type="text"
+                              value={contact.region || ''}
+                              onChange={(e) => handleUpdateContact(contact.id, 'region', e.target.value)}
+                              className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
+                              placeholder="Region coverage (optional)"
+                            />
+                          </label>
+                        </div>
                       </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1.5 text-xs text-slate-500">
-                        {contact.email && (
-                          <a href={`mailto:${contact.email}`} className="flex items-center gap-1.5 hover:text-blue-600 transition truncate">
-                            <Mail className="w-3.5 h-3.5" />
-                            {contact.email}
-                          </a>
-                        )}
-                        {contact.phone && (
-                          <a href={`tel:${contact.phone}`} className="flex items-center gap-1.5 hover:text-blue-600 transition">
-                            <Phone className="w-3.5 h-3.5" />
-                            {contact.phone}
-                          </a>
-                        )}
-                        {contact.region && (
-                          <span className="flex items-center gap-1.5 text-slate-400">
-                            <MapPin className="w-3.5 h-3.5" />
-                            {contact.region}
-                          </span>
-                        )}
+                    ) : (
+                      <div className="space-y-2 flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h4 className="font-sans font-semibold text-slate-800 text-sm">{contact.name}</h4>
+                          {contact.role && (
+                            <span className="text-[10px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded">
+                              {contact.role}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1.5 text-xs text-slate-500">
+                          {contact.email && (
+                            <a href={`mailto:${contact.email}`} className="flex items-center gap-1.5 hover:text-blue-600 transition truncate">
+                              <Mail className="w-3.5 h-3.5" />
+                              {contact.email}
+                            </a>
+                          )}
+                          {contact.phone && (
+                            <a href={`tel:${contact.phone}`} className="flex items-center gap-1.5 hover:text-blue-600 transition">
+                              <Phone className="w-3.5 h-3.5" />
+                              {contact.phone}
+                            </a>
+                          )}
+                          {contact.region && (
+                            <span className="flex items-center gap-1.5 text-slate-400">
+                              <MapPin className="w-3.5 h-3.5" />
+                              {contact.region}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {isEditing && (
-                      <button 
+                      <button
                         onClick={() => handleRemoveContact(contact.id)}
-                        className="p-1 text-red-400 hover:text-red-600 transition"
-                        title="Remove Contact"
+                        className="p-1 text-red-400 hover:text-red-600 transition shrink-0"
+                        title="Delete contact"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -1207,51 +1285,52 @@ export default function CarrierDrawer({ carrier, onClose, onUpdateCarrier, onDel
               {/* Add New Contact Form */}
               {isEditing && (
                 <div className="bg-blue-50/40 p-4 rounded-xl border border-blue-100/60 space-y-3">
-                  <span className="block text-xs font-sans font-semibold text-blue-950">Add New Underwriter Contact</span>
-                  
+                  <span className="block text-xs font-sans font-semibold text-blue-950">Add Contact</span>
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <input 
+                    <input
                       type="text"
                       placeholder="Name (e.g. Robert Smith)"
                       value={newContactName}
                       onChange={(e) => setNewContactName(e.target.value)}
-                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-indigo-500"
+                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
                     />
-                    <input 
+                    <input
                       type="text"
-                      placeholder="Role (e.g. Senior Underwriter)"
+                      placeholder="Title (e.g. Senior Underwriter)"
                       value={newContactRole}
                       onChange={(e) => setNewContactRole(e.target.value)}
                       className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
                     />
-                    <input 
+                    <input
                       type="email"
-                      placeholder="Email Address"
+                      placeholder="Email"
                       value={newContactEmail}
                       onChange={(e) => setNewContactEmail(e.target.value)}
-                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-indigo-500"
+                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
                     />
-                    <input 
+                    <input
                       type="text"
                       placeholder="Phone"
                       value={newContactPhone}
                       onChange={(e) => setNewContactPhone(e.target.value)}
-                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-indigo-500"
+                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500"
                     />
-                    <input 
+                    <input
                       type="text"
-                      placeholder="Region Coverage (e.g. West Coast)"
+                      placeholder="Region coverage (optional)"
                       value={newContactRegion}
                       onChange={(e) => setNewContactRegion(e.target.value)}
-                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-indigo-500 sm:col-span-2"
+                      className="border border-slate-200 rounded px-2.5 py-1.5 text-xs bg-white focus:outline-blue-500 sm:col-span-2"
                     />
                   </div>
 
                   <button
                     onClick={handleAddContact}
-                    className="w-full py-1.5 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700 transition"
+                    className="w-full py-1.5 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-1.5"
                   >
-                    Insert Contact
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Contact
                   </button>
                 </div>
               )}
