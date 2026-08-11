@@ -1,0 +1,56 @@
+[
+  {
+    "sic": "",
+    "class_description": "Guaranteed Life \u2014 product overview & appetite",
+    "cna_connect_class_code": "GERBER-GL",
+    "industry_group": "Life \u2014 Guaranteed Issue",
+    "small_business_appetite": "Gerber Life Guaranteed Life whole life. Issue ages 50\u201380. Face amounts $5,000\u2013$25,000 ($15,000 max in South Dakota). No health questions on the application \u2014 guaranteed acceptance subject to the two-year graded death benefit. Contracted via AMG. Agent portal: www.gerberlifeagency.com. Fax apps to 877-608-4634.",
+    "products_available": "Guaranteed Life whole life (policy form ICC12-GWLP / GWLP-12; NY GWLP-19-NY)",
+    "territorial_restrictions": "Issued in all states except MT. SD face max $15,000. State requirements vary."
+  },
+  {
+    "sic": "",
+    "class_description": "Two-year graded death benefit",
+    "cna_connect_class_code": "GERBER-GRADED",
+    "industry_group": "Life \u2014 Underwriting / Benefits",
+    "small_business_appetite": "Guarantee to accept ages 50\u201380 is made possible by a two-year graded death benefit. Year 1\u20132 non-accidental death: return of premiums + 10% of earned premium. Accidental death in graded period: full face amount. After two years: full face for any cause. Suicide within two years (one year in ND): premiums + 10% earned premium only. Agents MUST disclose the graded benefit to all applicants.",
+    "products_available": "Guaranteed Life",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Premium modes & ACH discount",
+    "cna_connect_class_code": "GERBER-PREM",
+    "industry_group": "Life \u2014 Premium / Billing",
+    "small_business_appetite": "Monthly ACH premiums (checking/savings) preferred \u2014 ACH discount up to ~8%. Direct bill / Direct Express / debit / credit card monthly premiums are higher than ACH. Additional rates on the Gerber Life Agent Portal quote tool. Modal factor example: Monthly = Annual Rate \u00d7 0.090909.",
+    "products_available": "Guaranteed Life",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Application submission & required forms",
+    "cna_connect_class_code": "GERBER-APP",
+    "industry_group": "Life \u2014 Applications",
+    "small_business_appetite": "Producer Certification page is part of the Guaranteed Life app and must be submitted with the application. App asks NO health questions. Required/conditional forms: CA senior disclosure (age 65+ home visit \u2014 keep on file, do not send); NY Definition of Replacement (required even though replacements not allowed in NY \u2014 same sign date as app); state Replacement Form if replacing; NAIC Replacement Sales/Marketing Materials Form (commissions withheld until received); Payment Authorization (ACH-AP); Receipt CRGI for check/money order. Kansas cannot accept check/money order with application. Split commissions allowed between 2 agents. Applications faxed to 877-608-4634. No POA/guardianship apps except legal guardians of children.",
+    "products_available": "Guaranteed Life",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Replacements \u2014 prohibited states",
+    "cna_connect_class_code": "GERBER-REPL",
+    "industry_group": "Life \u2014 Replacements",
+    "small_business_appetite": "Replacements are NOT accepted in: CA, DE, FL, ID, IL, KY, MA, MO, NY, PA, PR, TN, WA.",
+    "products_available": "Guaranteed Life",
+    "territorial_restrictions": "No replacements: CA, DE, FL, ID, IL, KY, MA, MO, NY, PA, PR, TN, WA"
+  },
+  {
+    "sic": "",
+    "class_description": "Sample ACH monthly rates \u2014 age 50 / 65 / 80",
+    "cna_connect_class_code": "GERBER-RATES",
+    "industry_group": "Life \u2014 Rates",
+    "small_business_appetite": "Sample Guaranteed Life monthly ACH premiums (GL-RC 0620). Age 50 male $5k/$25k: $22.50 / $108.86; female $17.69 / $84.79. Age 65 male $5k/$25k: $43.04 / $211.52; female $31.76 / $155.15. Age 80 male $5k/$25k: $124.12 / $616.92; female $88.64 / $439.55. Full tables in Nextcloud Carriers/Gerber Life/Pricing guides. Quote tool: www.gerberlifeagency.com.",
+    "products_available": "Guaranteed Life",
+    "territorial_restrictions": ""
+  }
+]

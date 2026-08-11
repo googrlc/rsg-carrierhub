@@ -1,0 +1,20 @@
+[
+  {
+    "sic": "",
+    "class_description": "2026 Month-End Closing Schedule (commission EFT)",
+    "cna_connect_class_code": "PROG-CLOSE-2026",
+    "industry_group": "Personal/Commercial \u2014 Commission Ops",
+    "small_business_appetite": "Progressive ForAgentsOnly Month End Closing Schedule 2026. Closing Date \u2192 Commission EFT Pay Date: Jan 02/06\u219202/12; Feb 03/06\u219203/12; Mar 04/03\u219204/09; Apr 05/08\u219205/14; May 06/05\u219206/11; Jun 07/03\u219207/09; Jul 08/07\u219208/13; Aug 09/04\u219209/11; Sep 10/02\u219210/08; Oct 11/06\u219211/13; Nov 12/04\u219212/10; Dec 01/01/2027\u219201/07/2027. Source: FAO Closing Schedule report.",
+    "products_available": "Personal Auto, Commercial Auto, and other Progressive lines paid on FAO commission schedule",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Agency codes & FAO portal",
+    "cna_connect_class_code": "PROG-PORTAL",
+    "industry_group": "Agency Ops",
+    "small_business_appetite": "RSG Progressive agency code PR-201991. Agent portal: ForAgentsOnly (https://www.foragentsonly.com/login/). Closing schedule also published under FAO Agency Admin \u2192 Reports \u2192 Commission \u2192 Closing Schedule.",
+    "products_available": "Personal Auto, Commercial Auto, Renters, GL, BOP",
+    "territorial_restrictions": ""
+  }
+]

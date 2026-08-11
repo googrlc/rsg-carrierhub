@@ -47,6 +47,9 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
   { section: 'Carriers', name: 'PayComp', icon: Calculator,
     url: 'https://oht.servehttp.com/agency-app/login/',
     desc: 'Workers’ comp pay-as-you-go payroll processing — agency login.' },
+  { section: 'Carriers', name: 'Carrier Files (Nextcloud)', icon: FolderOpen,
+    url: 'https://nextcloud-x6wle-u69864.vm.elestio.app/apps/files/?dir=/Carriers',
+    desc: 'Agency carrier source folder — appetite kits, UW guides, commissions.' },
 
   // ── Sales Tools ────────────────────────────────────────────────────────────
   { section: 'Sales Tools', name: 'Client Intake Space', icon: UserPlus,
@@ -71,7 +74,10 @@ export const LAUNCHPAD_LINKS: LaunchpadLink[] = [
   // ── Storage Tools ──────────────────────────────────────────────────────────
   { section: 'Storage Tools', name: 'Nextcloud', icon: FolderOpen,
     url: 'https://nextcloud-x6wle-u69864.vm.elestio.app',
-    desc: 'Client documents — two-lane folder tree (PL / CL). Only cloud storage.' },
+    desc: 'Shared agency files — client docs (PL / CL) and carrier kits.' },
+  { section: 'Storage Tools', name: 'Nextcloud Carriers', icon: FolderOpen,
+    url: 'https://nextcloud-x6wle-u69864.vm.elestio.app/apps/files/?dir=/Carriers',
+    desc: 'Deep link to /Carriers — same folder as the desktop Nextcloud mount.' },
 
   // ── Back Office ────────────────────────────────────────────────────────────
   { section: 'Back Office', name: 'Supabase', icon: Database,

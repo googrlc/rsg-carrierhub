@@ -1,0 +1,92 @@
+[
+  {
+    "sic": "",
+    "class_description": "Final Expense Whole Life \u2014 product overview & appetite",
+    "cna_connect_class_code": "CICA-FE",
+    "industry_group": "Life \u2014 Final Expense",
+    "small_business_appetite": "CICA Life (Citizens, Inc.) final expense whole life, sold through the Superior Choice agent e-application. Two underwriting tiers: a Simplified Issue tier gated by the health questions below, and a Guaranteed Issue (GI) tier. If ANY health question is answered 'yes', the application must be recalculated as the GI product \u2014 return to step 1 and scroll through all steps.",
+    "products_available": "Simplified Issue Whole Life; Guaranteed Issue (GI) Whole Life",
+    "territorial_restrictions": "Availability varies by state \u2014 check the current availability list on the CICA Superior Choice agent portal before taking an application."
+  },
+  {
+    "sic": "",
+    "class_description": "Terminal Illness Accelerated Death Benefit",
+    "cna_connect_class_code": "CICA-TI-ADB",
+    "industry_group": "Life \u2014 Riders / Additional Coverage",
+    "small_business_appetite": "Accelerated death benefit for terminal illness. Maximum accelerated benefit payment equals $15,000.",
+    "products_available": "Included as additional coverage on the whole life policy",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Accidental Death Benefit rider",
+    "cna_connect_class_code": "CICA-ADB",
+    "industry_group": "Life \u2014 Riders / Additional Coverage",
+    "small_business_appetite": "Doubles the policy face amount on accidental death. Maximum benefit payment equals $30,000. Available ages 0\u201384. Additional premium of $5 per month regardless of face amount.",
+    "products_available": "Optional Accidental Death Benefit rider",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Simplified-issue eligibility \u2014 health questions (knockouts)",
+    "cna_connect_class_code": "CICA-UW",
+    "industry_group": "Life \u2014 Underwriting",
+    "small_business_appetite": "Simplified-issue underwriting is gated by these health questions. A 'yes' to ANY question disqualifies the simplified-issue product and requires recalculating as the Guaranteed Issue (GI) product. A) Currently hospitalized, confined to a bed or nursing facility, residing in an assisted living facility, receiving hospice care, or has any physical/mental impairment needing assistance or supervision with activities of daily living, unable to self-care, or terminally ill. B) Tested positive for HIV, or diagnosed with ARC or AIDS. C) Diagnosed with more than one occurrence of any cancer, a recurrence, metastasis, or currently being treated for cancer (excluding basal cell or squamous cell skin cancer). D) In the past 10 years, medically diagnosed with (whether or not treated or medicated): uncontrolled diabetes, uncontrolled high blood pressure, stroke/TIA, paralysis, congestive heart failure, heart disease, cardiomyopathy, lung disease (incl. COPD/emphysema), liver cirrhosis or failure, kidney (renal) failure/insufficiency, or chronic/end-stage kidney disease (incl. dialysis). E) Ever diagnosed, treated, or medicated for a mental disorder, disorder of the brain or nervous system, Systemic Lupus (SLE), Alzheimer's disease, dementia, brain disease, organic brain syndrome, ALS (Lou Gehrig's disease), Huntington's disease, Muscular Dystrophy, Cystic Fibrosis, Pulmonary Fibrosis, or Multiple Myeloma. F) In the past 2 years, hospitalized 2 or more times, or advised/recommended to have tests, treatment, surgery, or hospitalization that has not been received or completed. G) Within the last 2 years, treated for or advised to be treated for alcohol, drug, opioid, or controlled-substance abuse, pled guilty to or been convicted of a felony or misdemeanor, or attempted suicide. H) Within the last 5 years, advised by a licensed medical professional to have an organ transplant.",
+    "products_available": "Determines Simplified Issue vs. Guaranteed Issue product",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "State availability & appointments",
+    "cna_connect_class_code": "CICA-AVAIL",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Check state appointments and product availability BEFORE taking an application. The Licenses & Appointments report is on the agent portal dashboard, and the current availability list is on the agent portal.",
+    "products_available": "",
+    "territorial_restrictions": "Product/state availability varies \u2014 verify on the CICA Superior Choice agent portal before applying."
+  },
+  {
+    "sic": "",
+    "class_description": "Application tips \u2014 e-app entry rules",
+    "cna_connect_class_code": "CICA-APP",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "If the client has no email, use none@none.com \u2014 do NOT use your agent email or the policy will go to underwriting. Beneficiary name, date of birth, relationship, and percentage are required. Use 0's for the Social Security Number and none@none.com for email if unavailable; a TaxID number may be used if the client has no SSN. The replacement form is included in the e-app and must have the replaced carrier name; the policy number may be the client's SSN or 0's if unavailable. Step 7 \u2013 Remarks: do NOT enter information here, or the application goes to a manual underwriting process. For a concern about a policy, email CICA at cps@citizensinc.com.",
+    "products_available": "",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Premium & payment rules",
+    "cna_connect_class_code": "CICA-PREM",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Premiums may be scheduled up to 28 days in advance. Hold dates for recurring payments may be the 1st\u201328th of the month. Missed premiums can be collected from the agent portal at any time. Third-party premium payors are allowed. Payments may be made via ACH, credit card, debit card, and Direct Express. ONLY policies set to pay premiums on recurring ACH receive advanced commissions.",
+    "products_available": "",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Commissions",
+    "cna_connect_class_code": "CICA-COMM",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Advances are paid on recurring ACH; all others are paid as-earned. Six-month advance, with chargebacks debited from as-earned payments. Commissions are paid each Friday for business settled (first premium payment successful) between the previous Wednesday and Tuesday \u2014 e.g., a policy with a first successful draft between 7/5 and 7/11 is paid 7/14.",
+    "products_available": "",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Tele-Sales / Call Center Sales",
+    "cna_connect_class_code": "CICA-TELESALES",
+    "industry_group": "Distribution",
+    "small_business_appetite": "Tele-Sales / Call Center Sales is a supported distribution method for CICA Superior Choice. See the CICA agent portal and current guidelines for the tele-sales workflow and requirements.",
+    "products_available": "",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Superior Choice agent portal & mobile app",
+    "cna_connect_class_code": "CICA-PORTAL",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "CICA Superior Choice agent portal (https://cicaamerica.citizensinc.com/): track pending lapses, collect missed premiums, view policy payment status, view key policy information, track personal and agency production, and export reports to view in a CRM. A mobile app is available for phone, tablet, or desktop and is downloadable from the agent portal; its Offline Mode helps agents working in areas with limited reception.",
+    "products_available": "",
+    "territorial_restrictions": ""
+  }
+]

@@ -340,7 +340,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "High-risk recreational centers and theme parks",
         "Startups under 2 years looking for heavy specialty professional cover"
       ],
-      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments.",
+      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments. File-backed class guide plus Epack 3 management liability overview and CNA Connect Small Business eligible-value caps (Nextcloud Carriers/CNA).",
       "underwritingHotline": "800-262-2000"
     },
     "contacts": [
@@ -615,8 +615,11 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "High-value corporate estate properties under single policy",
         "Cargo transport outside approved interstate routes"
       ],
-      "notes": "Unbeatable market share for auto classes. The ForAgentsOnly (FAO) portal is standard. Great options for standard personal auto and highly hazardous commercial driving situations.",
+      "notes": "Unbeatable market share for auto classes. The ForAgentsOnly (FAO) portal is standard. Great options for standard personal auto and highly hazardous commercial driving situations. 2026 month-end closing / commission EFT schedule is in Nextcloud Carriers/Progressive and the Progressive profile guide.",
       "underwritingHotline": "800-274-4000"
+    },
+    "incentives": {
+      "notes": "2026 FAO Month End Closing Schedule on file (Closing Date → Commission EFT Pay Date). See carrier-assets/progressive profile guide."
     },
     "contacts": [
       {
@@ -636,6 +639,43 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "region": "Source: Client (Last interaction: 2025-08-25)"
       }
     ]
+  },
+  {
+    "id": "orion180",
+    "name": "Orion180",
+    "isActive": true,
+    "segment": [
+      "Carrier",
+      "Personal Lines"
+    ],
+    "linesOfBusiness": [
+      "Homeowners HO3",
+      "Dwelling Fire",
+      "Home & Electronics Protection",
+      "AWTOS Water Shutoff"
+    ],
+    "agencyCode": "Agency ID 2865",
+    "website": "https://www.orion180.com",
+    "appetite": {
+      "canWrite": [
+        "Georgia admitted HO3 — Coverage A $200k–$1M, max TIV $2M, PC 1–9, non-coastal",
+        "Owner-occupied single-family / qualifying townhouse-duplex; seasonal/secondary (no rental)",
+        "Home & Electronics Protection add-ons; AWTOS in AL/CA/FL/MA/MS/NC/SC/TX (surplus lines)"
+      ],
+      "cannotWrite": [
+        "Protection Class 10; coastal counties (GA admitted overview)",
+        "Rental exposure, vacant/for-sale >30 days unoccupied, mobile/manufactured/log homes",
+        "Primary heat via space heater/wood stove; knob & tube / aluminum / Federal Pacific panels"
+      ],
+      "notes": "Agency ID 2865. Pay Advanced. HO NB 13% / Renewal 11.50%. Demotech A- (Orion180 Select). Full GA HO3 overview, UW/QRGs, AWTOS, and electronics commission table in Nextcloud Carriers/Orion180. Profile guide: public/carrier-assets/orion180.",
+      "underwritingHotline": "866-590-3550"
+    },
+    "incentives": {
+      "commissionRate": "NB 13% / Renewal 11.50%",
+      "preferredTier": "Pay: Advanced",
+      "notes": "Homeowners appointment Agency ID 2865. Electronics Protection flat commissions: Tech/Smart/Total $25; Home Protection $50 (Fortegra)."
+    },
+    "contacts": []
   },
   {
     "id": "scottsdale",
@@ -936,8 +976,12 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "Aviation, maritime, or high-rise construction (over 3 stories)",
         "Underground pipelines or industrial chemical manufacturers"
       ],
-      "notes": "Next is a fully digital insurtech giant. Incredibly smooth platform, instant certificates of insurance, and simple monthly billing formats.",
+      "notes": "Next is a fully digital insurtech giant. Incredibly smooth platform, instant certificates of insurance, and simple monthly billing formats. May 2026 commission statement (Nextcloud Carriers/Next Insurance) shows 13% agent commission on active renewals across GL/BOP/PL.",
       "underwritingHotline": "855-222-5919"
+    },
+    "incentives": {
+      "commissionRate": "13%",
+      "notes": "Observed on May 2026 Next commission CSV (tiers 1–3 renewals). Source: Nextcloud /Carriers/Next Insurance/Commsions/May 2026.csv"
     },
     "contacts": [
       {
@@ -3311,6 +3355,32 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "contacts": []
   },
   {
+    "id": "cica-life",
+    "name": "CICA Life",
+    "isActive": true,
+    "segment": [
+      "Carrier (Life)"
+    ],
+    "linesOfBusiness": [
+      "Final Expense Whole Life (Simplified Issue)",
+      "Guaranteed Issue Whole Life",
+      "Accidental Death Benefit rider",
+      "Terminal Illness Accelerated Death Benefit"
+    ],
+    "appetite": {
+      "canWrite": [
+        "Final expense whole life via Superior Choice e-application",
+        "Simplified Issue when all health knockouts are 'no'; Guaranteed Issue otherwise",
+        "Accidental Death Benefit rider ages 0–84 ($5/mo; max $30,000)"
+      ],
+      "cannotWrite": [
+        "Simplified Issue when any health knockout question is answered yes (recalculate as GI)"
+      ],
+      "notes": "Citizens, Inc. / CICA Superior Choice. Source deck in Nextcloud Carriers/Cica Life (cica presentation.pptx). Profile guide: public/carrier-assets/cica."
+    },
+    "contacts": []
+  },
+  {
     "id": "gerber-life",
     "name": "Gerber Life",
     "isActive": true,
@@ -3318,17 +3388,23 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Carrier (Life)"
     ],
     "linesOfBusiness": [
+      "Guaranteed Life (whole life)",
       "Contracted via AMG"
     ],
+    "website": "https://www.gerberlifeagency.com",
+    "agentLogin": "https://www.gerberlifeagency.com",
     "appetite": {
       "canWrite": [
-        "Approved classes under Carrier (Life) program.",
-        "Appetite details: Contracted via AMG"
+        "Guaranteed Life ages 50–80, face $5,000–$25,000 ($15,000 max in SD)",
+        "No-health-question guaranteed issue with two-year graded death benefit",
+        "ACH monthly premiums (preferred) and direct-bill modes"
       ],
       "cannotWrite": [
-        "Exposures outside standard carrier underwriting guidelines."
+        "Montana (not issued)",
+        "Replacements in CA, DE, FL, ID, IL, KY, MA, MO, NY, PA, PR, TN, WA",
+        "Applications under Power of Attorney / guardianship (except legal guardians of children)"
       ],
-      "notes": "Contracted via AMG"
+      "notes": "Contracted via AMG. Guaranteed Life kit + rate charts live in Nextcloud Carriers/Gerber Life. Fax apps to 877-608-4634. Profile guide: public/carrier-assets/gerber-life."
     },
     "contacts": []
   },

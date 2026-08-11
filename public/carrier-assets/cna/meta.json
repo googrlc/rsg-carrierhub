@@ -1,4 +1,9 @@
 {
   "carrierId": "cna-insurance",
-  "carrierName": "CNA Insurance"
+  "carrierName": "CNA Insurance",
+  "nextcloudSources": [
+    "Carriers/CNA/Appetite Guide/Epack3-Overview-SS.pdf",
+    "Carriers/CNA/Appetite Guide/CNA-Small-Business-Eligible-Values.pdf",
+    "Carriers/CNA/Appetite Guide/ProfileGuide.xls (existing class guide)"
+  ]
 }
