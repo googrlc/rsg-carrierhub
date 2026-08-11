@@ -2726,6 +2726,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Workers' Compensation (9 markets)",
       "Commercial Lines (15 categories / 24 markets)"
     ],
+    "agencyCode": "VEN031672",
     "website": "https://www.invounderwriting.com",
     "appetite": {
       "canWrite": [
@@ -2736,7 +2737,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "cannotWrite": [
         "Exposures outside INVO portal carrier guidelines."
       ],
-      "notes": "Appointed Jun 2026. INVO portal market map on file: 35 Personal Lines markets, 9 WC markets (Instant Access vs Direct Submit), 24 commercial markets. Agent support: agent.support@invounderwriting.com / (865) 482-8142. See carrier-assets/invo profile guide for per-market categories."
+      "notes": "Appointed Jun 2026. Risk Solutions Group vendor/agency ID VEN031672. INVO portal market map on file: 35 Personal Lines markets, 9 WC markets (Instant Access vs Direct Submit), 24 commercial markets. Agent support: agent.support@invounderwriting.com / (865) 482-8142. See carrier-assets/invo profile guide for per-market categories."
     },
     "contacts": [
       {

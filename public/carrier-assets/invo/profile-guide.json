@@ -4,7 +4,16 @@
   "class_description": "INVO Underwriting portal \u2014 market map overview",
   "cna_connect_class_code": "INVO-OVERVIEW",
   "industry_group": "INVO Portal \u2014 Overview",
-  "small_business_appetite": "INVO Underwriting (INVO) portal appointment for RSG. Portal spans Personal Lines (35 carriers/markets across 16 categories), Workers' Compensation (9 markets), and Commercial (24 carriers/markets across 15 categories). Agent support: agent.support@invounderwriting.com / (865) 482-8142.",
+  "small_business_appetite": "INVO Underwriting (INVO) portal appointment for Risk Solutions Group. RSG vendor/agency ID: VEN031672. Portal spans Personal Lines (35 carriers/markets across 16 categories), Workers' Compensation (9 markets), and Commercial (24 carriers/markets across 15 categories). Agent support: agent.support@invounderwriting.com / (865) 482-8142.",
+  "products_available": "Personal Lines; Workers' Compensation; Commercial Lines",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Producer appointment \u2014 Risk Solutions Group vendor ID",
+  "cna_connect_class_code": "INVO-VEN031672",
+  "industry_group": "Producer Operations",
+  "small_business_appetite": "Risk Solutions Group INVO Underwriting vendor/agency ID: VEN031672. Use this ID when referencing the RSG appointment on the INVO portal.",
   "products_available": "Personal Lines; Workers' Compensation; Commercial Lines",
   "territorial_restrictions": ""
  },

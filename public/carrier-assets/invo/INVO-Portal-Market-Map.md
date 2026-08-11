@@ -1,5 +1,7 @@
 # INVO Underwriting portal market map
 
+Risk Solutions Group vendor/agency ID: **VEN031672**
+
 ## Personal Lines
 
 The portal’s 16 Personal Lines categories are Auto, Collector Vehicle, Condo, Dwelling, Earthquake, Excess Liability, Flood, HO4 Renters, Homeowners, Jewelry, Manufactured Home, Personal Article Floater, Personal Liability, Recreational Vehicles, Vacant Dwelling, and Watercraft.
