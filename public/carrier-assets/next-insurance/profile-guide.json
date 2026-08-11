@@ -1,0 +1,20 @@
+[
+  {
+    "sic": "",
+    "class_description": "Commission \u2014 observed May 2026 statement",
+    "cna_connect_class_code": "NEXT-COMM",
+    "industry_group": "Commercial \u2014 Commission",
+    "small_business_appetite": "May 2026 Next Insurance commission statement shows Agent Commission rate 13 across active renewal policies (tiers 1\u20133). LOBs on statement: GL, BP (BOP), PL. Payment plans include monthly and single_payment. Agency code TAC000152. Portal: agents.nextinsurance.com.",
+    "products_available": "GL, BOP, Professional Liability (and other Next small-commercial lines)",
+    "territorial_restrictions": "Statement samples are GA-domiciled risks"
+  },
+  {
+    "sic": "",
+    "class_description": "Classes written \u2014 May 2026 book samples",
+    "cna_connect_class_code": "NEXT-CLASSES",
+    "industry_group": "Commercial \u2014 Appetite samples",
+    "small_business_appetite": "Recent RSG Next book samples (May 2026): Hair Stylist / salon GL; E-Commerce BOP; House Cleaning and Maid Service GL; Insurance Agent PL; Auto Body Shop GL. Aligns with Next appetite for solo operators, artisan trades, retail, and professional offices.",
+    "products_available": "GL, BOP, PL",
+    "territorial_restrictions": "GA samples; Next writes nationally subject to product availability"
+  }
+]

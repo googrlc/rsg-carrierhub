@@ -859,7 +859,7 @@
   "class_description": "CATALOG & MAIL ORDER HOUSES",
   "cna_connect_class_code": "59999C",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling items over the internet, by telephone or mail. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sale of hazardous products which can cause bodily injury or property damage, Rack Storage exceeding 12 ft. in height, Operating as flea market, Sale of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling items over the internet, by telephone or mail. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sale of hazardous products which can cause bodily injury or property damage, Rack Storage exceeding 12 ft. in height, Operating as flea market, Sale of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -877,7 +877,7 @@
   "class_description": "CELL PHONE SERVICES",
   "cna_connect_class_code": "71921A",
   "industry_group": "Business Services - Technology",
-  "small_business_appetite": "Resellers of wireless services. Cell phone stores, which include selling and repairing cell phones, are contemplated. Ineligible exposures: Cell phone carriers, Hard-line telephone services (see SIC 48130 Telecommunications and Internet Services – Including Installation – SIC 48130), Open past 11:00 p.m., Kiosks or seasonal operations (open less than eight months per year), Sale of used or refurbished merchandise exceeding 10% of total annual sales, Manufacturing, repackaging and relabeling of any products (see eligible manufacturing classifications), Wholesale distribution of cell phones.",
+  "small_business_appetite": "Resellers of wireless services. Cell phone stores, which include selling and repairing cell phones, are contemplated. Ineligible exposures: Cell phone carriers, Hard-line telephone services (see SIC 48130 Telecommunications and Internet Services \u2013 Including Installation \u2013 SIC 48130), Open past 11:00 p.m., Kiosks or seasonal operations (open less than eight months per year), Sale of used or refurbished merchandise exceeding 10% of total annual sales, Manufacturing, repackaging and relabeling of any products (see eligible manufacturing classifications), Wholesale distribution of cell phones.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb, Technology E&O",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -1048,7 +1048,7 @@
   "class_description": "CLOTHING STORES - CHILDREN & INFANTS WEAR",
   "cna_connect_class_code": "56413",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling children and infant clothing and accessories. Ineligible Connect: Sale of used merchandise exceeding 10% of total annual sales, Goods manufactured or sold under applicants own label, Sale of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling children and infant clothing and accessories. Ineligible Connect: Sale of used merchandise exceeding 10% of total annual sales, Goods manufactured or sold under applicants own label, Sale of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -1201,7 +1201,7 @@
   "class_description": "COMMUNITY HEALTH CENTERS, DEEMED",
   "cna_connect_class_code": "65121X",
   "industry_group": "Office - Healthcare",
-  "small_business_appetite": "A community health center serves populations with limited access to healthcare. Services range from family medicine to oral health, women’s health, pediatrics, healthcare education and assistance in accessing social service providers. A deemed health center meets federal Medicare/ Medicaid requirements. In some instances, employees are considered federal employees and are immune from lawsuits for medical malpractice. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
+  "small_business_appetite": "A community health center serves populations with limited access to healthcare. Services range from family medicine to oral health, women\u2019s health, pediatrics, healthcare education and assistance in accessing social service providers. A deemed health center meets federal Medicare/ Medicaid requirements. In some instances, employees are considered federal employees and are immune from lawsuits for medical malpractice. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
  },
@@ -1210,7 +1210,7 @@
   "class_description": "COMMUNITY HEALTH CENTERS, NONDEEMED",
   "cna_connect_class_code": "65121X",
   "industry_group": "Office - Healthcare",
-  "small_business_appetite": "A community health center serves populations with limited access to healthcare. Services range from family medicine to oral health, women’s health, pediatrics, healthcare education and assistance in accessing social service providers. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
+  "small_business_appetite": "A community health center serves populations with limited access to healthcare. Services range from family medicine to oral health, women\u2019s health, pediatrics, healthcare education and assistance in accessing social service providers. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
  },
@@ -1255,7 +1255,7 @@
   "class_description": "COMPUTER, CELL PHONE AND TABLET MAINTENANCE & REPAIR",
   "cna_connect_class_code": "71921B",
   "industry_group": "Office - Technology",
-  "small_business_appetite": "Maintenance and repair of computers and computer peripheral equipment. Repair of cell phones and tablets, including mobile repair services, is contemplated. Ineligible exposures: Sale of used or refurbished merchandise exceeding 10% of total annual sales (See SIC 35710 Computer Mfg. or SIC 35770 Computer Peripheral Equipment Mfg. NEC); Repair of audio/visual equipment, including flat panel TVs; Mobile cell phone and tablet repair if services are conducted on clients’ premises. Please review the Technology Minimum Requirements for additional information.",
+  "small_business_appetite": "Maintenance and repair of computers and computer peripheral equipment. Repair of cell phones and tablets, including mobile repair services, is contemplated. Ineligible exposures: Sale of used or refurbished merchandise exceeding 10% of total annual sales (See SIC 35710 Computer Mfg. or SIC 35770 Computer Peripheral Equipment Mfg. NEC); Repair of audio/visual equipment, including flat panel TVs; Mobile cell phone and tablet repair if services are conducted on clients\u2019 premises. Please review the Technology Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb, Technology E&O",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -1372,7 +1372,7 @@
   "class_description": "CONDOMINIUMS - COMML - MERCANTILE (ASSN. RISK ONLY)",
   "cna_connect_class_code": "62000A",
   "industry_group": "Condominium",
-  "small_business_appetite": "A condominium is a special arrangement under which a tenant holds full title to his unit and joint ownership in the common ground and areas. This classification applies to the association and not the individual owners or business. This classification includes coverage for each individual unit owner of the condominium for liability arising out of the ownership, maintenance or repair of that portion of the premises which is not reserved for that unit owner´s exclusive use or occupancy. This class should not be used for condominiums with manufacturing or warehousing exposures. Minimum occupancy rate is 80%. Any cooking exposures must adhere to UL 300 standards. Indoor parking area must be included in exposure base. To purchase Directors & Officers, Fidelity or Employment Related Practices Liability Insurance for this insured through CNA, Please go to http://www.ihginsurance.com/ . This is a CNA program with Ian H. Graham Insurance which is available to you and your client.",
+  "small_business_appetite": "A condominium is a special arrangement under which a tenant holds full title to his unit and joint ownership in the common ground and areas. This classification applies to the association and not the individual owners or business. This classification includes coverage for each individual unit owner of the condominium for liability arising out of the ownership, maintenance or repair of that portion of the premises which is not reserved for that unit owner\u00b4s exclusive use or occupancy. This class should not be used for condominiums with manufacturing or warehousing exposures. Minimum occupancy rate is 80%. Any cooking exposures must adhere to UL 300 standards. Indoor parking area must be included in exposure base. To purchase Directors & Officers, Fidelity or Employment Related Practices Liability Insurance for this insured through CNA, Please go to http://www.ihginsurance.com/ . This is a CNA program with Ian H. Graham Insurance which is available to you and your client.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI, OK"
  },
@@ -1390,7 +1390,7 @@
   "class_description": "CONDOMINIUMS-COMML-OFFICE (ASSN. RISK ONLY)",
   "cna_connect_class_code": "62000B",
   "industry_group": "Condominium",
-  "small_business_appetite": "A condominium is a special arrangement under which a tenant holds full title to his unit and joint ownership in the common ground and areas. This classification applies to the association and not the individual owners or business. This classification includes coverage for each individual unit owner of the condominium for liability arising out of the ownership, maintenance or repair of that portion of the premises which is not reserved for that unit owner´s exclusive use or occupancy. This class should not be used for condominiums with manufacturing or warehousing exposures. Minimum occupancy rate is 80%. Any cooking exposures must adhere to UL 300 standards. Indoor parking area must be included in exposure base. To purchase Directors & Officers, Fidelity or Employment Related Practices Liability Insurance for this insured through CNA, Please go to http://www.ihginsurance.com/ . This is a CNA program with Ian H. Graham Insurance which is available to you and your client.",
+  "small_business_appetite": "A condominium is a special arrangement under which a tenant holds full title to his unit and joint ownership in the common ground and areas. This classification applies to the association and not the individual owners or business. This classification includes coverage for each individual unit owner of the condominium for liability arising out of the ownership, maintenance or repair of that portion of the premises which is not reserved for that unit owner\u00b4s exclusive use or occupancy. This class should not be used for condominiums with manufacturing or warehousing exposures. Minimum occupancy rate is 80%. Any cooking exposures must adhere to UL 300 standards. Indoor parking area must be included in exposure base. To purchase Directors & Officers, Fidelity or Employment Related Practices Liability Insurance for this insured through CNA, Please go to http://www.ihginsurance.com/ . This is a CNA program with Ian H. Graham Insurance which is available to you and your client.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI, OK"
  },
@@ -1489,7 +1489,7 @@
   "class_description": "CRAFTS STORES",
   "cna_connect_class_code": "59995D",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling a large variety of items such as art supplies, paper crafting supplies, home décor, picture frames, sewing goods and cake decorating supplies. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling a large variety of items such as art supplies, paper crafting supplies, home d\u00e9cor, picture frames, sewing goods and cake decorating supplies. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -1549,7 +1549,7 @@
  },
  {
   "sic": "54118",
-  "class_description": "DELICATESSENS INCL. SANDWICH SHOPS – NO FRYING",
+  "class_description": "DELICATESSENS INCL. SANDWICH SHOPS \u2013 NO FRYING",
   "cna_connect_class_code": "54116B",
   "industry_group": "Restaurant",
   "small_business_appetite": "Primarily sells cold cuts, cheeses and other types of fare such as soups and salads. Includes establishments that make sandwiches to order using a variety of breads (including freshly baked), meats, cheeses, vegetables, and condiments. Contemplates counter service for dine-in or take-out meals and/or drive-thru service. No cooking that produces grease and grease-laden vapors. Ineligible Exposures: alcohol sales equal to or greater than 10% of total annual sales, establishments allowing patrons to bring alcoholic beverages on premise (BYOB). Please review the Restaurant/Food Services Minimum Requirements for additional information.",
@@ -1579,7 +1579,7 @@
   "class_description": "DEPARTMENT STORES",
   "cna_connect_class_code": "53127",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling a wide range of items in different product categories. Departments can include clothing, home appliances, housewares, sporting goods and jewelry. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sales of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Sale of furniture or mattresses exceeding 25% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling a wide range of items in different product categories. Departments can include clothing, home appliances, housewares, sporting goods and jewelry. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sales of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Sale of furniture or mattresses exceeding 25% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2146,7 +2146,7 @@
   "class_description": "GENERAL MERCHANDISE STORES",
   "cna_connect_class_code": "59999H",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling a wide variety of items such as books, clothing, electronics, gifts, hardware, household goods, personal hygiene products, toys and other non-perishable items, sometimes at prices lower than the typical market price. Classification also includes establishments which exchange earned rewards for merchandise, gift cards, cash back or travel. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sale of hazardous products which can cause bodily injury or property damage, Rack Storage exceeding 12 ft. in height, Operating as flea market, Sale of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs, rental operations exceeding 10% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling a wide variety of items such as books, clothing, electronics, gifts, hardware, household goods, personal hygiene products, toys and other non-perishable items, sometimes at prices lower than the typical market price. Classification also includes establishments which exchange earned rewards for merchandise, gift cards, cash back or travel. Ineligible Connect: Locations which do not have a UL Certificated Central Station burglar alarm system with 15-20 minutes alarm response and encrypted line security, Sale of hazardous products which can cause bodily injury or property damage, Rack Storage exceeding 12 ft. in height, Operating as flea market, Sale of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs, rental operations exceeding 10% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2155,7 +2155,7 @@
   "class_description": "GIFT, NOVELTY & SOUVENIR SHOPS",
   "cna_connect_class_code": "59994A",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling a wide variety of items such as awards, brass products, candles, home fragrances, gifts, plaques, novelty items, souvenirs, trophies and other related items. Items sold can relate to a particular topic or theme or be general in nature. Engraving is contemplated. Ineligible Connect: Sales of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Adult novelty stores. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling a wide variety of items such as awards, brass products, candles, home fragrances, gifts, plaques, novelty items, souvenirs, trophies and other related items. Items sold can relate to a particular topic or theme or be general in nature. Engraving is contemplated. Ineligible Connect: Sales of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Adult novelty stores. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2227,7 +2227,7 @@
   "class_description": "HARDWARE STORES - NO FIREARMS/AMMUNITION",
   "cna_connect_class_code": "52512A",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling items used for home improvement such as air conditioning equipment, electrical supplies, heating equipment, lawn and garden products, plumbing supplies, paint, tools and other related building fixtures, supplies and accessories. Ineligible Connect: Sale of used or refurbished power tools and equipment, Lumber sales exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors’ equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Contracting work performed by the applicant which exceeds 10% of total annual sales (ineligible in NY), Allowing customers to use power tools and equipment on premises, Sale of marijuana seeds or plants, Sale of air pollution control equipment. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling items used for home improvement such as air conditioning equipment, electrical supplies, heating equipment, lawn and garden products, plumbing supplies, paint, tools and other related building fixtures, supplies and accessories. Ineligible Connect: Sale of used or refurbished power tools and equipment, Lumber sales exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors\u2019 equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Contracting work performed by the applicant which exceeds 10% of total annual sales (ineligible in NY), Allowing customers to use power tools and equipment on premises, Sale of marijuana seeds or plants, Sale of air pollution control equipment. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2335,7 +2335,7 @@
   "class_description": "HOUSEHOLD ACCESSORIES STORES",
   "cna_connect_class_code": "57326I",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling home accessories and décor such as pictures, picture frames, vases, sculptures and faux plants. Ineligible Connect: Furniture sales exceeding 25% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling home accessories and d\u00e9cor such as pictures, picture frames, vases, sculptures and faux plants. Ineligible Connect: Furniture sales exceeding 25% of total annual sales. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "",
   "territorial_restrictions": ""
  },
@@ -2515,7 +2515,7 @@
   "class_description": "INTERNET ACCESS PROVIDERS - NO INSTALLATION",
   "cna_connect_class_code": "65121DT",
   "industry_group": "Office - Technology",
-  "small_business_appetite": "Providing access to the internet for subscribers. Ineligible exposures: Any installation services (see SIC 48993 Telecommunications and Internet Services – Including Installation or SIC 17312 Communication Equipment Install – Industrial/Comm’l); Telephone and cable services (see SIC 48993 Telecommunications and Internet Services – Including Installation)",
+  "small_business_appetite": "Providing access to the internet for subscribers. Ineligible exposures: Any installation services (see SIC 48993 Telecommunications and Internet Services \u2013 Including Installation or SIC 17312 Communication Equipment Install \u2013 Industrial/Comm\u2019l); Telephone and cable services (see SIC 48993 Telecommunications and Internet Services \u2013 Including Installation)",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb, Technology E&O",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2587,7 +2587,7 @@
   "class_description": "KENNELS - BREEDING, BOARDING/SALES",
   "cna_connect_class_code": "59997G",
   "industry_group": "Office",
-  "small_business_appetite": "This class contemplates kennels which provide shelter and care for animals on a day to day basis while owners are away for an extended time. Ineligible exposures: Animal breeding exceeding 15% of receipts, animal training services that include attack, guard, service/comfort, medical alert, bomb detection or law enforcement, animal rescue, fostering or adoption of animals, dog parks where pets are allowed ‘off leash,’ depth of pool(s) exceeding 3-4 feet.",
+  "small_business_appetite": "This class contemplates kennels which provide shelter and care for animals on a day to day basis while owners are away for an extended time. Ineligible exposures: Animal breeding exceeding 15% of receipts, animal training services that include attack, guard, service/comfort, medical alert, bomb detection or law enforcement, animal rescue, fostering or adoption of animals, dog parks where pets are allowed \u2018off leash,\u2019 depth of pool(s) exceeding 3-4 feet.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2596,7 +2596,7 @@
   "class_description": "KENNELS - EXCL. BREEDING & SALES",
   "cna_connect_class_code": "59997B",
   "industry_group": "Office",
-  "small_business_appetite": "This class contemplates kennels which provide shelter and care for animals on a day to day basis while owners are away for an extended time. Ineligible exposures: Animal training services that include attack, guard, service/comfort, medical alert, bomb detection or law enforcement, animal rescue, fostering or adoption of animals, dog parks where pets are allowed ‘off leash,’ depth of pool(s) exceeding 3-4 feet.",
+  "small_business_appetite": "This class contemplates kennels which provide shelter and care for animals on a day to day basis while owners are away for an extended time. Ineligible exposures: Animal training services that include attack, guard, service/comfort, medical alert, bomb detection or law enforcement, animal rescue, fostering or adoption of animals, dog parks where pets are allowed \u2018off leash,\u2019 depth of pool(s) exceeding 3-4 feet.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2758,7 +2758,7 @@
   "class_description": "LAWN, GARDEN & LIGHT FARMING SUPPLY - RETAIL - NO NURSERIES",
   "cna_connect_class_code": "59698F",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling lawn and garden equipment and supplies such as outdoor tools, lawn & landscaping items, gardening supplies, plants, bulbs and seeds. Ineligible Connect: Sale of used or refurbished equipment exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors’ equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of marijuana seeds or plants. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling lawn and garden equipment and supplies such as outdoor tools, lawn & landscaping items, gardening supplies, plants, bulbs and seeds. Ineligible Connect: Sale of used or refurbished equipment exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors\u2019 equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of marijuana seeds or plants. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -2767,7 +2767,7 @@
   "class_description": "LAWN, GARDEN & LIGHT FARMING SUPPLY STORE - NO NURSERIES",
   "cna_connect_class_code": "59698E",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling lawn and garden equipment and supplies such as outdoor tools, lawn & landscaping items, gardening supplies, plants, bulbs and seeds. Ineligible Connect: Sale of used or refurbished equipment exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors’ equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of marijuana seeds or plants. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling lawn and garden equipment and supplies such as outdoor tools, lawn & landscaping items, gardening supplies, plants, bulbs and seeds. Ineligible Connect: Sale of used or refurbished equipment exceeding 10% of total annual sales, No rental, service or repair of chain saws or contractors\u2019 equipment such as bobcats, backhoes, scissor lifts or scaffolding, Filling of propane tanks exceeding 10% of total annual sales, Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of marijuana seeds or plants. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -3001,7 +3001,7 @@
   "class_description": "MANUFACTURERS REPRESENTATIVES",
   "cna_connect_class_code": "73190",
   "industry_group": "Office",
-  "small_business_appetite": "A manufacturer’s representative is an independent contractor who sells the products of one or more manufacturers on a commission basis. For premium computation purposes use commissions as gross sales. The manufacturer(s) must carry products liability limits equal to or greater than your customer's limits. Your customer is ineligible for coverage if they sell foreign products when a U.S.domiciled manufacturer or distributor is not present. Your customer is not eligible if they sell discontinued products or products of a manufacturer that is no longer in business. Any installation, servicing, repairing or making any additional warranties beyond the manufacturer by the customer makes them ineligible. Extra hazardous products are ineligible products, examples include: aircraft/aerospace, asbestos products, brake parts,chemicals,elevators,playground equipment,explosives,fireworks,body protective gear,high pressure valves, industrial petroleum products, commercial ladders/scaffolds, medical equipment, tobacco products.",
+  "small_business_appetite": "A manufacturer\u2019s representative is an independent contractor who sells the products of one or more manufacturers on a commission basis. For premium computation purposes use commissions as gross sales. The manufacturer(s) must carry products liability limits equal to or greater than your customer's limits. Your customer is ineligible for coverage if they sell foreign products when a U.S.domiciled manufacturer or distributor is not present. Your customer is not eligible if they sell discontinued products or products of a manufacturer that is no longer in business. Any installation, servicing, repairing or making any additional warranties beyond the manufacturer by the customer makes them ineligible. Extra hazardous products are ineligible products, examples include: aircraft/aerospace, asbestos products, brake parts,chemicals,elevators,playground equipment,explosives,fireworks,body protective gear,high pressure valves, industrial petroleum products, commercial ladders/scaffolds, medical equipment, tobacco products.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -3730,7 +3730,7 @@
   "class_description": "PHYSICAL, PHYSIOTHERAPISTS AND OCCUPATIONAL THERAPISTS",
   "cna_connect_class_code": "65121CW",
   "industry_group": "Healthcare-Physical Therapy",
-  "small_business_appetite": "Medical professionals who specialize in healthcare dedicated to improving, maintaining or restoring physical strength, cognition and mobility. Ineligible exposures: Facilities providing overnight care, facilities that allow non-patient use of equipment (exercise, hydrotherapy pools etc.), therapy conducted in swimming pools (public or private), drug, alcohol or other substance abuse treatment/rehabilitation centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, mobile medical units/vehicles, home healthcare – regularly providing therapy or treatment in the patient’s home and patient transport",
+  "small_business_appetite": "Medical professionals who specialize in healthcare dedicated to improving, maintaining or restoring physical strength, cognition and mobility. Ineligible exposures: Facilities providing overnight care, facilities that allow non-patient use of equipment (exercise, hydrotherapy pools etc.), therapy conducted in swimming pools (public or private), drug, alcohol or other substance abuse treatment/rehabilitation centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, mobile medical units/vehicles, home healthcare \u2013 regularly providing therapy or treatment in the patient\u2019s home and patient transport",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
  },
@@ -3757,7 +3757,7 @@
   "class_description": "PIZZA SHOPS - BAKING ONLY",
   "cna_connect_class_code": "71311D",
   "industry_group": "Restaurant",
-  "small_business_appetite": "Establishment that makes baked pizza pies to order or ”take and bake” pizza pies. Also contemplated is counter service that may include tableside delivery, dine-in, take-out, or drive-thru service. No cooking that produces grease and grease-laden vapors. Non-owned Auto Liability coverage is not available for this class. Ineligible Exposures: alcohol sales equal to or greater than 10% of total annual sales, establishments allowing patrons to bring alcoholic beverages on premise (BYOB). Please review the Restaurant/Food Services Minimum Requirements for additional information.",
+  "small_business_appetite": "Establishment that makes baked pizza pies to order or \u201dtake and bake\u201d pizza pies. Also contemplated is counter service that may include tableside delivery, dine-in, take-out, or drive-thru service. No cooking that produces grease and grease-laden vapors. Non-owned Auto Liability coverage is not available for this class. Ineligible Exposures: alcohol sales equal to or greater than 10% of total annual sales, establishments allowing patrons to bring alcoholic beverages on premise (BYOB). Please review the Restaurant/Food Services Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -3874,7 +3874,7 @@
   "class_description": "PRINTER/QUICK PRINT SHOPS - NOT SILKSCREENING",
   "cna_connect_class_code": "11222B",
   "industry_group": "Business Services",
-  "small_business_appetite": "This classification applies to establishments engaged in copying or duplicating services for commercial customers. This classification includes incidental sales of office products. Delivery of copied material is contemplated in the classification. This service should be distinguished from a commercial printing operation in which the customer´s copy is composed or typeset, using either the hot-metal or cold-type process. Waterbase silk-screening operations are eligible. All other silk-screening operations are ineligible. Ineligible operations for CNP: 3D printing and immersion/hydrographic printing.",
+  "small_business_appetite": "This classification applies to establishments engaged in copying or duplicating services for commercial customers. This classification includes incidental sales of office products. Delivery of copied material is contemplated in the classification. This service should be distinguished from a commercial printing operation in which the customer\u00b4s copy is composed or typeset, using either the hot-metal or cold-type process. Waterbase silk-screening operations are eligible. All other silk-screening operations are ineligible. Ineligible operations for CNP: 3D printing and immersion/hydrographic printing.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -4090,7 +4090,7 @@
   "class_description": "RESTAURANT - FAMILY DINING - CAFETERIA",
   "cna_connect_class_code": "58126D",
   "industry_group": "Restaurant",
-  "small_business_appetite": "Casual dining with limited or no table service by wait staff. Food counters or stations have restaurant staff serving food so only the server touches serving utensils. The food plate is typically placed on tray and carried to the dining table by the customer. Customers are charged a flat rate for admission or pay at a cashier’s station for each food item or charged by the weight of items on a plate / tray. Customer self-service is not contemplated by this class. Cooking that produces grease and grease-laden vapors is contemplated. Ineligible Exposures: alcohol sales equal to or greater than 35% of total annual sales. Please review the Restaurant/Food Services Minimum Requirements for additional information.",
+  "small_business_appetite": "Casual dining with limited or no table service by wait staff. Food counters or stations have restaurant staff serving food so only the server touches serving utensils. The food plate is typically placed on tray and carried to the dining table by the customer. Customers are charged a flat rate for admission or pay at a cashier\u2019s station for each food item or charged by the weight of items on a plate / tray. Customer self-service is not contemplated by this class. Cooking that produces grease and grease-laden vapors is contemplated. Ineligible Exposures: alcohol sales equal to or greater than 35% of total annual sales. Please review the Restaurant/Food Services Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -4207,7 +4207,7 @@
   "class_description": "RESTAURANTS - FINE DINING",
   "cna_connect_class_code": "58126A",
   "industry_group": "Restaurant",
-  "small_business_appetite": "Formal dining, featuring unique and often more expensive menu options with table service by wait staff following defined etiquette for taking and serving meals. Food served using higher quality tableware, high-end décor, formal atmosphere and typically a customer dress code. Cooking that produces grease and grease-laden vapors is contemplated. Ineligible Exposures: alcohol sales equal to or greater than 50% of total annual sales. Please review the Restaurant/Food Services Minimum Requirements for additional information.",
+  "small_business_appetite": "Formal dining, featuring unique and often more expensive menu options with table service by wait staff following defined etiquette for taking and serving meals. Food served using higher quality tableware, high-end d\u00e9cor, formal atmosphere and typically a customer dress code. Cooking that produces grease and grease-laden vapors is contemplated. Ineligible Exposures: alcohol sales equal to or greater than 50% of total annual sales. Please review the Restaurant/Food Services Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -4621,7 +4621,7 @@
   "class_description": "SPORTING GOODS STORE: NO SKI/SNOWBOARD EQUIPMENT",
   "cna_connect_class_code": "59526F",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling a variety of athletic and sporting goods such as apparel, equipment, footwear and gear. Ineligible Connect: Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of used merchandise exceeding 10% of total annual sales, Sale, service, rental, repair or assembly of motorized vehicles such as scooters, all-terrain vehicles (ATV), mopeds, pocket bikes, electric bikes, motorcycles, snowmobiles or jet ski’s, Sale, service, rental, repair or assembly of scuba tanks and regulators or equipment used for snow skiing/snowboarding, Service, rental, repair or assembly of skateboards or surfboards, Manufacturing or installation of commercial or residential playground equipment, Sale of firearms or ammunition. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling a variety of athletic and sporting goods such as apparel, equipment, footwear and gear. Ineligible Connect: Rental Operations exceeding 10% of total annual sales unless otherwise noted as ineligible, Sale of used merchandise exceeding 10% of total annual sales, Sale, service, rental, repair or assembly of motorized vehicles such as scooters, all-terrain vehicles (ATV), mopeds, pocket bikes, electric bikes, motorcycles, snowmobiles or jet ski\u2019s, Sale, service, rental, repair or assembly of scuba tanks and regulators or equipment used for snow skiing/snowboarding, Service, rental, repair or assembly of skateboards or surfboards, Manufacturing or installation of commercial or residential playground equipment, Sale of firearms or ammunition. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -4675,7 +4675,7 @@
   "class_description": "STUDENT HEALTH CENTERS -- MEDICAL OFFICES-OPERATED BY GROUPS OF PHYSICIANS AS AN OUTPATIENT CLINIC",
   "cna_connect_class_code": "65121X",
   "industry_group": "Office - Healthcare",
-  "small_business_appetite": "An outpatient facility that serves the medical and mental health needs of enrolled students of an educational institution. Some institutions may allow use of the facility by employees and student’s immediate family. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
+  "small_business_appetite": "An outpatient facility that serves the medical and mental health needs of enrolled students of an educational institution. Some institutions may allow use of the facility by employees and student\u2019s immediate family. Ineligible exposures: Home healthcare, overnight/residential care facilities (other than sleep centers), on-site dispensing of methadone, suboxone or similar medications, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery, tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport or mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
  },
@@ -4711,7 +4711,7 @@
   "class_description": "SWIMMING POOLS - INSTALL/SERVICE/ REPAIR - ABOVE GROUND",
   "cna_connect_class_code": "99506",
   "industry_group": "Contractor",
-  "small_business_appetite": "Contractors specializing in the installation, servicing or repair of above ground spas and swimming pools. Ineligible exposures: any current, past or future work on new construction of multi-family residential housing; work at heights over 3 stories; Manufacture of pool or spa components, products or supplies including: above/below ground pool ozone generators; chemicals or paint; saunas or steam rooms; diving or jump boards; fiberglass products (i.e. spa shells); snorkel or diving equipment; health, exercise or recreational equipment; heaters; filters; liners; inflatable water wings; sun tanning equipment; ladders; water slides or wave machines; installation/service/repair of diving boards or water slides unless all work is completed according to manufacturer’s specifications and job documentation (including photos) is maintained; installation of hardscape, such as decks, verandas, porches or patios if more than 25% of total revenue or if installation of hardscape attached to, or built into residential structures is more than 10% of total revenue; wholesale distribution of pool or spa chemicals such as chlorinating agents, algaecides, chlorine stabilizers, PH adjusters, alkalinity adjusters, cleaning agents and water clarifiers; installation or repair of swimming pools or spas located within buildings or on rooftops; pool and/or spa chemical repackaging, formulation, mixing, blending or dilution; hourly rentals of items such as spas, sun tanning booths or hot tubs on or off premises; pool supervision or facility management services; sale of recreational vehicles such as golf carts, snowmobiles, mopeds or motor cycles; building, installation or maintenance of industrial and chemical sedimentation ponds or sewer/waste water collection ponds; installation or sale of mosquito control misting systems; construction of retaining walls more than 4’ that are not part of the pool/pool wall; subcontracted work more than 50% of annual receipts. Please review the Small Business Construction Minimum Requirements for additional information.",
+  "small_business_appetite": "Contractors specializing in the installation, servicing or repair of above ground spas and swimming pools. Ineligible exposures: any current, past or future work on new construction of multi-family residential housing; work at heights over 3 stories; Manufacture of pool or spa components, products or supplies including: above/below ground pool ozone generators; chemicals or paint; saunas or steam rooms; diving or jump boards; fiberglass products (i.e. spa shells); snorkel or diving equipment; health, exercise or recreational equipment; heaters; filters; liners; inflatable water wings; sun tanning equipment; ladders; water slides or wave machines; installation/service/repair of diving boards or water slides unless all work is completed according to manufacturer\u2019s specifications and job documentation (including photos) is maintained; installation of hardscape, such as decks, verandas, porches or patios if more than 25% of total revenue or if installation of hardscape attached to, or built into residential structures is more than 10% of total revenue; wholesale distribution of pool or spa chemicals such as chlorinating agents, algaecides, chlorine stabilizers, PH adjusters, alkalinity adjusters, cleaning agents and water clarifiers; installation or repair of swimming pools or spas located within buildings or on rooftops; pool and/or spa chemical repackaging, formulation, mixing, blending or dilution; hourly rentals of items such as spas, sun tanning booths or hot tubs on or off premises; pool supervision or facility management services; sale of recreational vehicles such as golf carts, snowmobiles, mopeds or motor cycles; building, installation or maintenance of industrial and chemical sedimentation ponds or sewer/waste water collection ponds; installation or sale of mosquito control misting systems; construction of retaining walls more than 4\u2019 that are not part of the pool/pool wall; subcontracted work more than 50% of annual receipts. Please review the Small Business Construction Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Connect Prohibited in: AK, HI WC Prohibited in: AK, HI, NY"
  },
@@ -4720,7 +4720,7 @@
   "class_description": "SWIMMING POOLS - INSTALL/SERVICE/ REPAIR - BELOW GROUND",
   "cna_connect_class_code": "99507",
   "industry_group": "Contractor",
-  "small_business_appetite": "Contractors specializing in the installation, servicing or repair of below ground spas and swimming pools. Ineligible exposures: any current, past or future work on new construction of multi-family residential housing; work at heights over 3 stories; manufacture of pool or spa components, products or supplies including: above/below ground pool ozone generators; chemicals or paint; saunas or steam rooms; diving or jump boards; fiberglass products (i.e. spa shells); snorkel or diving equipment; health, exercise or recreational equipment; heaters; filters; liners; inflatable water wings; sun tanning equipment; ladders; water slides or wave machines; installation/service/repair of diving boards or water slides unless all work is completed according to manufacturer’s specifications and job documentation (including photos) is maintained; installation of hardscape, such as decks, verandas, porches or patios if more than 25% of total revenue or if installation of hardscape attached to, or built into residential structures is more than 10% of total revenue; wholesale distribution of pool or spa chemicals such as chlorinating agents, algaecides, chlorine stabilizers, PH adjusters, alkalinity adjusters, cleaning agents and water clarifiers; installation or repair of swimming pools or spas located within buildings or on rooftops; pool and/or spa chemical repackaging, formulation, mixing, blending or dilution; hourly rentals of items such as spas, sun tanning booths or hot tubs on or off premises; pool supervision or facility management services; sale of recreational vehicles such as golf carts, snowmobiles, mopeds or motor cycles; building, installation or maintenance of industrial and chemical sedimentation ponds or sewer/waste water collection ponds; installation or sale of mosquito control misting systems; construction of retaining walls more than 4’ that are not part of the pool/pool wall; subcontracted work more than 50% of annual receipts. Please review the Small Business Construction Minimum Requirements for additional information.",
+  "small_business_appetite": "Contractors specializing in the installation, servicing or repair of below ground spas and swimming pools. Ineligible exposures: any current, past or future work on new construction of multi-family residential housing; work at heights over 3 stories; manufacture of pool or spa components, products or supplies including: above/below ground pool ozone generators; chemicals or paint; saunas or steam rooms; diving or jump boards; fiberglass products (i.e. spa shells); snorkel or diving equipment; health, exercise or recreational equipment; heaters; filters; liners; inflatable water wings; sun tanning equipment; ladders; water slides or wave machines; installation/service/repair of diving boards or water slides unless all work is completed according to manufacturer\u2019s specifications and job documentation (including photos) is maintained; installation of hardscape, such as decks, verandas, porches or patios if more than 25% of total revenue or if installation of hardscape attached to, or built into residential structures is more than 10% of total revenue; wholesale distribution of pool or spa chemicals such as chlorinating agents, algaecides, chlorine stabilizers, PH adjusters, alkalinity adjusters, cleaning agents and water clarifiers; installation or repair of swimming pools or spas located within buildings or on rooftops; pool and/or spa chemical repackaging, formulation, mixing, blending or dilution; hourly rentals of items such as spas, sun tanning booths or hot tubs on or off premises; pool supervision or facility management services; sale of recreational vehicles such as golf carts, snowmobiles, mopeds or motor cycles; building, installation or maintenance of industrial and chemical sedimentation ponds or sewer/waste water collection ponds; installation or sale of mosquito control misting systems; construction of retaining walls more than 4\u2019 that are not part of the pool/pool wall; subcontracted work more than 50% of annual receipts. Please review the Small Business Construction Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Connect Prohibited in: AK, HI WC Prohibited in: AK, HI, NY"
  },
@@ -4774,7 +4774,7 @@
   "class_description": "TELECOMMUNICATIONS AND INTERNET SERVICES - INCLUDING INSTALLATION",
   "cna_connect_class_code": "91315G",
   "industry_group": "Business Services - Technology",
-  "small_business_appetite": "Providing telephone, internet and cable services, which can include reselling. Audio/visual and phone/VoiP consulting, design, and interior installation/setup services are contemplated. Ineligible exposures: Contracted installation work for others (Refer to Communication Equipment Install – Industrial/Comm’l - SIC 17312); Any of the following exterior installation services: Pole work, Fiber optic cable digging, Trenching other than incidental, Subcontracting 25% or more work to others",
+  "small_business_appetite": "Providing telephone, internet and cable services, which can include reselling. Audio/visual and phone/VoiP consulting, design, and interior installation/setup services are contemplated. Ineligible exposures: Contracted installation work for others (Refer to Communication Equipment Install \u2013 Industrial/Comm\u2019l - SIC 17312); Any of the following exterior installation services: Pole work, Fiber optic cable digging, Trenching other than incidental, Subcontracting 25% or more work to others",
   "products_available": "CNA Connect with $1M/$2M limit option available, Auto, WC, Umb, Technology E&O",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -4900,7 +4900,7 @@
   "class_description": "TOY, HOBBY GOODS & SUPPLIES STORES",
   "cna_connect_class_code": "59998",
   "industry_group": "Stores",
-  "small_business_appetite": "Selling arts and crafts, books, games, hobby models, modeling supplies, puzzles, stuffed animals and toys. Incidental sale of clothing is included. Ineligible Connect: Sale of children’s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Rental of amusement devices such as bounce houses and waterslides, Sale of goods under applicant's own label. Please review the Small Business Retail Minimum Requirements for additional information.",
+  "small_business_appetite": "Selling arts and crafts, books, games, hobby models, modeling supplies, puzzles, stuffed animals and toys. Incidental sale of clothing is included. Ineligible Connect: Sale of children\u2019s or infant furniture such as changing tables, cribs, dressers or rocking chairs, Rental of amusement devices such as bounce houses and waterslides, Sale of goods under applicant's own label. Please review the Small Business Retail Minimum Requirements for additional information.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Prohibited: AK, HI"
  },
@@ -5008,7 +5008,7 @@
   "class_description": "VASCULAR ACCESS CENTER -- AMBULATORY SURGERY CENTER",
   "cna_connect_class_code": "65121YC",
   "industry_group": "Healthcare - Invasive",
-  "small_business_appetite": "A Vascular Access Center treats abnormalities of the body’s veins and arteries. Procedures and treatments can include, but not limited to, varicose vein repair, reconstructive work, aneurysm repair, and stenting. Ineligible exposures: Home healthcare, overnight care, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, bariatric surgery, clinical or drug trials or experimental treatments (refer to Life Sciences), tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport and mobile medical vehicles.",
+  "small_business_appetite": "A Vascular Access Center treats abnormalities of the body\u2019s veins and arteries. Procedures and treatments can include, but not limited to, varicose vein repair, reconstructive work, aneurysm repair, and stenting. Ineligible exposures: Home healthcare, overnight care, birth centers, pregnancy termination or in vitro fertilization clinics, midwifes/midwifery or doulas, bariatric surgery, clinical or drug trials or experimental treatments (refer to Life Sciences), tissue banks/storage of organs, sperm, blood, ova or embryos, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transport and mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
  },
@@ -5182,5 +5182,23 @@
   "small_business_appetite": "Facilities that conduct X-Rays, Ultrasounds or other imaging used to examine internal organs. Ineligible exposures: Home healthcare, overnight/residential care, tissue banks/storage of organs, sperm, blood, ova or embryos, clinical or drug trials (refer to Life Sciences), non-medical testing or imaging, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transportation and mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
+ },
+ {
+  "sic": "",
+  "class_description": "Epack 3 \u2014 Management Liability modular suite",
+  "cna_connect_class_code": "CNA-EPACK3",
+  "industry_group": "Management Liability",
+  "small_business_appetite": "CNA Epack 3 modular management liability: shared or separate coverage-part limits; pre-claim expense; non-rescindable; no hammer clause; customer-friendly late-notice (prejudice standard). Coverage parts: D&O / Entity Liability (Side-A embedded limits, shareholder derivative demand & books/records sublimit, broad Insured Person incl. volunteers/advisory board/shadow directors/GC/risk manager); NFP D&O & Entity; Employment Practices & Third Party Liability (diversity training costs, whistleblower/bullying/privacy); Fiduciary (502(c)/PPA/4975/PPACA penalties, voluntary compliance costs); Crime (loss-discovered, social engineering, ERISA bonding); Kidnap/Ransom/Extortion. A-rated CNA management liability.",
+  "products_available": "Epack 3 \u2014 D&O, EPL, Fiduciary, Crime, K&R, NFP D&O",
+  "territorial_restrictions": "Products/services may not be available in all states"
+ },
+ {
+  "sic": "",
+  "class_description": "CNA Connect Small Business \u2014 eligible values by segment",
+  "cna_connect_class_code": "CNA-SB-VALUES",
+  "industry_group": "Small Business \u2014 Eligibility Caps",
+  "small_business_appetite": "CNA Connect Small Business eligible value caps (2026 sheet). Segments: Financial Services / Life Sciences / Professional Services / Technology (data centers, tech schools, communication); Business Services / Healthcare / Lessors Risk / Restaurants / Retail; Manufacturing / Wholesale; Contractors; Technology IT Consulting / Software Dev / Media. Max property values/location: $10M most segments; Contractors $3M. Max annual receipts: Financial/Life Sci/Prof/Tech $30M; Business Svcs/Healthcare/LR/Rest/Retail $20M; Mfg/Wholesale $10M; Contractors $10M receipts / $1M payroll; Tech IT $100M receipts. WC max payroll: $10M / $5M / $1.5M / $1M / $75M respectively. Commercial Auto max vehicles (ex trailers): 25 / 25 / 25 / 15 / 25.",
+  "products_available": "CNA Connect, Workers Compensation, Commercial Automobile",
+  "territorial_restrictions": "See class guide territorial restrictions per class"
  }
 ]
