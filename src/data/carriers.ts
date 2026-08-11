@@ -2717,20 +2717,27 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "name": "INVO Underwriting",
     "isActive": true,
     "segment": [
-      "MGA / Underwriting"
+      "MGA / Underwriting",
+      "Personal Lines",
+      "Commercial Lines"
     ],
     "linesOfBusiness": [
-      "Appointed (Jun 2026)"
+      "Personal Lines (16 categories / 35 markets)",
+      "Workers' Compensation (9 markets)",
+      "Commercial Lines (15 categories / 24 markets)"
     ],
+    "agencyCode": "VEN031672",
+    "website": "https://www.invounderwriting.com",
     "appetite": {
       "canWrite": [
-        "Approved classes under MGA / Underwriting program.",
-        "Appetite details: Appointed (Jun 2026)"
+        "Personal Lines via INVO portal — Auto, Collector Vehicle, Condo, Dwelling, Earthquake, Excess Liability, Flood, HO4 Renters, Homeowners, Jewelry, Manufactured Home, Personal Article Floater, Personal Liability, Recreational Vehicles, Vacant Dwelling, Watercraft",
+        "Workers' Compensation — AmTrust, Berkshire Hathaway GUARD, biBerk, Employers, EverPeak, Great American, Pie Insurance, SoloGhost (Owner Only WC / Ghost Policies), Three",
+        "Commercial Lines via INVO portal — BOP, Builder's Risk, Commercial Auto, Cyber, General Liability, Inland Marine, Lessor's Risk, Liquor Liability, Package, Professional Liability, Property, Special Events, Surety Bonds, Trucking, Workers' Compensation"
       ],
       "cannotWrite": [
-        "Exposures outside standard carrier underwriting guidelines."
+        "Exposures outside INVO portal carrier guidelines."
       ],
-      "notes": "Appointed (Jun 2026)"
+      "notes": "Appointed Jun 2026. Risk Solutions Group vendor/agency ID VEN031672. INVO portal market map on file: 35 Personal Lines markets, 9 WC markets (Instant Access vs Direct Submit), 24 commercial markets. Agent support: agent.support@invounderwriting.com / (865) 482-8142. See carrier-assets/invo profile guide for per-market categories."
     },
     "contacts": [
       {
