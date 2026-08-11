@@ -5182,5 +5182,32 @@
   "small_business_appetite": "Facilities that conduct X-Rays, Ultrasounds or other imaging used to examine internal organs. Ineligible exposures: Home healthcare, overnight/residential care, tissue banks/storage of organs, sperm, blood, ova or embryos, clinical or drug trials (refer to Life Sciences), non-medical testing or imaging, emergency or trauma treatment centers, current or prior manufacturing, blending, compounding or selling under their own name of any product that prevents or treats illness/disease, patient transportation and mobile medical vehicles.",
   "products_available": "CNA Connect with $2M/$4M limit option available, Auto, WC, Umb",
   "territorial_restrictions": "Class not available in: AK, HI, PR"
+ },
+ {
+  "sic": "",
+  "class_description": "Commission schedule — overview",
+  "cna_connect_class_code": "CNA-COMM",
+  "industry_group": "Producer Operations",
+  "small_business_appetite": "RSG CNA commission schedule on file: Commercial Umbrella 15%; Commercial Package 18%.",
+  "products_available": "Commercial Umbrella; Commercial Package",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial Umbrella — commission",
+  "cna_connect_class_code": "CNA-COMM-UMB",
+  "industry_group": "Producer Operations",
+  "small_business_appetite": "CNA Commercial Umbrella commission rate: 15%.",
+  "products_available": "Commercial Umbrella",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial Package — commission",
+  "cna_connect_class_code": "CNA-COMM-PKG",
+  "industry_group": "Producer Operations",
+  "small_business_appetite": "CNA Commercial Package commission rate: 18%.",
+  "products_available": "Commercial Package",
+  "territorial_restrictions": ""
  }
 ]

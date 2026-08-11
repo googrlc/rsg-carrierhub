@@ -340,8 +340,12 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "High-risk recreational centers and theme parks",
         "Startups under 2 years looking for heavy specialty professional cover"
       ],
-      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments.",
+      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments. Commission: Commercial Umbrella 15%; Commercial Package 18%.",
       "underwritingHotline": "800-262-2000"
+    },
+    "incentives": {
+      "commissionRate": "Commercial Umbrella 15%; Commercial Package 18%",
+      "notes": "Commercial Umbrella 15%. Commercial Package 18%."
     },
     "contacts": [
       {

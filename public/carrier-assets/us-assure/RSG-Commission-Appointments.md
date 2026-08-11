@@ -1,5 +1,9 @@
 RSG commission / appointment notes
 
+CNA
+- Commercial Umbrella 15%
+- Commercial Package 18%
+
 US Assure
 Pay: Advanced
 - Diamond State Insurance 12% — Vacant Property, General Liability
