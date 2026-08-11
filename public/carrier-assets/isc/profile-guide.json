@@ -1,0 +1,38 @@
+[
+  {
+    "sic": "",
+    "class_description": "Papered markets / issuing carriers",
+    "cna_connect_class_code": "ISC-PAPER",
+    "industry_group": "E&S — Issuing Carriers",
+    "small_business_appetite": "Integrated Specialty Coverages (ISC / Integrated Specialty Coverage) MGA. Papered / issuing carriers on the RSG appointment: SiriusPoint Specialty Insurance Corporation; Sutton Specialty Insurance Company; Third Coast Insurance Company.",
+    "products_available": "E&S via ISC MGA",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "SiriusPoint Specialty Insurance Corporation",
+    "cna_connect_class_code": "ISC-SIRIUSPOINT",
+    "industry_group": "E&S — Issuing Carriers",
+    "small_business_appetite": "Issuing carrier accessed through ISC / Integrated Specialty Coverages (ISC MGA).",
+    "products_available": "E&S via ISC MGA",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Sutton Specialty Insurance Company",
+    "cna_connect_class_code": "ISC-SUTTON",
+    "industry_group": "E&S — Issuing Carriers",
+    "small_business_appetite": "Issuing carrier accessed through ISC / Integrated Specialty Coverages (ISC MGA). Also referred to as Sutton Speciality Insurance Company in source notes.",
+    "products_available": "E&S via ISC MGA",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Third Coast Insurance Company",
+    "cna_connect_class_code": "ISC-THIRD-COAST",
+    "industry_group": "E&S — Issuing Carriers",
+    "small_business_appetite": "Issuing carrier accessed through ISC / Integrated Specialty Coverages (ISC MGA).",
+    "products_available": "E&S via ISC MGA",
+    "territorial_restrictions": ""
+  }
+]

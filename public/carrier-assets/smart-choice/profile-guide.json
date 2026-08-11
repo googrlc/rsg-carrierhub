@@ -1,0 +1,29 @@
+[
+  {
+    "sic": "",
+    "class_description": "Aggregator override — State Auto & Safeco",
+    "cna_connect_class_code": "SC-OVERRIDE",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Smart Choice receives 30% of commission on State Auto and Safeco business placed through the aggregator appointment. Apply the 30% Smart Choice share when quoting/booking State Auto or Safeco via Smart Choice / Smart Start.",
+    "products_available": "State Auto; Safeco",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "State Auto via Smart Choice",
+    "cna_connect_class_code": "SC-STATE-AUTO",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "State Auto accessed through Smart Choice. Smart Choice takes 30% of the commission on this placement.",
+    "products_available": "State Auto (via Smart Choice)",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Safeco via Smart Choice",
+    "cna_connect_class_code": "SC-SAFECO",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Safeco accessed through Smart Choice. Smart Choice takes 30% of the commission on this placement.",
+    "products_available": "Safeco (via Smart Choice)",
+    "territorial_restrictions": ""
+  }
+]
