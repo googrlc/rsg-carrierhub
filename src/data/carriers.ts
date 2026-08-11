@@ -340,8 +340,12 @@ export const INITIAL_CARRIERS: Carrier[] = [
         "High-risk recreational centers and theme parks",
         "Startups under 2 years looking for heavy specialty professional cover"
       ],
-      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments.",
+      "notes": "CNA is one of the largest U.S. commercial property and casualty insurance companies. Extremely reliable for professional services, manufacturing, and tech segments. Commission: Commercial Umbrella 15%; Commercial Package 18%.",
       "underwritingHotline": "800-262-2000"
+    },
+    "incentives": {
+      "commissionRate": "Commercial Umbrella 15%; Commercial Package 18%",
+      "notes": "Commercial Umbrella 15%. Commercial Package 18%."
     },
     "contacts": [
       {
@@ -971,7 +975,9 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "linesOfBusiness": [
       "Builders Risk Insurance",
       "Commercial Property Under Renovation",
-      "Remodeling Builders Risk"
+      "Remodeling Builders Risk",
+      "Vacant Property",
+      "General Liability"
     ],
     "agencyCode": "USA-22340",
     "website": "https://usassure.com",
@@ -980,14 +986,21 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "canWrite": [
         "New residential & commercial construction from ground up",
         "Commercial and residential structural rehabilitation and remodeling",
-        "Fast single-hazard builders risk policies for houses or small clinics"
+        "Fast single-hazard builders risk policies for houses or small clinics",
+        "Vacant property and general liability via Diamond State",
+        "Builders risk via Zurich"
       ],
       "cannotWrite": [
         "Already completed structures requiring ongoing standard commercial BOP (prefers Honeycomb or CNA)",
         "Demolition policies without active building timelines"
       ],
-      "notes": "US Assure is the premier distributor of the Zurich Builders Risk program. Highly intuitive builder interface with outstanding fast quote guidelines.",
+      "notes": "US Assure is the premier distributor of the Zurich Builders Risk program. Highly intuitive builder interface with outstanding fast quote guidelines. Pay: Advanced. Diamond State Insurance 12% (Vacant Property, GL); Zurich Insurance 15% (Builders Risk).",
       "underwritingHotline": "800-800-3907"
+    },
+    "incentives": {
+      "commissionRate": "Diamond State 12% (Vacant/GL); Zurich 15% (Builders Risk)",
+      "preferredTier": "Pay: Advanced",
+      "notes": "Diamond State Insurance — Vacant Property & General Liability at 12%. Zurich Insurance — Builders Risk at 15%. Pay Advanced."
     },
     "contacts": [
       {
@@ -1360,18 +1373,21 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "MGA"
     ],
     "linesOfBusiness": [
-      "E",
-      "S"
+      "E&S"
     ],
     "appetite": {
       "canWrite": [
         "Approved classes under MGA program.",
-        "Appetite details: E&S"
+        "Appetite details: E&S",
+        "Papered markets: SiriusPoint Specialty Insurance Corporation; Sutton Specialty Insurance Company; Third Coast Insurance Company"
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "E&S"
+      "notes": "E&S via ISC / Integrated Specialty Coverage. Issuing carriers: SiriusPoint Specialty Insurance Corporation; Sutton Specialty Insurance Company; Third Coast Insurance Company."
+    },
+    "incentives": {
+      "notes": "Papered / issuing carriers on appointment: SiriusPoint Specialty Insurance Corporation; Sutton Specialty Insurance Company; Third Coast Insurance Company."
     },
     "contacts": [
       {
@@ -1609,6 +1625,7 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "linesOfBusiness": [
       "Commercial auto"
     ],
+    "generalAgent": "Smart Choice / Smart Start",
     "appetite": {
       "canWrite": [
         "Approved classes under Carrier program.",
@@ -1617,7 +1634,12 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Commercial auto"
+      "notes": "Commercial auto. Appointment via Smart Choice — Smart Choice receives 30% of commission."
+    },
+    "incentives": {
+      "commissionRate": "Smart Choice takes 30% of commission",
+      "preferredTier": "Via Smart Choice",
+      "notes": "Placed through Smart Choice / Smart Start. Smart Choice gets 30% of commission on State Auto."
     },
     "contacts": [
       {
@@ -2251,7 +2273,66 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Personal & commercial property"
+      "notes": "Personal & commercial property. Commission: NB 12%, Renewal 10%."
+    },
+    "incentives": {
+      "commissionRate": "NB 12% / Renewal 10%",
+      "notes": "New business 12%. Renewal 10%."
+    },
+    "contacts": []
+  },
+  {
+    "id": "orion180",
+    "name": "Orion180",
+    "isActive": true,
+    "segment": [
+      "Carrier",
+      "Personal Lines"
+    ],
+    "linesOfBusiness": [
+      "Homeowners"
+    ],
+    "agencyCode": "Agency ID 2865",
+    "appetite": {
+      "canWrite": [
+        "Homeowners"
+      ],
+      "cannotWrite": [
+        "Exposures outside standard carrier underwriting guidelines."
+      ],
+      "notes": "Homeowners. Agency ID 2865. Pay: Advanced. NB 13%, Renewal 11.50%."
+    },
+    "incentives": {
+      "commissionRate": "NB 13% / Renewal 11.50%",
+      "preferredTier": "Pay: Advanced",
+      "notes": "Agency ID 2865. Homeowners. Pay Advanced. New business 13%. Renewal 11.50%."
+    },
+    "contacts": []
+  },
+  {
+    "id": "safeco",
+    "name": "Safeco",
+    "isActive": true,
+    "segment": [
+      "Carrier"
+    ],
+    "linesOfBusiness": [
+      "Personal / commercial lines (via Smart Choice)"
+    ],
+    "generalAgent": "Smart Choice / Smart Start",
+    "appetite": {
+      "canWrite": [
+        "Approved classes under Smart Choice appointment."
+      ],
+      "cannotWrite": [
+        "Exposures outside standard carrier underwriting guidelines."
+      ],
+      "notes": "Appointment via Smart Choice — Smart Choice receives 30% of commission."
+    },
+    "incentives": {
+      "commissionRate": "Smart Choice takes 30% of commission",
+      "preferredTier": "Via Smart Choice",
+      "notes": "Placed through Smart Choice / Smart Start. Smart Choice gets 30% of commission on Safeco."
     },
     "contacts": []
   },
@@ -2364,23 +2445,31 @@ export const INITIAL_CARRIERS: Carrier[] = [
   },
   {
     "id": "geico",
-    "name": "GEICO",
+    "name": "GEICO / GEICO Marine / American States Preferred",
     "isActive": true,
     "segment": [
       "Carrier"
     ],
     "linesOfBusiness": [
-      "Commercial auto"
+      "Commercial auto",
+      "GEICO Marine",
+      "American States Preferred Ins Co"
     ],
+    "agencyCode": "Agency ID G30367 · Agent ID I083971",
     "appetite": {
       "canWrite": [
         "Approved classes under Carrier program.",
-        "Appetite details: Commercial auto"
+        "Appetite details: Commercial auto / marine / American States Preferred"
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Commercial auto"
+      "notes": "GEICO / GEICO Marine / American States Preferred Ins Co. Agency ID G30367, Agent ID I083971. Commission as earned — NB 12%, Renewal 12%."
+    },
+    "incentives": {
+      "commissionRate": "NB 12% / Renewal 12% (as earned)",
+      "preferredTier": "Commission as earned",
+      "notes": "Agency ID G30367. Agent ID I083971. Commission as earned. New business 12%. Renewal 12%."
     },
     "contacts": []
   },
@@ -3002,17 +3091,24 @@ export const INITIAL_CARRIERS: Carrier[] = [
       "Aggregator"
     ],
     "linesOfBusiness": [
-      "Personal + commercial lines"
+      "Personal + commercial lines",
+      "State Auto",
+      "Safeco"
     ],
     "appetite": {
       "canWrite": [
         "Approved classes under Aggregator program.",
-        "Appetite details: Personal + commercial lines"
+        "Appetite details: Personal + commercial lines",
+        "State Auto and Safeco appointments (Smart Choice takes 30% of commission)"
       ],
       "cannotWrite": [
         "Exposures outside standard carrier underwriting guidelines."
       ],
-      "notes": "Personal + commercial lines"
+      "notes": "Personal + commercial lines. Smart Choice gets 30% of commission on State Auto and Safeco."
+    },
+    "incentives": {
+      "commissionRate": "30% of State Auto / Safeco commission",
+      "notes": "Smart Choice receives 30% of commission on State Auto and Safeco placements."
     },
     "contacts": []
   },
@@ -4452,19 +4548,27 @@ export const INITIAL_CARRIERS: Carrier[] = [
     "name": "Smart Choice",
     "isActive": true,
     "segment": [
-      "Commercial Lines"
+      "Commercial Lines",
+      "Aggregator"
     ],
     "linesOfBusiness": [
-      "Also sspl@; info@smartchoiceagents.com"
+      "Also sspl@; info@smartchoiceagents.com",
+      "State Auto",
+      "Safeco"
     ],
     "appetite": {
       "canWrite": [
-        "Approved classes and risks."
+        "Approved classes and risks.",
+        "State Auto and Safeco (Smart Choice takes 30% of commission)"
       ],
       "cannotWrite": [
         "Hazardous classes."
       ],
-      "notes": "Source: Carrier folder (email)"
+      "notes": "Source: Carrier folder (email). Smart Choice gets 30% of commission on State Auto and Safeco."
+    },
+    "incentives": {
+      "commissionRate": "30% of State Auto / Safeco commission",
+      "notes": "Smart Choice receives 30% of commission on State Auto and Safeco placements."
     },
     "contacts": [
       {

@@ -1,0 +1,29 @@
+[
+  {
+    "sic": "",
+    "class_description": "Commission & pay schedule — overview",
+    "cna_connect_class_code": "USA-COMM",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "US Assure pays Advanced. Papered markets and rates on file: Diamond State Insurance at 12% (Vacant Property, General Liability); Zurich Insurance at 15% (Builders Risk).",
+    "products_available": "Vacant Property; General Liability; Builders Risk",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Diamond State Insurance — Vacant Property & General Liability",
+    "cna_connect_class_code": "USA-DIAMOND-STATE",
+    "industry_group": "Commercial Lines — Vacant / GL",
+    "small_business_appetite": "Diamond State Insurance via US Assure. Commission 12%. Lines: Vacant Property and General Liability. Pay: Advanced.",
+    "products_available": "Vacant Property; General Liability",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Zurich Insurance — Builders Risk",
+    "cna_connect_class_code": "USA-ZURICH-BR",
+    "industry_group": "Commercial Lines — Builders Risk",
+    "small_business_appetite": "Zurich Insurance builders risk via US Assure (US Assure is the premier distributor of the Zurich Builders Risk program). Commission 15%. Pay: Advanced.",
+    "products_available": "Builders Risk",
+    "territorial_restrictions": ""
+  }
+]
