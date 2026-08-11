@@ -1,0 +1,29 @@
+[
+  {
+    "sic": "",
+    "class_description": "Producer appointments — overview",
+    "cna_connect_class_code": "MOO-PROD",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "RSG is appointed with Mutual of Omaha / United of Omaha for life (IUL / term). Two active producer numbers are on file: agency-level RISK SOLUTIONS GROUP LLC (1120392) and individual producer RONALD COATES (1087863). Use the matching producer number when logging business or referencing contracting.",
+    "products_available": "IUL / term",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Producer number — RISK SOLUTIONS GROUP LLC (agency)",
+    "cna_connect_class_code": "MOO-RSG-1120392",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Full Name: RISK SOLUTIONS GROUP LLC. Agency email: carriers@risksolutionsgroup.net. Mutual of Omaha Producer Number: 1120392. This is the agency-level producer appointment for Risk Solutions Group LLC.",
+    "products_available": "IUL / term",
+    "territorial_restrictions": ""
+  },
+  {
+    "sic": "",
+    "class_description": "Producer number — RONALD COATES",
+    "cna_connect_class_code": "MOO-RC-1087863",
+    "industry_group": "Producer Operations",
+    "small_business_appetite": "Full Name: RONALD COATES. Mutual of Omaha Producer Number: 1087863. Individual producer appointment under the Mutual of Omaha / United of Omaha life appointment.",
+    "products_available": "IUL / term",
+    "territorial_restrictions": ""
+  }
+]
