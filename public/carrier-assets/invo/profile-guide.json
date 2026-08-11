@@ -1,0 +1,929 @@
+[
+ {
+  "sic": "",
+  "class_description": "INVO Underwriting portal \u2014 market map overview",
+  "cna_connect_class_code": "INVO-OVERVIEW",
+  "industry_group": "INVO Portal \u2014 Overview",
+  "small_business_appetite": "INVO Underwriting (INVO) portal appointment for RSG. Portal spans Personal Lines (35 carriers/markets across 16 categories), Workers' Compensation (9 markets), and Commercial (24 carriers/markets across 15 categories). Agent support: agent.support@invounderwriting.com / (865) 482-8142.",
+  "products_available": "Personal Lines; Workers' Compensation; Commercial Lines",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines \u2014 portal categories (16)",
+  "cna_connect_class_code": "INVO-PL-CATS",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "The INVO portal's 16 Personal Lines categories are: Auto; Collector Vehicle; Condo; Dwelling; Earthquake; Excess Liability; Flood; HO4 Renters; Homeowners; Jewelry; Manufactured Home; Personal Article Floater; Personal Liability; Recreational Vehicles; Vacant Dwelling; Watercraft.",
+  "products_available": "Auto; Collector Vehicle; Condo; Dwelling; Earthquake; Excess Liability; Flood; HO4 Renters; Homeowners; Jewelry; Manufactured Home; Personal Article Floater; Personal Liability; Recreational Vehicles; Vacant Dwelling; Watercraft",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 AAA",
+  "cna_connect_class_code": "INVO-PL-AAA",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "AAA on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 AEGIS",
+  "cna_connect_class_code": "INVO-PL-AEGIS",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "AEGIS on the INVO Underwriting personal lines portal. Categories: Dwelling; Manufactured Home.",
+  "products_available": "Dwelling; Manufactured Home",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Allstate",
+  "cna_connect_class_code": "INVO-PL-ALLSTATE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Allstate on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 American Modern",
+  "cna_connect_class_code": "INVO-PL-AMERICAN-MODERN",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "American Modern on the INVO Underwriting personal lines portal. Categories: Dwelling; Homeowners; Recreational Vehicles; Watercraft.",
+  "products_available": "Dwelling; Homeowners; Recreational Vehicles; Watercraft",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 AssuranceAmerica",
+  "cna_connect_class_code": "INVO-PL-ASSURANCEAMERICA",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "AssuranceAmerica on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Branch",
+  "cna_connect_class_code": "INVO-PL-BRANCH",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Branch on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Chubb",
+  "cna_connect_class_code": "INVO-PL-CHUBB",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Chubb on the INVO Underwriting personal lines portal. Categories: Auto; Flood; Homeowners; Watercraft.",
+  "products_available": "Auto; Flood; Homeowners; Watercraft",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Clearcover",
+  "cna_connect_class_code": "INVO-PL-CLEARCOVER",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Clearcover on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Collectibles",
+  "cna_connect_class_code": "INVO-PL-COLLECTIBLES",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Collectibles on the INVO Underwriting personal lines portal. Categories: Personal Article Floater.",
+  "products_available": "Personal Article Floater",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Commonwealth Insurance",
+  "cna_connect_class_code": "INVO-PL-COMMONWEALTH-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Commonwealth Insurance on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Covertree",
+  "cna_connect_class_code": "INVO-PL-COVERTREE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Covertree on the INVO Underwriting personal lines portal. Categories: Manufactured Home.",
+  "products_available": "Manufactured Home",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Dairyland",
+  "cna_connect_class_code": "INVO-PL-DAIRYLAND",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Dairyland on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Elephant",
+  "cna_connect_class_code": "INVO-PL-ELEPHANT",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Elephant on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 First Acceptance",
+  "cna_connect_class_code": "INVO-PL-FIRST-ACCEPTANCE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "First Acceptance on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Gainsco",
+  "cna_connect_class_code": "INVO-PL-GAINSCO",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Gainsco on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Homeowners of America",
+  "cna_connect_class_code": "INVO-PL-HOMEOWNERS-OF-AMERICA",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Homeowners of America on the INVO Underwriting personal lines portal. Categories: Homeowners.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Jewelers Mutual",
+  "cna_connect_class_code": "INVO-PL-JEWELERS-MUTUAL",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Jewelers Mutual on the INVO Underwriting personal lines portal. Categories: Jewelry.",
+  "products_available": "Jewelry",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Lemonade",
+  "cna_connect_class_code": "INVO-PL-LEMONADE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Lemonade on the INVO Underwriting personal lines portal. Categories: Homeowners.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Mile Auto",
+  "cna_connect_class_code": "INVO-PL-MILE-AUTO",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Mile Auto on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 National General",
+  "cna_connect_class_code": "INVO-PL-NATIONAL-GENERAL",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "National General on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 NuSureCo",
+  "cna_connect_class_code": "INVO-PL-NUSURECO",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "NuSureCo on the INVO Underwriting personal lines portal. Categories: Dwelling.",
+  "products_available": "Dwelling",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Obie",
+  "cna_connect_class_code": "INVO-PL-OBIE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Obie on the INVO Underwriting personal lines portal. Categories: Dwelling; Homeowners.",
+  "products_available": "Dwelling; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Open Road",
+  "cna_connect_class_code": "INVO-PL-OPEN-ROAD",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Open Road on the INVO Underwriting personal lines portal. Categories: Collector Vehicle.",
+  "products_available": "Collector Vehicle",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Openly",
+  "cna_connect_class_code": "INVO-PL-OPENLY",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Openly on the INVO Underwriting personal lines portal. Categories: Homeowners.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Orion180",
+  "cna_connect_class_code": "INVO-PL-ORION180",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Orion180 on the INVO Underwriting personal lines portal. Categories: Homeowners.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Palomar",
+  "cna_connect_class_code": "INVO-PL-PALOMAR",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Palomar on the INVO Underwriting personal lines portal. Categories: Earthquake; Flood.",
+  "products_available": "Earthquake; Flood",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Personal Lines Submission",
+  "cna_connect_class_code": "INVO-PL-PERSONAL-LINES-SUBMISSION",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Personal Lines Submission on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Rocket Flood",
+  "cna_connect_class_code": "INVO-PL-ROCKET-FLOOD",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Rocket Flood on the INVO Underwriting personal lines portal. Categories: Flood.",
+  "products_available": "Flood",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Safeway Insurance",
+  "cna_connect_class_code": "INVO-PL-SAFEWAY-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Safeway Insurance on the INVO Underwriting personal lines portal. Categories: Auto.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Steadily",
+  "cna_connect_class_code": "INVO-PL-STEADILY",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Steadily on the INVO Underwriting personal lines portal. Categories: Dwelling; Homeowners.",
+  "products_available": "Dwelling; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Stillwater",
+  "cna_connect_class_code": "INVO-PL-STILLWATER",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Stillwater on the INVO Underwriting personal lines portal. Categories: Auto; Dwelling; Homeowners.",
+  "products_available": "Auto; Dwelling; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 The Hartford",
+  "cna_connect_class_code": "INVO-PL-THE-HARTFORD",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "The Hartford on the INVO Underwriting personal lines portal. Categories: Auto; Homeowners.",
+  "products_available": "Auto; Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Tower Hill",
+  "cna_connect_class_code": "INVO-PL-TOWER-HILL",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Tower Hill on the INVO Underwriting personal lines portal. Categories: Homeowners.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 USLI",
+  "cna_connect_class_code": "INVO-PL-USLI",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "USLI on the INVO Underwriting personal lines portal. Categories: Condo; Dwelling; Excess Liability; HO4 Renters; Personal Liability; Vacant Dwelling.",
+  "products_available": "Condo; Dwelling; Excess Liability; HO4 Renters; Personal Liability; Vacant Dwelling",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines market \u2014 Vacant Express",
+  "cna_connect_class_code": "INVO-PL-VACANT-EXPRESS",
+  "industry_group": "INVO Portal \u2014 Personal Lines",
+  "small_business_appetite": "Vacant Express on the INVO Underwriting personal lines portal. Categories: Dwelling.",
+  "products_available": "Dwelling",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation \u2014 portal markets (9)",
+  "cna_connect_class_code": "INVO-WC-OVERVIEW",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "INVO portal currently lists 9 Workers' Compensation markets: AmTrust (Instant Access); Berkshire Hathaway GUARD (Instant Access); biBerk (Instant Access); Employers (Instant Access); EverPeak (Direct Submit); Great American (Instant Access); Pie Insurance (Instant Access); SoloGhost \u2014 Owner Only WC / Ghost Policies (Direct Submit); Three (Direct Submit; also offers Package and Property).",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 AmTrust",
+  "cna_connect_class_code": "INVO-WC-AMTRUST",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "AmTrust Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 Berkshire Hathaway GUARD",
+  "cna_connect_class_code": "INVO-WC-BERKSHIRE-HATHAWAY-GUARD",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "Berkshire Hathaway GUARD Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 biBerk",
+  "cna_connect_class_code": "INVO-WC-BIBERK",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "biBerk Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 Employers",
+  "cna_connect_class_code": "INVO-WC-EMPLOYERS",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "Employers Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 EverPeak",
+  "cna_connect_class_code": "INVO-WC-EVERPEAK",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "EverPeak Workers' Compensation on the INVO portal. Access / notes: Direct Submit.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 Great American",
+  "cna_connect_class_code": "INVO-WC-GREAT-AMERICAN",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "Great American Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 Pie Insurance",
+  "cna_connect_class_code": "INVO-WC-PIE-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "Pie Insurance Workers' Compensation on the INVO portal. Access / notes: Instant Access.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 SoloGhost",
+  "cna_connect_class_code": "INVO-WC-SOLOGHOST",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "SoloGhost Workers' Compensation on the INVO portal. Access / notes: Owner Only WC / Ghost Policies; Direct Submit.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Workers' Compensation market \u2014 Three",
+  "cna_connect_class_code": "INVO-WC-THREE",
+  "industry_group": "INVO Portal \u2014 Workers' Compensation",
+  "small_business_appetite": "Three Workers' Compensation on the INVO portal. Access / notes: Direct Submit; also offers Package and Property.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial Lines \u2014 portal categories (15)",
+  "cna_connect_class_code": "INVO-CL-CATS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "The INVO portal's 15 commercial categories are: BOP; Builder's Risk; Commercial Auto; Cyber; General Liability; Inland Marine; Lessor's Risk; Liquor Liability; Package; Professional Liability; Property; Special Events; Surety Bonds; Trucking; Workers' Compensation.",
+  "products_available": "BOP; Builder's Risk; Commercial Auto; Cyber; General Liability; Inland Marine; Lessor's Risk; Liquor Liability; Package; Professional Liability; Property; Special Events; Surety Bonds; Trucking; Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 AmTrust",
+  "cna_connect_class_code": "INVO-CL-AMTRUST",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "AmTrust on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Berkshire Hathaway GUARD",
+  "cna_connect_class_code": "INVO-CL-BERKSHIRE-HATHAWAY-GUARD",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Berkshire Hathaway GUARD on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Berxi",
+  "cna_connect_class_code": "INVO-CL-BERXI",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Berxi on the INVO Underwriting commercial portal. Categories: General Liability.",
+  "products_available": "General Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 biBerk",
+  "cna_connect_class_code": "INVO-CL-BIBERK",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "biBerk on the INVO Underwriting commercial portal. Categories: BOP; Commercial Auto; General Liability; Professional Liability; Workers' Compensation.",
+  "products_available": "BOP; Commercial Auto; General Liability; Professional Liability; Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Blitz",
+  "cna_connect_class_code": "INVO-CL-BLITZ",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Blitz on the INVO Underwriting commercial portal. Categories: Builder's Risk; General Liability; Lessor's Risk; Package; Property; Special Events.",
+  "products_available": "Builder's Risk; General Liability; Lessor's Risk; Package; Property; Special Events",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Coterie",
+  "cna_connect_class_code": "INVO-CL-COTERIE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Coterie on the INVO Underwriting commercial portal. Categories: BOP; General Liability; Professional Liability.",
+  "products_available": "BOP; General Liability; Professional Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Cover Whale",
+  "cna_connect_class_code": "INVO-CL-COVER-WHALE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Cover Whale on the INVO Underwriting commercial portal. Categories: Trucking.",
+  "products_available": "Trucking",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Draftrs",
+  "cna_connect_class_code": "INVO-CL-DRAFTRS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Draftrs on the INVO Underwriting commercial portal. Categories: Professional Liability.",
+  "products_available": "Professional Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Employers",
+  "cna_connect_class_code": "INVO-CL-EMPLOYERS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Employers on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 ERGO NEXT",
+  "cna_connect_class_code": "INVO-CL-ERGO-NEXT",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "ERGO NEXT on the INVO Underwriting commercial portal. Categories: BOP; General Liability; Inland Marine; Professional Liability.",
+  "products_available": "BOP; General Liability; Inland Marine; Professional Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 EverPeak",
+  "cna_connect_class_code": "INVO-CL-EVERPEAK",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "EverPeak on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 First Insurance",
+  "cna_connect_class_code": "INVO-CL-FIRST-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "First Insurance on the INVO Underwriting commercial portal. Categories: General Liability.",
+  "products_available": "General Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Foxquilt",
+  "cna_connect_class_code": "INVO-CL-FOXQUILT",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Foxquilt on the INVO Underwriting commercial portal. Categories: General Liability.",
+  "products_available": "General Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Great American",
+  "cna_connect_class_code": "INVO-CL-GREAT-AMERICAN",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Great American on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Hiscox NOW",
+  "cna_connect_class_code": "INVO-CL-HISCOX-NOW",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Hiscox NOW on the INVO Underwriting commercial portal. Categories: BOP; Cyber; General Liability; Professional Liability.",
+  "products_available": "BOP; Cyber; General Liability; Professional Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 MGT Insurance",
+  "cna_connect_class_code": "INVO-CL-MGT-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "MGT Insurance on the INVO Underwriting commercial portal. Categories: BOP.",
+  "products_available": "BOP",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Pie Insurance",
+  "cna_connect_class_code": "INVO-CL-PIE-INSURANCE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Pie Insurance on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Pouch",
+  "cna_connect_class_code": "INVO-CL-POUCH",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Pouch on the INVO Underwriting commercial portal. Categories: Commercial Auto.",
+  "products_available": "Commercial Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Rainbow",
+  "cna_connect_class_code": "INVO-CL-RAINBOW",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Rainbow on the INVO Underwriting commercial portal. Categories: BOP.",
+  "products_available": "BOP",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 SoloGhost (Owner Only WC / Ghost Policies)",
+  "cna_connect_class_code": "INVO-CL-SOLOGHOST-OWNER-ONLY-WC-GHOST-PO",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "SoloGhost (Owner Only WC / Ghost Policies) on the INVO Underwriting commercial portal. Categories: Workers' Compensation.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Stillwater",
+  "cna_connect_class_code": "INVO-CL-STILLWATER",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Stillwater on the INVO Underwriting commercial portal. Categories: BOP.",
+  "products_available": "BOP",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Surety Bonds",
+  "cna_connect_class_code": "INVO-CL-SURETY-BONDS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Surety Bonds on the INVO Underwriting commercial portal. Categories: Surety Bonds.",
+  "products_available": "Surety Bonds",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 Three",
+  "cna_connect_class_code": "INVO-CL-THREE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "Three on the INVO Underwriting commercial portal. Categories: Package; Property; Workers' Compensation.",
+  "products_available": "Package; Property; Workers' Compensation",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial market \u2014 USLI",
+  "cna_connect_class_code": "INVO-CL-USLI",
+  "industry_group": "INVO Portal \u2014 Commercial Lines",
+  "small_business_appetite": "USLI on the INVO Underwriting commercial portal. Categories: General Liability; Inland Marine; Liquor Liability; Professional Liability; Property; Special Events.",
+  "products_available": "General Liability; Inland Marine; Liquor Liability; Professional Liability; Property; Special Events",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Auto",
+  "cna_connect_class_code": "INVO-PLCAT-AUTO",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Auto: AAA; Allstate; AssuranceAmerica; Branch; Chubb; Clearcover; Commonwealth Insurance; Dairyland; Elephant; First Acceptance; Gainsco; Mile Auto; National General; Personal Lines Submission; Safeway Insurance; Stillwater; The Hartford.",
+  "products_available": "Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Collector Vehicle",
+  "cna_connect_class_code": "INVO-PLCAT-COLLECTOR-VEHICLE",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Collector Vehicle: Open Road.",
+  "products_available": "Collector Vehicle",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Condo",
+  "cna_connect_class_code": "INVO-PLCAT-CONDO",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Condo: USLI.",
+  "products_available": "Condo",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Dwelling",
+  "cna_connect_class_code": "INVO-PLCAT-DWELLING",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Dwelling: AEGIS; American Modern; NuSureCo; Obie; Steadily; Stillwater; USLI; Vacant Express.",
+  "products_available": "Dwelling",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Earthquake",
+  "cna_connect_class_code": "INVO-PLCAT-EARTHQUAKE",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Earthquake: Palomar.",
+  "products_available": "Earthquake",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Excess Liability",
+  "cna_connect_class_code": "INVO-PLCAT-EXCESS-LIABILITY",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Excess Liability: USLI.",
+  "products_available": "Excess Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Flood",
+  "cna_connect_class_code": "INVO-PLCAT-FLOOD",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Flood: Chubb; Palomar; Rocket Flood.",
+  "products_available": "Flood",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes HO4 Renters",
+  "cna_connect_class_code": "INVO-PLCAT-HO4-RENTERS",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering HO4 Renters: USLI.",
+  "products_available": "HO4 Renters",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Homeowners",
+  "cna_connect_class_code": "INVO-PLCAT-HOMEOWNERS",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Homeowners: AAA; Allstate; American Modern; Branch; Chubb; Commonwealth Insurance; Homeowners of America; Lemonade; National General; Obie; Openly; Orion180; Personal Lines Submission; Steadily; Stillwater; The Hartford; Tower Hill.",
+  "products_available": "Homeowners",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Jewelry",
+  "cna_connect_class_code": "INVO-PLCAT-JEWELRY",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Jewelry: Jewelers Mutual.",
+  "products_available": "Jewelry",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Manufactured Home",
+  "cna_connect_class_code": "INVO-PLCAT-MANUFACTURED-HOME",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Manufactured Home: AEGIS; Covertree.",
+  "products_available": "Manufactured Home",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Personal Article Floater",
+  "cna_connect_class_code": "INVO-PLCAT-PERSONAL-ARTICLE-FLOATER",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Personal Article Floater: Collectibles.",
+  "products_available": "Personal Article Floater",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Personal Liability",
+  "cna_connect_class_code": "INVO-PLCAT-PERSONAL-LIABILITY",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Personal Liability: USLI.",
+  "products_available": "Personal Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Recreational Vehicles",
+  "cna_connect_class_code": "INVO-PLCAT-RECREATIONAL-VEHICLES",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Recreational Vehicles: American Modern.",
+  "products_available": "Recreational Vehicles",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Vacant Dwelling",
+  "cna_connect_class_code": "INVO-PLCAT-VACANT-DWELLING",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Vacant Dwelling: USLI.",
+  "products_available": "Vacant Dwelling",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Personal Lines category \u2014 who writes Watercraft",
+  "cna_connect_class_code": "INVO-PLCAT-WATERCRAFT",
+  "industry_group": "INVO Portal \u2014 Personal Lines by Category",
+  "small_business_appetite": "INVO Personal Lines markets offering Watercraft: American Modern; Chubb.",
+  "products_available": "Watercraft",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes BOP",
+  "cna_connect_class_code": "INVO-CLCAT-BOP",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering BOP: biBerk; Coterie; ERGO NEXT; Hiscox NOW; MGT Insurance; Rainbow; Stillwater.",
+  "products_available": "BOP",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Builder's Risk",
+  "cna_connect_class_code": "INVO-CLCAT-BUILDER-S-RISK",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Builder's Risk: Blitz.",
+  "products_available": "Builder's Risk",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Commercial Auto",
+  "cna_connect_class_code": "INVO-CLCAT-COMMERCIAL-AUTO",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Commercial Auto: biBerk; Pouch.",
+  "products_available": "Commercial Auto",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Cyber",
+  "cna_connect_class_code": "INVO-CLCAT-CYBER",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Cyber: Hiscox NOW.",
+  "products_available": "Cyber",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes General Liability",
+  "cna_connect_class_code": "INVO-CLCAT-GENERAL-LIABILITY",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering General Liability: Berxi; biBerk; Blitz; Coterie; ERGO NEXT; First Insurance; Foxquilt; Hiscox NOW; USLI.",
+  "products_available": "General Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Inland Marine",
+  "cna_connect_class_code": "INVO-CLCAT-INLAND-MARINE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Inland Marine: ERGO NEXT; USLI.",
+  "products_available": "Inland Marine",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Lessor's Risk",
+  "cna_connect_class_code": "INVO-CLCAT-LESSOR-S-RISK",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Lessor's Risk: Blitz.",
+  "products_available": "Lessor's Risk",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Liquor Liability",
+  "cna_connect_class_code": "INVO-CLCAT-LIQUOR-LIABILITY",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Liquor Liability: USLI.",
+  "products_available": "Liquor Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Package",
+  "cna_connect_class_code": "INVO-CLCAT-PACKAGE",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Package: Blitz; Three.",
+  "products_available": "Package",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Professional Liability",
+  "cna_connect_class_code": "INVO-CLCAT-PROFESSIONAL-LIABILITY",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Professional Liability: biBerk; Coterie; Draftrs; ERGO NEXT; Hiscox NOW; USLI.",
+  "products_available": "Professional Liability",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Property",
+  "cna_connect_class_code": "INVO-CLCAT-PROPERTY",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Property: Blitz; Three; USLI.",
+  "products_available": "Property",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Special Events",
+  "cna_connect_class_code": "INVO-CLCAT-SPECIAL-EVENTS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Special Events: Blitz; USLI.",
+  "products_available": "Special Events",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Surety Bonds",
+  "cna_connect_class_code": "INVO-CLCAT-SURETY-BONDS",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Surety Bonds: Surety Bonds.",
+  "products_available": "Surety Bonds",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Trucking",
+  "cna_connect_class_code": "INVO-CLCAT-TRUCKING",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Trucking: Cover Whale.",
+  "products_available": "Trucking",
+  "territorial_restrictions": ""
+ },
+ {
+  "sic": "",
+  "class_description": "Commercial category \u2014 who writes Workers' Compensation",
+  "cna_connect_class_code": "INVO-CLCAT-WORKERS-COMPENSATION",
+  "industry_group": "INVO Portal \u2014 Commercial Lines by Category",
+  "small_business_appetite": "INVO commercial markets offering Workers' Compensation: AmTrust; Berkshire Hathaway GUARD; biBerk; Employers; EverPeak; Great American; Pie Insurance; SoloGhost (Owner Only WC / Ghost Policies); Three.",
+  "products_available": "Workers' Compensation",
+  "territorial_restrictions": ""
+ }
+]
